@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import static javax.persistence.TemporalType.DATE;
 
 @Entity
 @NamedQuery(name = "AllVocables", query = "select v from Vocable v")
@@ -23,6 +25,7 @@ public class Vocable implements Serializable {
 	private String learned;
 	private String known;
 	private Integer level;
+    @Temporal(DATE)
 	private Date dueDate;
 
 	public long getId() {
