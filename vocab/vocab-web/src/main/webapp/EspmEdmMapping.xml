@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JPAEDMMappingModel
+	xmlns="http://www.sap.com/core/odata/processor/api/jpa/model/mapping">
+	<PersistenceUnit name="vocab-model-jpa">
+		<JPAEntityTypes>
+			<JPAEntityType name="Vocable">
+				<EDMEntitySet>Vocables</EDMEntitySet>
+				<JPAAttributes>
+					<JPAAttribute name="known">Known</JPAAttribute>
+					<JPAAttribute name="learned">Learned</JPAAttribute>
+					<JPAAttribute name="level">Level</JPAAttribute>
+					<JPAAttribute name="dueDate">DueDate</JPAAttribute>
+				</JPAAttributes>
+				<JPARelationships>
+				</JPARelationships>
+			</JPAEntityType>
+			<JPAEntityType name="Lesson">
+				<EDMEntitySet>Lessons</EDMEntitySet>
+				<JPAAttributes>
+					<JPAAttribute name="title">Title</JPAAttribute>
+					<JPAAttribute name="learnedLanguage">LearnedLanguage</JPAAttribute>
+					<JPAAttribute name="knownLanguage">KnownLanguage</JPAAttribute>
+				</JPAAttributes>
+				<JPARelationships>
+					<JPARelationship name="vocables">Vocables</JPARelationship>
+				</JPARelationships>
+			</JPAEntityType>
+		</JPAEntityTypes>
+		<JPAEmbeddableTypes>
+		</JPAEmbeddableTypes>
+	</PersistenceUnit>
+</JPAEDMMappingModel>

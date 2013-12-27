@@ -107,13 +107,13 @@
 		</init-param>
 		<init-param>
 			<param-name>org.apache.olingo.odata2.service.factory</param-name>
-			<param-value>com.mueller.ruediger.odata.service.VocablesListServiceFactory</param-value>
+			<param-value>com.mueller.ruediger.odata.service.VocabServiceFactory</param-value>
 		</init-param>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ODataServlet</servlet-name>
-		<url-pattern>/vocableslist.svc/*</url-pattern>
+		<url-pattern>/vocab.svc/*</url-pattern>
 	</servlet-mapping>
 
 

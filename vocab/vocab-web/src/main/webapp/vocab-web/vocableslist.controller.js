@@ -13,7 +13,7 @@ sap.ui.controller("vocab-web.vocableslist", {
 				+ window.location.hostname
 				+ (window.location.port ? ":" + window.location.port : "");
 		var vocablesListOdataServiceUrl = sOrigin
-				+ "/vocab-web/vocableslist.svc";
+				+ "/vocab-web/vocab.svc";
 
 		var odataModel = new sap.ui.model.odata.ODataModel(
 				vocablesListOdataServiceUrl);

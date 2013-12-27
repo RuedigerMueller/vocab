@@ -3,9 +3,10 @@
 	<persistence-unit name="vocab-model-jpa" transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<class>com.mueller.ruediger.vocab.Vocable</class>
+		<class>com.mueller.ruediger.vocab.Lesson</class>
 		<properties>
 			<property name="eclipselink.jpql.parser" value="org.eclipse.persistence.queries.ANTLRQueryBuilder"/>
-			<property name="eclipselink.ddl-generation" value="create-tables"/>
+			<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
 		</properties>
 	</persistence-unit>
 </persistence>
