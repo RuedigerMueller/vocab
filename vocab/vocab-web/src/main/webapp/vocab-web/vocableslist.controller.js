@@ -26,6 +26,7 @@ sap.ui.controller("vocab-web.vocableslist", {
 		vocables.Learned = sLearned;
 		vocables.Known = sKnown;
 		vocables.Level = 1;
+		//vocables.lesson = 1;
 		//var d = new Date();
 		//vocables.DueDate = d.toUTCString();
 

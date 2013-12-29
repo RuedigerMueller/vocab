@@ -1,15 +1,18 @@
 package com.mueller.ruediger.vocab;
 
+import static javax.persistence.TemporalType.DATE;
+
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
-import static javax.persistence.TemporalType.DATE;
-import javax.persistence.Basic;
+import com.mueller.ruediger.vocab.Lesson;
+import javax.persistence.ManyToOne;
 
 @Entity
 @NamedQuery(name = "AllVocables", query = "select v from Vocable v")
@@ -29,7 +32,8 @@ public class Vocable implements Serializable {
     @Temporal(DATE)
 	@Basic
 	private Date dueDate;
-
+	@ManyToOne
+	private Lesson lesson;
 	public long getId() {
 		return id;
 	}
@@ -68,6 +72,14 @@ public class Vocable implements Serializable {
 
 	public void setDueDate(Date param) {
 		this.dueDate = param;
+	}
+
+	public Lesson getLesson() {
+	    return lesson;
+	}
+
+	public void setLesson(Lesson param) {
+	    this.lesson = param;
 	}
 
 }

@@ -2,9 +2,13 @@ package com.mueller.ruediger.vocab;
 
 import java.io.Serializable;
 
-import javax.persistence.*;
-
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import com.mueller.ruediger.vocab.Vocable;
 import java.util.Collection;
+import javax.persistence.OneToMany;
 
 @Entity
 @NamedQuery(name = "AllLessons", query = "select l from Lesson l")
@@ -21,9 +25,8 @@ public class Lesson implements Serializable {
 	private String learnedLanguage;
 	private String knownLanguage;
 	private String title;
-	@OneToMany
-	private Collection<Vocable> vocables;
-
+	@OneToMany(mappedBy = "lesson")
+	private Collection<Vocable> vocable;
 	public long getId() {
 		return id;
 	}
@@ -56,12 +59,12 @@ public class Lesson implements Serializable {
 		this.title = param;
 	}
 
-	public Collection<Vocable> getVocables() {
-		return vocables;
+	public Collection<Vocable> getVocable() {
+	    return vocable;
 	}
 
-	public void setVocables(Collection<Vocable> param) {
-		this.vocables = param;
+	public void setVocable(Collection<Vocable> param) {
+	    this.vocable = param;
 	}
 
 }
