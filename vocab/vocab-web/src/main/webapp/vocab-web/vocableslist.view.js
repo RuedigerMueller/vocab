@@ -14,7 +14,7 @@ sap.ui.jsview("vocab-web.vocableslist", {
 	 */
 	createContent : function(oController) {
 		// Create an instance of the table control 
-		var oTable = new sap.ui.table.Table({
+		var oVocablesTable = new sap.ui.table.Table({
 			title : "Vocable List",
 			visibleRowCount : 10,
 			firstVisibleRow : 1,
@@ -22,7 +22,7 @@ sap.ui.jsview("vocab-web.vocableslist", {
 		});
 
 		// toolbar 
-		var oTableToolbar = new sap.ui.commons.Toolbar();
+		var oVocablesTableToolbar = new sap.ui.commons.Toolbar();
 
 		// first name field 
 		var oLearnedLabel = new sap.ui.commons.Label({
@@ -35,22 +35,22 @@ sap.ui.jsview("vocab-web.vocableslist", {
 		});
 		oLearnedLabel.setLabelFor(oLearnedField);
 
-		oTableToolbar.addItem(oLearnedLabel);
-		oTableToolbar.addItem(oLearnedField);
+		oVocablesTableToolbar.addItem(oLearnedLabel);
+		oVocablesTableToolbar.addItem(oLearnedField);
 
 		// last name field 
 		var oKnownLabel = new sap.ui.commons.Label({
 			text : 'Known Language'
 		});
-		var oKnonwField = new sap.ui.commons.TextField({
+		var oKnownField = new sap.ui.commons.TextField({
 			id : 'knownFieldId',
 			value : '',
 			width : '10em',
 		});
-		oKnownLabel.setLabelFor(oKnonwField);
+		oKnownLabel.setLabelFor(oKnownField);
 
-		oTableToolbar.addItem(oKnownLabel);
-		oTableToolbar.addItem(oKnonwField);
+		oVocablesTableToolbar.addItem(oKnownLabel);
+		oVocablesTableToolbar.addItem(oKnownField);
 
 		// add button 
 		var oAddVocableButton = new sap.ui.commons.Button({
@@ -61,15 +61,15 @@ sap.ui.jsview("vocab-web.vocableslist", {
 				oController.addNewVocable(
 						sap.ui.getCore().getControl("learnedFieldId").getValue(), 
 						sap.ui.getCore().getControl("knownFieldId").getValue(), 
-						oTable);
+						oVocablesTable);
 			}
 		});
-		oTableToolbar.addItem(oAddVocableButton);
+		oVocablesTableToolbar.addItem(oAddVocableButton);
 
-		oTable.setToolbar(oTableToolbar);
+		oVocablesTable.setToolbar(oVocablesTableToolbar);
 
 		// define the columns and the control templates to be used 
-		oTable.addColumn(new sap.ui.table.Column({
+		oVocablesTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
 				text : "Learned"
 			}),
@@ -79,7 +79,7 @@ sap.ui.jsview("vocab-web.vocableslist", {
 			filterProperty : "Learned",
 			width : "150px"
 		}));
-		oTable.addColumn(new sap.ui.table.Column({
+		oVocablesTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
 				text : "Known"
 			}),
@@ -89,7 +89,7 @@ sap.ui.jsview("vocab-web.vocableslist", {
 			filterProperty : "Known",
 			width : "150px"
 		}));
-		oTable.addColumn(new sap.ui.table.Column({
+		oVocablesTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
 				text : "Level"
 			}),
@@ -99,7 +99,7 @@ sap.ui.jsview("vocab-web.vocableslist", {
 			filterProperty : "Level",
 			width : "50px"
 		}));
-		oTable.addColumn(new sap.ui.table.Column({
+		oVocablesTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
 				text : "Due Date"
 			}),
@@ -112,9 +112,9 @@ sap.ui.jsview("vocab-web.vocableslist", {
 		
 
 		// bind table rows to /Persons based on the model defined in the init method of the controller 
-		oTable.bindRows("/Vocables");
+		oVocablesTable.bindRows("/Vocables");
 
-		return oTable;
+		return oVocablesTable;
 	}
 
 });

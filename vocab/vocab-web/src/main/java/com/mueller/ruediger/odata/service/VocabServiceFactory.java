@@ -22,7 +22,7 @@ public class VocabServiceFactory extends ODataJPAServiceFactory {
 					.getEntityManagerFactory();
 			oDataJPAContext.setEntityManagerFactory(emf);
 			oDataJPAContext.setPersistenceUnitName(PERSISTENCE_UNIT_NAME);
-			oDataJPAContext.setJPAEdmMappingModel("EspmEdmMapping.xml");
+			oDataJPAContext.setJPAEdmMappingModel("vocabMapping.xml");
 			return oDataJPAContext;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
