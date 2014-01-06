@@ -237,17 +237,14 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 			label : new sap.ui.commons.Label({
 				text : "Due Date"
 			}),
-/*
-			template : new sap.ui.commons.TextField().bindProperty("value",
-					"DueDate"),
-*/
 			template : new sap.ui.commons.TextField({
 				value : {
 					path : "DueDate",
 					formatter : function formatDisplayDateTime(d) {
 						if (d != null) {
 							var oDate = new Date(d);
-							return (oDate.toLocaleDateString() + " " + oDate.toLocaleTimeString());
+							//return (oDate.toLocaleDateString() + " " + oDate.toLocaleTimeString());
+							return (oDate.toLocaleDateString());
 						} else {
 							return "Date conversion error";
 						}
@@ -261,7 +258,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		
 
 		// bind table rows to /Lessons based on the model defined in the init method of the controller 
-		oVocablesTable.bindRows("/Vocables");
+		//oVocablesTable.bindRows("/Vocables");
 
 		return oVocablesTable;
 	}

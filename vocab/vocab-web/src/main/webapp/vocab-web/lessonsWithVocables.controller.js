@@ -35,7 +35,7 @@ sap.ui.controller("vocab-web.lessonsWithVocables", {
 	addNewVocable : function(sLearned, sKnown, oTable) {
 		var vocables = {};
 		
-		var resource = window.location.protocol + "//" 
+		var resource = window.location.protocol + "//" 	
 					   + window.location.hostname + (window.location.port ? ":" + window.location.port : "")
 					   + "/vocab-web/vocab.svc/Lessons(" +  "1L" + ")";
 
@@ -43,7 +43,7 @@ sap.ui.controller("vocab-web.lessonsWithVocables", {
 		vocables.Known = sKnown;
 		vocables.Level = 1;
 		vocables.DueDate = new Date().toISOString().replace("Z", "0000");
-//		vocables.lesson = resource;
+//		vocables.LessonDetails = resource;
 /*
 		vocables.lesson = {
 				"__metadata" : {
@@ -51,31 +51,20 @@ sap.ui.controller("vocab-web.lessonsWithVocables", {
 				}
 		};
 */
-		
-		//vocables.lesson = 1;
-		//var d = new Date();
-		//vocables.DueDate = d.toUTCString();
-/*	
+ 
+		this.getView().getModel().create("/Lessons(1L)/VocableDetails", vocables, null,
+				this.successMsg, this.errorMsg);
+/*		
 		var ajaxURL = window.location.protocol + "//" 
 					  + window.location.hostname + (window.location.port ? ":" + window.location.port : "")
-		               + "/vocab-web/vocab.svc/Vocables";
+		               + "/vocab-web/vocab.svc/Lessons(1L)/$links/VocableDetails";
 		jQuery.ajax({
-			url : ajaxURL + "?$format=json",
+			url : ajaxURL,
             type : 'POST',
-            contentType : 'application/json',
-            data : JSON.stringify({
-                      Learned : sLearned,
-                      Known : sKnown,
-                      Level: 1,
-                      lesson:  {
-          				"__metadata" : {
-        					"uri" : resource
-        			}}
-            })
-		});
+            contentType : 'application/xml',
+            data : '<uri xmlns="http://schemas.microsoft.com/ado/2007/08/dataservices">http://localhost:8080/vocab-web/vocab.svc/Vocables(2L)</uri>'
+        });
 */
-		this.getView().getModel().create("/Vocables", vocables, null,
-				this.successMsg, this.errorMsg);
 	},
 
 	successMsg : function() {

@@ -2,20 +2,20 @@ package com.mueller.ruediger.vocab;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
-
-import com.mueller.ruediger.vocab.Vocable;
-
+import javax.persistence.Table;
 //import java.util.Collection;
-import java.util.List;
-
+import com.mueller.ruediger.vocab.Vocable;
+import java.util.Collection;
 import javax.persistence.OneToMany;
 
 @Entity
 @NamedQuery(name = "AllLessons", query = "select l from Lesson l")
+@Table(name = "T_LESSON")
 public class Lesson implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -23,13 +23,19 @@ public class Lesson implements Serializable {
 	@Id
 	@GeneratedValue
 	private long id;
+	
+	@Column(length = 20)
 	private String learnedLanguage;
+	@Column(length = 20)
 	private String knownLanguage;
+	@Column(length = 50)
 	private String title;
+
 	@OneToMany(mappedBy = "lesson")
-	private List<Vocable> vocables;
+	private Collection<Vocable> vocables;
 
 	public Lesson() {
+		
 	}	
 
 	public long getId() {
@@ -64,19 +70,19 @@ public class Lesson implements Serializable {
 		this.title = param;
 	}
 
-	public List<Vocable> getVocables() {
-	    return vocables;
-	}
-
-	public void setVocables(List<Vocable> vocables) {
-	    this.vocables = vocables;
-	}
-	
 	public void addVocable(Vocable vocable) {
 		this.vocables.add(vocable);
 		if (vocable.getLesson() != this) {
 			vocable.setLesson(this);
 		}
+	}
+
+	public Collection<Vocable> getVocables() {
+	    return vocables;
+	}
+
+	public void setVocables(Collection<Vocable> param) {
+	    this.vocables = param;
 	}
 
 }
