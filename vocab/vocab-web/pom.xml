@@ -96,6 +96,13 @@
 			<systemPath>${eclipse.path}/plugins/com.sap.ui5.core_${sap.cloud.ui5.version}.jar</systemPath>
 		</dependency>
 		<dependency>
+			<groupId>com.sap.ui5.layout</groupId>
+			<artifactId>com.sap.ui5.layout</artifactId>
+			<version>${sap.cloud.ui5.version}</version>
+			<scope>system</scope>
+			<systemPath>${eclipse.path}/plugins/com.sap.ui5.layout_${sap.cloud.ui5.version}.jar</systemPath>
+		</dependency>
+		<dependency>
 			<groupId>com.sap.ui5.makit</groupId>
 			<artifactId>com.sap.ui5.makit</artifactId>
 			<version>${sap.cloud.ui5.version}</version>
