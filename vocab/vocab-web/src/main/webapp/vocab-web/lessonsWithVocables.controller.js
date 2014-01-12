@@ -12,6 +12,9 @@ sap.ui.controller("vocab-web.lessonsWithVocables", {
 	onInit : function() {
 		var odataModel = new sap.ui.model.odata.ODataModel(this.getODataServiceURL());
 		this.getView().setModel(odataModel);
+		
+		//set focus on title field
+		sap.ui.getCore().getControl('lessonTitleFieldId').focus();
 	},
 
 	getODataServiceURL : function() {
@@ -65,6 +68,9 @@ sap.ui.controller("vocab-web.lessonsWithVocables", {
 		sap.ui.getCore().getControl('lessonTitleFieldId').setValue('');
 		sap.ui.getCore().getControl('learnedLanguageFieldId').setValue('');
 		sap.ui.getCore().getControl('KnownLanguageFieldId').setValue('');
+		
+		//set focus on title field
+		sap.ui.getCore().getControl('lessonTitleFieldId').focus();
 	},
 	
 	successVocable : function(oData, oResponse) {
@@ -85,12 +91,12 @@ sap.ui.controller("vocab-web.lessonsWithVocables", {
 		sap.ui.getCore().getControl('learnedFieldId').setValue('');
 		sap.ui.getCore().getControl('knownFieldId').setValue('');
 		
-/*
-		var selectedLessonIDVocables = this.oLessonContext + "/VocableDetails";
-		var oVocablesTable = this.getView().byId("VocablesTableID");
-		alert(oVocablesTable);
-		oVocablesTable.bindRows(selectedLessonIDVocables);
-*/
+		//set focus on "learned" field
+		sap.ui.getCore().getControl('learnedFieldId').focus();
+	
+		// refresh does not always work automatically... trigger manually
+		this.getView().getModel().refresh();
+	
 	},
 
 	errorMsg : function() {
