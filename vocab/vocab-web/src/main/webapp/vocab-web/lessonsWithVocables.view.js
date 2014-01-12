@@ -39,10 +39,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 			firstVisibleRow : 1,
 			selectionMode : sap.ui.table.SelectionMode.Single
 		});
-
-		// toolbar 
-		var oLessonsTableToolbar = new sap.ui.commons.Toolbar();
-
+		
 		// Lesson Title
 		var oLessonTitleLabel = new sap.ui.commons.Label({
 			text : 'Lesson Title'
@@ -53,9 +50,6 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 			width : '10em',
 		});
 		oLessonTitleLabel.setLabelFor(oLessonTitleField);
-
-		oLessonsTableToolbar.addItem(oLessonTitleLabel);
-		oLessonsTableToolbar.addItem(oLessonTitleField);
 		
 		// Learned Language
 		var oLearnedLanguageLabel = new sap.ui.commons.Label({
@@ -68,9 +62,6 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		});
 		oLearnedLanguageLabel.setLabelFor(oLearnedLanguageField);
 
-		oLessonsTableToolbar.addItem(oLearnedLanguageLabel);
-		oLessonsTableToolbar.addItem(oLearnedLanguageField);
-
 		// Known Language
 		var oKnownLanguageLabel = new sap.ui.commons.Label({
 			text : 'Known Language'
@@ -81,9 +72,6 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 			width : '10em',
 		});
 		oKnownLanguageLabel.setLabelFor(oKnownLanguageField);
-
-		oLessonsTableToolbar.addItem(oKnownLanguageLabel);
-		oLessonsTableToolbar.addItem(oKnownLanguageField);
 		
 		// add button 
 		var oAddLessonButton = new sap.ui.commons.Button({
@@ -98,10 +86,15 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 						);
 			}
 		});
-		oLessonsTableToolbar.addItem(oAddLessonButton);
-
-		oLessonsTable.setToolbar(oLessonsTableToolbar);
-
+		var oHorizonalLayout = new sap.ui.layout.HorizontalLayout("LessonEntryLayout", {
+			content: [oLessonTitleLabel, oLessonTitleField, 
+			          oLearnedLanguageLabel, oLearnedLanguageField,
+			          oKnownLanguageLabel, oKnownLanguageField, 
+			          oAddLessonButton]
+		});
+		oLessonsTable.addExtension(oHorizonalLayout);
+		
+		
 		// define the columns and the control templates to be used 
 		oLessonsTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
@@ -125,7 +118,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		}));
 		oLessonsTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
-				text : "KnownLanguage"
+				text : "Known Language"
 			}),
 			template : new sap.ui.commons.TextField().bindProperty("value",
 					"KnownLanguage"),
@@ -150,9 +143,6 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 			selectionMode : sap.ui.table.SelectionMode.Single,
 		});
 
-		// toolbar 
-		var oVocablesTableToolbar = new sap.ui.commons.Toolbar();
-
 		// first name field 
 		var oLearnedLabel = new sap.ui.commons.Label({
 			id: "learnedLabelID",
@@ -165,9 +155,6 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		});
 		oLearnedLabel.setLabelFor(oLearnedField);
 
-		oVocablesTableToolbar.addItem(oLearnedLabel);
-		oVocablesTableToolbar.addItem(oLearnedField);
-
 		// last name field 
 		var oKnownLabel = new sap.ui.commons.Label({
 			text : 'Known Language'
@@ -178,9 +165,6 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 			width : '10em',
 		});
 		oKnownLabel.setLabelFor(oKnownField);
-
-		oVocablesTableToolbar.addItem(oKnownLabel);
-		oVocablesTableToolbar.addItem(oKnownField);
 
 		// add button 
 		var oAddVocableButton = new sap.ui.commons.Button({
@@ -194,9 +178,14 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 						oVocablesTable);
 			}
 		});
-		oVocablesTableToolbar.addItem(oAddVocableButton);
+		
+		var oHorizonalLayout = new sap.ui.layout.HorizontalLayout("VocableEntryLayout", {
+			content: [oLearnedLabel, oLearnedField, 
+			          oKnownLabel, oKnownField, 
+			          oAddVocableButton]
+		});
+		oVocablesTable.addExtension(oHorizonalLayout);
 
-		oVocablesTable.setToolbar(oVocablesTableToolbar);
 
 		// define the columns and the control templates to be used 
 		oVocablesTable.addColumn(new sap.ui.table.Column({

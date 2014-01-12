@@ -22,6 +22,7 @@ sap.ui.controller("vocab-web.lessonsWithVocables", {
 	},
 	
 	addNewLesson : function(sTitle, sLearnedLanguage, sKnownLanguage, oTable) {
+		var fnSuccess = $.proxy(this.successLesson, this);
 		var fnError = $.proxy(this.errorMsg, this);
 		
 		var lessons = {};
@@ -32,7 +33,7 @@ sap.ui.controller("vocab-web.lessonsWithVocables", {
 
 
 		this.getView().getModel().create("/Lessons", lessons, null,
-				null, fnError);
+				fnSuccess, fnError);
 	},
 	
 	addNewVocable : function(sLearned, sKnown) {
@@ -59,6 +60,12 @@ sap.ui.controller("vocab-web.lessonsWithVocables", {
 				fnSuccess, fnError);
 	},
 
+	successLesson : function(oData, oResponse) {
+		//clear fields after successful entry
+		sap.ui.getCore().getControl('lessonTitleFieldId').setValue('');
+		sap.ui.getCore().getControl('learnedLanguageFieldId').setValue('');
+		sap.ui.getCore().getControl('KnownLanguageFieldId').setValue('');
+	},
 	
 	successVocable : function(oData, oResponse) {
 //      Establish link with lesson
@@ -73,6 +80,11 @@ sap.ui.controller("vocab-web.lessonsWithVocables", {
 			contentType : 'application/xml',
 			data : ajaxData
 		});
+		
+		//clear fields after successful entry
+		sap.ui.getCore().getControl('learnedFieldId').setValue('');
+		sap.ui.getCore().getControl('knownFieldId').setValue('');
+		
 /*
 		var selectedLessonIDVocables = this.oLessonContext + "/VocableDetails";
 		var oVocablesTable = this.getView().byId("VocablesTableID");
