@@ -12,26 +12,32 @@ import javax.persistence.Table;
 import com.mueller.ruediger.vocab.Vocable;
 import java.util.Collection;
 import javax.persistence.OneToMany;
+import javax.persistence.Access;
+import static javax.persistence.AccessType.FIELD;
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @NamedQuery(name = "AllLessons", query = "select l from Lesson l")
 @Table(name = "T_LESSON")
+@Access(FIELD)
 public class Lesson implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
+	@Column(name = "ID")
 	private long id;
 	
-	@Column(length = 20)
+	@Column(length = 20, name = "LEARNED_LANGUAGE")
 	private String learnedLanguage;
-	@Column(length = 20)
+	@Column(length = 20, name = "KNOWN_LANGUAGE")
 	private String knownLanguage;
-	@Column(length = 50)
+	@Column(length = 50, name = "LESSON")
 	private String title;
 
-	@OneToMany(mappedBy = "lesson")
+	@OneToMany(cascade = ALL, fetch = LAZY, orphanRemoval = true, mappedBy = "owner", targetEntity = com.mueller.ruediger.vocab.Vocable.class)
 	private Collection<Vocable> vocables;
 
 	public Lesson() {
@@ -72,8 +78,8 @@ public class Lesson implements Serializable {
 
 	public void addVocable(Vocable vocable) {
 		this.vocables.add(vocable);
-		if (vocable.getLesson() != this) {
-			vocable.setLesson(this);
+		if (vocable.getOwner() != this) {
+			vocable.setOwner(this);
 		}
 	}
 

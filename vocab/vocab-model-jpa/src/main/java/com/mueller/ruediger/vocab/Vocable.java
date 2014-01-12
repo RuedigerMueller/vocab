@@ -14,32 +14,40 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import com.mueller.ruediger.vocab.Lesson;
 import javax.persistence.ManyToOne;
+import javax.persistence.Access;
+import static javax.persistence.AccessType.FIELD;
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.EAGER;
 
 @Entity
 @NamedQuery(name = "AllVocables", query = "select v from Vocable v")
 @Table(name = "T_VOCABLE")
+@Access(FIELD)
 public class Vocable implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
+	@Column(name = "ID")
 	private long id;
 	
-	@Column(length = 50)
+	@Column(length = 50, name = "LEARNED")
 	private String learned;
 	
-	@Column(length = 50)
+	@Column(length = 50, name = "KNOWN")
 	private String known;
 	
+	@Column(name = "LEVEL", length = 1)
 	private Integer level;
 	
 	@Basic
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "DUE_DATE")
 	private Calendar dueDate;
 
-	@ManyToOne
-	private Lesson lesson;
+	@ManyToOne(cascade = ALL, fetch = EAGER, optional = false, targetEntity = com.mueller.ruediger.vocab.Lesson.class)
+	private Lesson owner;
 
 	public Vocable() {
 
@@ -85,12 +93,14 @@ public class Vocable implements Serializable {
 		this.dueDate = param;
 	}
 
-	public Lesson getLesson() {
-	    return lesson;
+	public Lesson getOwner() {
+	    return owner;
 	}
 
-	public void setLesson(Lesson param) {
-	    this.lesson = param;
+	public void setOwner(Lesson lesson) {
+	    this.owner = lesson;
+	    if (!lesson.getVocables().contains(this)) {
+	    	lesson.getVocables().add(this); }
 	}
 
 

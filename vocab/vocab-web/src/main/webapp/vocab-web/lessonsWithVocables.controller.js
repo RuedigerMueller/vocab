@@ -1,5 +1,6 @@
 sap.ui.controller("vocab-web.lessonsWithVocables", {
-
+	oLessonContext : null,
+	
 	/**
 	 * Called when a controller is instantiated and its View controls (if
 	 * available) are already created. Can be used to modify the View before it
@@ -9,18 +10,20 @@ sap.ui.controller("vocab-web.lessonsWithVocables", {
 	 * @memberOf vocab-web.lessonsWithVocables
 	 */
 	onInit : function() {
-		var sOrigin = window.location.protocol + "//"
-				+ window.location.hostname
-				+ (window.location.port ? ":" + window.location.port : "");
-		var vocabOdataServiceUrl = sOrigin
-				+ "/vocab-web/vocab.svc";
-
-		var odataModel = new sap.ui.model.odata.ODataModel(
-				vocabOdataServiceUrl);
+		var odataModel = new sap.ui.model.odata.ODataModel(this.getODataServiceURL());
 		this.getView().setModel(odataModel);
 	},
 
+	getODataServiceURL : function() {
+		var sOrigin = window.location.protocol + "//"
+			+ window.location.hostname
+			+ (window.location.port ? ":" + window.location.port : "");
+		return sOrigin + "/vocab-web/vocab.svc";
+	},
+	
 	addNewLesson : function(sTitle, sLearnedLanguage, sKnownLanguage, oTable) {
+		var fnError = $.proxy(this.errorMsg, this);
+		
 		var lessons = {};
 
 		lessons.Title = sTitle;
@@ -29,52 +32,65 @@ sap.ui.controller("vocab-web.lessonsWithVocables", {
 
 
 		this.getView().getModel().create("/Lessons", lessons, null,
-				this.successMsg, this.errorMsg);
+				null, fnError);
 	},
 	
-	addNewVocable : function(sLearned, sKnown, oTable) {
-		var vocables = {};
+	addNewVocable : function(sLearned, sKnown) {
+		if (!this.oLessonContext) {
+			sap.ui.commons.MessageBox.alert("Select a lesson before adding vocables.");
+			return;
+		}
 		
-		var resource = window.location.protocol + "//" 	
-					   + window.location.hostname + (window.location.port ? ":" + window.location.port : "")
-					   + "/vocab-web/vocab.svc/Lessons(" +  "1L" + ")";
-
+		var fnSuccess = $.proxy(this.successVocable, this);
+		var fnError = $.proxy(this.errorMsg, this);
+		
+		var vocables = {};
 		vocables.Learned = sLearned;
 		vocables.Known = sKnown;
 		vocables.Level = 1;
 		vocables.DueDate = new Date().toISOString().replace("Z", "0000");
-//		vocables.LessonDetails = resource;
-/*
-		vocables.lesson = {
-				"__metadata" : {
-					"uri" : resource
-				}
-		};
-*/
- 
+ /*
+		// should create a vocable and link it to the lesson; 
+		// however, it does only  create the vocable without the link
 		this.getView().getModel().create("/Lessons(1L)/VocableDetails", vocables, null,
 				this.successMsg, this.errorMsg);
-/*		
-		var ajaxURL = window.location.protocol + "//" 
-					  + window.location.hostname + (window.location.port ? ":" + window.location.port : "")
-		               + "/vocab-web/vocab.svc/Lessons(1L)/$links/VocableDetails";
-		jQuery.ajax({
-			url : ajaxURL,
-            type : 'POST',
-            contentType : 'application/xml',
-            data : '<uri xmlns="http://schemas.microsoft.com/ado/2007/08/dataservices">http://localhost:8080/vocab-web/vocab.svc/Vocables(2L)</uri>'
-        });
-*/
+*/		
+		this.getView().getModel().create("/Vocables", vocables, null,
+				fnSuccess, fnError);
 	},
 
-	successMsg : function() {
-		sap.ui.commons.MessageBox
-				.alert("Entity has been successfully created");
+	
+	successVocable : function(oData, oResponse) {
+//      Establish link with lesson
+		var ajaxData = '<uri xmlns="http://schemas.microsoft.com/ado/2007/08/dataservices">' 
+			+ this.getODataServiceURL()
+			+ this.oLessonContext
+			+ '</uri>';
+		var ajaxURL = this.getODataServiceURL() + '/Vocables(' + oData["Id"] +')' +'/$links/LessonDetails';
+		jQuery.ajax({
+			url : ajaxURL,
+			type : 'PUT',
+			contentType : 'application/xml',
+			data : ajaxData
+		});
+/*
+		var selectedLessonIDVocables = this.oLessonContext + "/VocableDetails";
+		var oVocablesTable = this.getView().byId("VocablesTableID");
+		alert(oVocablesTable);
+		oVocablesTable.bindRows(selectedLessonIDVocables);
+*/
 	},
 
 	errorMsg : function() {
-		sap.ui.commons.MessageBox
-				.alert("Error occured when creating entity");
+		sap.ui.commons.MessageBox.alert("Error occured when creating entity");
+	},
+	
+	lessonSelectionChange: function(oEvent, oVocablesTable) {
+		this.oLessonContext = oEvent.getParameter("rowContext");
+		
+		// Bind Vocables table to selected row
+		var selectedLessonIDVocables = this.oLessonContext + "/VocableDetails";
+		oVocablesTable.bindRows(selectedLessonIDVocables);
 	},
 
 /**

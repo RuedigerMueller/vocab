@@ -20,13 +20,9 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 
 		//establish master detail relation
 		oLessonsTable.attachRowSelectionChange(function(oEvent) {
-			var selectedRowContext = oEvent.getParameter("rowContext");
-			
-			// Bind Vocables table to selected row
-			var selectedLessonIDVocables = selectedRowContext + "/VocableDetails";
-			oVocablesTable.bindRows(selectedLessonIDVocables);
-			
+			oController.lessonSelectionChange(oEvent, oVocablesTable);
 		});
+		
 		var oLayout = new sap.ui.layout.VerticalLayout("LessonsWithVocablesLayout", {
 	        content: [oLessonsTable, oVocablesTable]
 		});
@@ -98,8 +94,8 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 				oController.addNewLesson(
 						sap.ui.getCore().getControl("lessonTitleFieldId").getValue(), 
 						sap.ui.getCore().getControl("learnedLanguageFieldId").getValue(), 
-						sap.ui.getCore().getControl("KnownLanguageFieldId").getValue(), 
-						oLessonsTable);
+						sap.ui.getCore().getControl("KnownLanguageFieldId").getValue()
+						);
 			}
 		});
 		oLessonsTableToolbar.addItem(oAddLessonButton);
@@ -255,10 +251,6 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 			filterProperty : "DueDate",
 			width : "75px"
 		}));
-		
-
-		// bind table rows to /Lessons based on the model defined in the init method of the controller 
-		//oVocablesTable.bindRows("/Vocables");
 
 		return oVocablesTable;
 	}
