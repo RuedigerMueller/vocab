@@ -37,6 +37,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 			title : "Lessons List",
 			visibleRowCount : 10,
 			firstVisibleRow : 1,
+			editable : true,
 			selectionMode : sap.ui.table.SelectionMode.Single
 		});
 		
@@ -47,7 +48,8 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		var oLessonTitleField = new sap.ui.commons.TextField({
 			id : 'lessonTitleFieldId',
 			value : '',
-			width : '10em',
+			maxLength: 50,
+			width: 'auto'
 		});
 		oLessonTitleLabel.setLabelFor(oLessonTitleField);
 		
@@ -58,7 +60,8 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		var oLearnedLanguageField = new sap.ui.commons.TextField({
 			id : 'learnedLanguageFieldId',
 			value : '',
-			width : '10em',
+			maxLength: 20,
+			width: 'auto'
 		});
 		oLearnedLanguageLabel.setLabelFor(oLearnedLanguageField);
 
@@ -69,7 +72,8 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		var oKnownLanguageField = new sap.ui.commons.TextField({
 			id : 'KnownLanguageFieldId',
 			value : '',
-			width : '10em',
+			maxLength: 20,
+			width: 'auto'
 		});
 		oKnownLanguageLabel.setLabelFor(oKnownLanguageField);
 		
@@ -104,7 +108,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 					"Title"),
 			sortProperty : "Title",
 			filterProperty : "Title",
-			width : "100px"
+			maxLength: 50
 		}));
 		oLessonsTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
@@ -114,7 +118,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 					"LearnedLanguage"),
 			sortProperty : "LearnedLanguage",
 			filterProperty : "LearnedLanguage",
-			width : "100px"
+			maxLength: 20
 		}));
 		oLessonsTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
@@ -124,7 +128,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 					"KnownLanguage"),
 			sortProperty : "KnownLanguage",
 			filterProperty : "KnownLanguage",
-			width : "100px"
+			maxLength: 20
 		}));
 		
 		// bind table rows to /Persons based on the model defined in the init method of the controller 
@@ -140,6 +144,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 			title : "Vocable List",
 			visibleRowCount : 10,
 			firstVisibleRow : 1,
+			editable : true,
 			selectionMode : sap.ui.table.SelectionMode.Single,
 		});
 
@@ -151,7 +156,8 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		var oLearnedField = new sap.ui.commons.TextField({
 			id : 'learnedFieldId',
 			value : '',
-			width : '10em',
+			maxLength: 50,
+			width: 'auto'
 		});
 		oLearnedLabel.setLabelFor(oLearnedField);
 
@@ -162,7 +168,8 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		var oKnownField = new sap.ui.commons.TextField({
 			id : 'knownFieldId',
 			value : '',
-			width : '10em',
+			maxLength: 50,
+			width: 'auto'
 		});
 		oKnownLabel.setLabelFor(oKnownField);
 
@@ -196,7 +203,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 					"Learned"),
 			sortProperty : "Learned",
 			filterProperty : "Learned",
-			width : "150px"
+			maxLength: 50
 		}));
 		oVocablesTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
@@ -206,7 +213,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 					"Known"),
 			sortProperty : "Known",
 			filterProperty : "Known",
-			width : "150px"
+			maxLength: 50
 		}));
 		oVocablesTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
@@ -216,7 +223,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 					"Level"),
 			sortProperty : "Level",
 			filterProperty : "Level",
-			width : "50px"
+			maxLength: 50
 		}));
 		oVocablesTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
@@ -238,7 +245,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 			}),
 			sortProperty : "DueDate",
 			filterProperty : "DueDate",
-			width : "75px"
+			maxLength: 10
 		}));
 
 		return oVocablesTable;
