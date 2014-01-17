@@ -1,120 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-							http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	version="2.5" xmlns="http://java.sun.com/xml/ns/javaee">
-
-	<display-name>vocab-web</display-name>
-
-	<!-- ============================================================== -->
-	<!-- UI5 resource servlet used to handle application resources -->
-	<!-- ============================================================== -->
-
-	<servlet>
-		<display-name>ResourceServlet</display-name>
-		<servlet-name>ResourceServlet</servlet-name>
-		<servlet-class>com.sap.ui5.resource.ResourceServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ResourceServlet</servlet-name>
-		<url-pattern>/resources/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>ResourceServlet</servlet-name>
-		<url-pattern>/test-resources/*</url-pattern>
-	</servlet-mapping>
-	<!-- This option enables proxying of resources from a remote location (in 
-		the cloud) -->
-	<context-param>
-		<param-name>com.sap.ui5.resource.REMOTE_LOCATION</param-name>
-		<param-value>https://sapui5.hana.ondemand.com</param-value>
-	</context-param>
-	<!-- Enable usage of Cloud persistence service -->
-	<resource-ref>
-		<res-ref-name>jdbc/DefaultDB</res-ref-name>
-		<res-type>javax.sql.DataSource</res-type>
-	</resource-ref>
-
-	<!-- BEGIN: DEV MODE -->
-	<!-- DEV MODE switched off by default and can be switched on during development -->
-	<!-- but has to be switched off for productive use on a Java server! -->
-	<context-param>
-		<param-name>com.sap.ui5.resource.DEV_MODE</param-name>
-		<param-value>false</param-value>
-	</context-param>
-	<!-- END: DEV MODE -->
-
-
-	<!-- ============================================================== -->
-	<!-- Cache Control Filter to prevent caching of any resource -->
-	<!-- ============================================================== -->
-
-	<filter>
-		<display-name>CacheControlFilter</display-name>
-		<filter-name>CacheControlFilter</filter-name>
-		<filter-class>com.sap.ui5.resource.CacheControlFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>CacheControlFilter</filter-name>
-		<url-pattern>*.html</url-pattern>
-	</filter-mapping>
-	<filter-mapping>
-		<filter-name>CacheControlFilter</filter-name>
-		<url-pattern>*.js</url-pattern>
-	</filter-mapping>
-	<filter-mapping>
-		<filter-name>CacheControlFilter</filter-name>
-		<url-pattern>*.xml</url-pattern>
-	</filter-mapping>
-	<filter-mapping>
-		<filter-name>CacheControlFilter</filter-name>
-		<url-pattern>*.json</url-pattern>
-	</filter-mapping>
-	<filter-mapping>
-		<filter-name>CacheControlFilter</filter-name>
-		<url-pattern>*.css</url-pattern>
-	</filter-mapping>
-
-
-	<!-- ============================================================== -->
-	<!-- UI5 proxy servlet -->
-	<!-- ============================================================== -->
-
-	<servlet>
-		<servlet-name>SimpleProxyServlet</servlet-name>
-		<servlet-class>com.sap.ui5.proxy.SimpleProxyServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>SimpleProxyServlet</servlet-name>
-		<url-pattern>/proxy/*</url-pattern>
-	</servlet-mapping>
-
-
-	<!-- ============================================================== -->
-	<!-- Welcome file list -->
-	<!-- ============================================================== -->
-
-	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-	</welcome-file-list>
-
-	<servlet>
-		<servlet-name>ODataServlet</servlet-name>
-		<servlet-class>org.apache.cxf.jaxrs.servlet.CXFNonSpringJaxrsServlet</servlet-class>
-		<init-param>
-			<param-name>javax.ws.rs.Application</param-name>
-			<param-value>org.apache.olingo.odata2.core.rest.app.ODataApplication</param-value>
-		</init-param>
-		<init-param>
-			<param-name>org.apache.olingo.odata2.service.factory</param-name>
-			<param-value>com.mueller.ruediger.odata.service.VocabServiceFactory</param-value>
-		</init-param>
-		<load-on-startup>2</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>ODataServlet</servlet-name>
-		<url-pattern>/vocab.svc/*</url-pattern>
-	</servlet-mapping>
-
-
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+  <display-name>vocab-web</display-name>
+  <servlet>
+    <display-name>ResourceServlet</display-name>
+    <servlet-name>ResourceServlet</servlet-name>
+    <servlet-class>com.sap.ui5.resource.ResourceServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ResourceServlet</servlet-name>
+    <url-pattern>/resources/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ResourceServlet</servlet-name>
+    <url-pattern>/test-resources/*</url-pattern>
+  </servlet-mapping>
+  <context-param>
+    <param-name>com.sap.ui5.resource.REMOTE_LOCATION</param-name>
+    <param-value>https://sapui5.hana.ondemand.com</param-value>
+  </context-param>
+  <resource-ref>
+    <res-ref-name>jdbc/DefaultDB</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+  </resource-ref>
+  <context-param>
+    <param-name>com.sap.ui5.resource.DEV_MODE</param-name>
+    <param-value>false</param-value>
+  </context-param>
+  <filter>
+    <display-name>CacheControlFilter</display-name>
+    <filter-name>CacheControlFilter</filter-name>
+    <filter-class>com.sap.ui5.resource.CacheControlFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>CacheControlFilter</filter-name>
+    <url-pattern>*.html</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>CacheControlFilter</filter-name>
+    <url-pattern>*.js</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>CacheControlFilter</filter-name>
+    <url-pattern>*.xml</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>CacheControlFilter</filter-name>
+    <url-pattern>*.json</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>CacheControlFilter</filter-name>
+    <url-pattern>*.css</url-pattern>
+  </filter-mapping>
+  <servlet>
+    <servlet-name>SimpleProxyServlet</servlet-name>
+    <servlet-class>com.sap.ui5.proxy.SimpleProxyServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SimpleProxyServlet</servlet-name>
+    <url-pattern>/proxy/*</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <servlet-name>ODataServlet</servlet-name>
+    <servlet-class>org.apache.cxf.jaxrs.servlet.CXFNonSpringJaxrsServlet</servlet-class>
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>org.apache.olingo.odata2.core.rest.app.ODataApplication</param-value>
+    </init-param>
+    <init-param>
+      <param-name>org.apache.olingo.odata2.service.factory</param-name>
+      <param-value>com.mueller.ruediger.odata.service.VocabServiceFactory</param-value>
+    </init-param>
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ODataServlet</servlet-name>
+    <url-pattern>/vocab.svc/*</url-pattern>
+  </servlet-mapping>
+  <login-config>
+    <auth-method>FORM</auth-method>
+  </login-config>
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Protected Area</web-resource-name>
+      <url-pattern>/</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>Everyone</role-name>
+    </auth-constraint>
+  </security-constraint>
+  <security-role>
+    <description>All SAP HANA Cloud Platform users</description>
+    <role-name>Everyone</role-name>
+  </security-role>
+  <resource-ref>
+    <res-ref-name>user/Provider</res-ref-name>
+    <res-type>com.sap.security.um.user.UserProvider</res-type>
+  </resource-ref>
+  <servlet>
+    <description></description>
+    <display-name>StartupServlet</display-name>
+    <servlet-name>StartupServlet</servlet-name>
+    <servlet-class>com.mueller.ruediger.odata.service.StartupServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StartupServlet</servlet-name>
+    <url-pattern>/StartupServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

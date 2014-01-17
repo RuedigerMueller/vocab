@@ -9,7 +9,7 @@ sap.ui.controller("vocab-web.lessonsWithVocables", {
 	 * 
 	 * @memberOf vocab-web.lessonsWithVocables
 	 */
-	onInit : function() {
+	onInit : function() {		
 		var odataModel = new sap.ui.model.odata.ODataModel(this.getODataServiceURL());
 		this.getView().setModel(odataModel);
 		

@@ -34,7 +34,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		// Create an instance of the table control 
 		var oLessonsTable = new sap.ui.table.Table({
 			id: "LessonsTableID",
-			title : "Lessons List",
+			title : "{i18n>LESSON_LIST}",
 			visibleRowCount : 10,
 			firstVisibleRow : 1,
 			editable : true,
@@ -43,7 +43,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		
 		// Lesson Title
 		var oLessonTitleLabel = new sap.ui.commons.Label({
-			text : 'Lesson Title'
+			text : '{i18n>LESSON_TITLE}'
 		});
 		var oLessonTitleField = new sap.ui.commons.TextField({
 			id : 'lessonTitleFieldId',
@@ -55,7 +55,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		
 		// Learned Language
 		var oLearnedLanguageLabel = new sap.ui.commons.Label({
-			text : 'Learned Language'
+			text : '{i18n>LEARNED_LANGUAGE}'
 		});
 		var oLearnedLanguageField = new sap.ui.commons.TextField({
 			id : 'learnedLanguageFieldId',
@@ -67,7 +67,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 
 		// Known Language
 		var oKnownLanguageLabel = new sap.ui.commons.Label({
-			text : 'Known Language'
+			text : '{i18n>KNOWN_LANGUAGE}'
 		});
 		var oKnownLanguageField = new sap.ui.commons.TextField({
 			id : 'KnownLanguageFieldId',
@@ -80,7 +80,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		// add button 
 		var oAddLessonButton = new sap.ui.commons.Button({
 			id : 'addLessonButtonId',
-			text : "Add Lesson",
+			text : "{i18n>ADD_LESSON}",
 			press : function() {
 
 				oController.addNewLesson(
@@ -102,7 +102,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		// define the columns and the control templates to be used 
 		oLessonsTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
-				text : "Title"
+				text : "{i18n>LESSON_TITLE}"
 			}),
 			template : new sap.ui.commons.TextField().bindProperty("value",
 					"Title"),
@@ -112,7 +112,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		}));
 		oLessonsTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
-				text : "Learned Language"
+				text : "{i18n>LEARNED_LANGUAGE}"
 			}),
 			template : new sap.ui.commons.TextField().bindProperty("value",
 					"LearnedLanguage"),
@@ -122,7 +122,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		}));
 		oLessonsTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
-				text : "Known Language"
+				text : "{i18n>KNOWN_LANGUAGE}"
 			}),
 			template : new sap.ui.commons.TextField().bindProperty("value",
 					"KnownLanguage"),
@@ -141,7 +141,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		// Create an instance of the table control 
 		var oVocablesTable = new sap.ui.table.Table({
 			id: "VocablesTableID",
-			title : "Vocable List",
+			title : "{i18n>VOCABLE_LIST}",
 			visibleRowCount : 10,
 			firstVisibleRow : 1,
 			editable : true,
@@ -151,7 +151,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		// first name field 
 		var oLearnedLabel = new sap.ui.commons.Label({
 			id: "learnedLabelID",
-			text : "Learned Language"
+			text : "{i18n>LEARNED_LANGUAGE}"
 		});
 		var oLearnedField = new sap.ui.commons.TextField({
 			id : 'learnedFieldId',
@@ -163,7 +163,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 
 		// last name field 
 		var oKnownLabel = new sap.ui.commons.Label({
-			text : 'Known Language'
+			text : '{i18n>KNOWN_LANGUAGE}'
 		});
 		var oKnownField = new sap.ui.commons.TextField({
 			id : 'knownFieldId',
@@ -176,7 +176,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		// add button 
 		var oAddVocableButton = new sap.ui.commons.Button({
 			id : 'addVocableButtonId',
-			text : "Add Vocable",
+			text : "{i18n>ADD_VOCABLE}",
 			press : function() {
 
 				oController.addNewVocable(
@@ -197,7 +197,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		// define the columns and the control templates to be used 
 		oVocablesTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
-				text : "Learned"
+				text : "{i18n>LEARNED_LANGUAGE}"
 			}),
 			template : new sap.ui.commons.TextField().bindProperty("value",
 					"Learned"),
@@ -207,7 +207,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		}));
 		oVocablesTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
-				text : "Known"
+				text : "{i18n>KNOWN_LANGUAGE}"
 			}),
 			template : new sap.ui.commons.TextField().bindProperty("value",
 					"Known"),
@@ -217,7 +217,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		}));
 		oVocablesTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
-				text : "Level"
+				text : "{i18n>LEVEL}"
 			}),
 			template : new sap.ui.commons.TextField().bindProperty("value",
 					"Level"),
@@ -227,7 +227,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		}));
 		oVocablesTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
-				text : "Due Date"
+				text : "{i18n>DUE_DATE}"
 			}),
 			template : new sap.ui.commons.TextField({
 				value : {
