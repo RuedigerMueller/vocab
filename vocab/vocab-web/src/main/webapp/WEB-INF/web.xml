@@ -105,7 +105,6 @@
       <url-pattern>/LogoutServlet</url-pattern>
     </web-resource-collection>
   </security-constraint>
-  
   <servlet>
     <description></description>
     <display-name>LogoutServlet</display-name>
@@ -115,5 +114,15 @@
   <servlet-mapping>
     <servlet-name>LogoutServlet</servlet-name>
     <url-pattern>/LogoutServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserInfo</display-name>
+    <servlet-name>UserInfo</servlet-name>
+    <servlet-class>com.mueller.ruediger.odata.service.UserInfo</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserInfo</servlet-name>
+    <url-pattern>/UserInfo</url-pattern>
   </servlet-mapping>
 </web-app>

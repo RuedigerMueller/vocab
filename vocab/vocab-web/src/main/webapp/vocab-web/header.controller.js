@@ -5,9 +5,16 @@ sap.ui.controller("vocab-web.header", {
 * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
 * @memberOf vocabulary.Header
 */
-//	onInit: function() {
-//
-//	},
+	onInit: function() {
+		var oJSONModel = new sap.ui.model.json.JSONModel();
+		var JSONURL = window.location.protocol + "//"
+			+ window.location.hostname
+			+ (window.location.port ? ":" + window.location.port : "")
+			+ "/vocab-web/UserInfo";
+		
+		oJSONModel.loadData(JSONURL);
+		this.getView().setModel(oJSONModel);
+	},
 
 /**
 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
