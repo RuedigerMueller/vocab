@@ -17,12 +17,15 @@ sap.ui.jsview("vocab-web.header", {
         var oAppHeader = new sap.ui.commons.ApplicationHeader({
         	id: "appHeader",
         	logoText: "{i18n>APP_TITLE}",
-        	logoSrc: "http://www.sap.com/global/images/SAPLogo.gif",
+//        	logoSrc: "http://www.sap.com/global/images/SAPLogo.gif",
         	displayWelcome: true,
         	displayLogoff: true,
         }); 
 
         oAppHeader.setUserName("Rüdiger Müller");
+        oAppHeader.attachLogoff(function(oEvent) {
+			oController.logoff(oEvent);
+		});
 
         return oAppHeader;
 	}

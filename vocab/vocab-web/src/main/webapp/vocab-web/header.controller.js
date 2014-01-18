@@ -34,5 +34,17 @@ sap.ui.controller("vocab-web.header", {
 //	onExit: function() {
 //
 //	}
-
+	
+	logoff: function(oEvent) {
+		var ajaxURL = window.location.protocol + "//"
+			+ window.location.hostname
+			+ (window.location.port ? ":" + window.location.port : "")
+			+ "/vocab-web/LogoutServlet";
+		jQuery.ajax({
+			url : ajaxURL,
+			type : 'GET',
+		});
+		
+		window.location=ajaxURL;
+	},
 });
