@@ -103,12 +103,22 @@ sap.ui.controller("vocab-web.lessonsWithVocables", {
 		sap.ui.commons.MessageBox.alert("Error occured when creating entity");
 	},
 	
-	lessonSelectionChange: function(oEvent, oVocablesTable) {
+	lessonSelectionChange: function(oEvent) {
 		this.oLessonContext = oEvent.getParameter("rowContext");
 		
 		// Bind Vocables table to selected row
 		var selectedLessonIDVocables = this.oLessonContext + "/VocableDetails";
-		oVocablesTable.bindRows(selectedLessonIDVocables);
+		sap.ui.getCore().getControl('VocablesTableID').bindRows(selectedLessonIDVocables);
+		
+		// Bind Learned Language label to language of selected lesson
+		var sLessonContext = this.oLessonContext + "/LearnedLanguage";
+		sap.ui.getCore().getControl('learnedLabelID').bindProperty("text", sLessonContext);
+		sap.ui.getCore().getControl('VocableLearnedColumnID').bindProperty("text", sLessonContext);
+		
+		// Bind Known Language label to language of selected lesson
+		var sLessonContext = this.oLessonContext + "/KnownLanguage";
+		sap.ui.getCore().getControl('knownLabelID').bindProperty("text", sLessonContext);
+		sap.ui.getCore().getControl('VocableKnownColumnID').bindProperty("text", sLessonContext);
 	},
 
 /**

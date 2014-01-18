@@ -7,6 +7,14 @@ oi18nModel = new sap.ui.model.resource.ResourceModel({
 sap.ui.getCore().setModel(oi18nModel, "i18n");
 
 sap.ui.localResources("vocab-web");
+
+var view = sap.ui.view({
+	id:"idheader", 
+	viewName:"vocab-web.header", 
+	type:sap.ui.core.mvc.ViewType.JS
+});
+view.placeAt("header");
+
 var view = sap.ui.view({
 	id:"idlessonswithvocables", 
 	viewName:"vocab-web.lessonsWithVocables", 
