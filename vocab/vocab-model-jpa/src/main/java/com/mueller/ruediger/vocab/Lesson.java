@@ -29,20 +29,24 @@ public class Lesson implements Serializable {
 	@GeneratedValue
 	@Column(name = "ID")
 	private long id;
-	
+
+	@Column(length = 20, name = "USER_NAME")
+	private String userName;
+	@Column(length = 50, name = "LESSON")
+	private String title;
 	@Column(length = 20, name = "LEARNED_LANGUAGE")
 	private String learnedLanguage;
 	@Column(length = 20, name = "KNOWN_LANGUAGE")
 	private String knownLanguage;
-	@Column(length = 50, name = "LESSON")
-	private String title;
 
 	@OneToMany(cascade = ALL, fetch = LAZY, orphanRemoval = true, mappedBy = "owner", targetEntity = com.mueller.ruediger.vocab.Vocable.class)
 	private Collection<Vocable> vocables;
 
+
+
 	public Lesson() {
-		
-	}	
+
+	}
 
 	public long getId() {
 		return id;
@@ -52,6 +56,22 @@ public class Lesson implements Serializable {
 		this.id = id;
 	}
 
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String param) {
+		this.userName = param;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String param) {
+		this.title = param;
+	}
+	
 	public String getLearnedLanguage() {
 		return learnedLanguage;
 	}
@@ -68,14 +88,6 @@ public class Lesson implements Serializable {
 		this.knownLanguage = param;
 	}
 
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String param) {
-		this.title = param;
-	}
-
 	public void addVocable(Vocable vocable) {
 		this.vocables.add(vocable);
 		if (vocable.getOwner() != this) {
@@ -84,11 +96,11 @@ public class Lesson implements Serializable {
 	}
 
 	public Collection<Vocable> getVocables() {
-	    return vocables;
+		return vocables;
 	}
 
 	public void setVocables(Collection<Vocable> param) {
-	    this.vocables = param;
+		this.vocables = param;
 	}
 
 }

@@ -134,7 +134,10 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		}));
 		
 		// bind table rows to /Persons based on the model defined in the init method of the controller 
-		oLessonsTable.bindRows("/Lessons");
+		oLessonsTable.bindRows({
+			path: '/Lessons',
+			filters: [new sap.ui.model.Filter("UserName", sap.ui.model.FilterOperator.EQ, "rmueller")]
+		});
 
 		return oLessonsTable;
 	},

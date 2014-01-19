@@ -13,6 +13,15 @@ sap.ui.controller("vocab-web.lessonsWithVocables", {
 		var odataModel = new sap.ui.model.odata.ODataModel(this.getODataServiceURL());
 		this.getView().setModel(odataModel);
 		
+		// Get User Info and store it for later use
+		var UserInfoURL = window.location.protocol + "//"
+			+ window.location.hostname
+			+ (window.location.port ? ":" + window.location.port : "")
+			+ "/vocab-web/UserInfo";
+		
+		var fnSuccess = $.proxy(this.successGetUserInfo, this);
+		jQuery.getJSON(UserInfoURL, fnSuccess);
+		
 		//set focus on title field
 		sap.ui.getCore().getControl('lessonTitleFieldId').focus();
 	},
@@ -30,6 +39,7 @@ sap.ui.controller("vocab-web.lessonsWithVocables", {
 		
 		var lessons = {};
 
+		lessons.UserName = this.userName;
 		lessons.Title = sTitle;
 		lessons.LearnedLanguage = sLearnedLanguage;
 		lessons.KnownLanguage = sKnownLanguage;
@@ -63,6 +73,16 @@ sap.ui.controller("vocab-web.lessonsWithVocables", {
 				fnSuccess, fnError);
 	},
 
+	successGetUserInfo :  function(data) {
+		this.userName = data.user;
+		
+		// bind table rows to /Persons based on the model defined in the init method of the controller 
+		sap.ui.getCore().getControl('LessonsTableID').bindRows({
+			path: '/Lessons',
+			filters: [new sap.ui.model.Filter("UserName", sap.ui.model.FilterOperator.EQ, this.userName)]
+		});
+	},
+	
 	successLesson : function(oData, oResponse) {
 		//clear fields after successful entry
 		sap.ui.getCore().getControl('lessonTitleFieldId').setValue('');

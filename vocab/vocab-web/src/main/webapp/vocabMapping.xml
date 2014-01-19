@@ -17,6 +17,7 @@
 			<JPAEntityType name="Lesson">
 				<EDMEntitySet>Lessons</EDMEntitySet>
 				<JPAAttributes>
+					<JPAAttribute name="userName">UserName</JPAAttribute>
 					<JPAAttribute name="title">Title</JPAAttribute>
 					<JPAAttribute name="learnedLanguage">LearnedLanguage</JPAAttribute>
 					<JPAAttribute name="knownLanguage">KnownLanguage</JPAAttribute>
