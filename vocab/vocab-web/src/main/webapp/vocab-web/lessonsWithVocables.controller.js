@@ -33,23 +33,26 @@ sap.ui.controller("vocab-web.lessonsWithVocables", {
 		return sOrigin + "/vocab-web/vocab.svc";
 	},
 	
-	addNewLesson : function(sTitle, sLearnedLanguage, sKnownLanguage, oTable) {
+	addNewLesson : function() {
 		var fnSuccess = $.proxy(this.successLesson, this);
 		var fnError = $.proxy(this.errorMsg, this);
 		
 		var lessons = {};
-
+		
 		lessons.UserName = this.userName;
-		lessons.Title = sTitle;
-		lessons.LearnedLanguage = sLearnedLanguage;
-		lessons.KnownLanguage = sKnownLanguage;
-
+		lessons.Title = sap.ui.getCore().getControl("lessonTitleFieldId").getValue();
+		lessons.LearnedLanguage = sap.ui.getCore().getControl("learnedLanguageFieldId").getValue();
+		lessons.KnownLanguage = sap.ui.getCore().getControl("KnownLanguageFieldId").getValue();
 
 		this.getView().getModel().create("/Lessons", lessons, null,
 				fnSuccess, fnError);
 	},
 	
-	addNewVocable : function(sLearned, sKnown) {
+	quiz : function() {
+		oQuizView.placeAt("content", "only");
+	},
+	
+	addNewVocable : function() {
 		if (!this.oLessonContext) {
 			sap.ui.commons.MessageBox.alert("Select a lesson before adding vocables.");
 			return;
@@ -59,8 +62,8 @@ sap.ui.controller("vocab-web.lessonsWithVocables", {
 		var fnError = $.proxy(this.errorMsg, this);
 		
 		var vocables = {};
-		vocables.Learned = sLearned;
-		vocables.Known = sKnown;
+		vocables.Learned = 	sap.ui.getCore().getControl("learnedFieldId").getValue();
+		vocables.Known = sap.ui.getCore().getControl("knownFieldId").getValue();
 		vocables.Level = 1;
 		vocables.DueDate = new Date().toISOString().replace("Z", "0000");
  /*

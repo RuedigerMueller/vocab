@@ -8,16 +8,22 @@ sap.ui.getCore().setModel(oi18nModel, "i18n");
 
 sap.ui.localResources("vocab-web");
 
-var view = sap.ui.view({
-	id:"idheader", 
+var oHeaderView = sap.ui.view({
+	id:"headerViewID", 
 	viewName:"vocab-web.header", 
 	type:sap.ui.core.mvc.ViewType.JS
 });
-view.placeAt("header");
+oHeaderView.placeAt("header");
 
-var view = sap.ui.view({
-	id:"idlessonswithvocables", 
+var oLessonsVocablesView = sap.ui.view({
+	id:"lessonsVocablesViewID", 
 	viewName:"vocab-web.lessonsWithVocables", 
 	type:sap.ui.core.mvc.ViewType.JS
 });
-view.placeAt("content");
+oLessonsVocablesView.placeAt("content");
+
+var oQuizView = new sap.ui.view({
+	id: "quizViewID",
+	viewName:"vocab-web.quiz", 
+	type:sap.ui.core.mvc.ViewType.JS
+});

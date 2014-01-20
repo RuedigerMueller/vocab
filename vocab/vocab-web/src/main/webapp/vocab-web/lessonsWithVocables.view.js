@@ -83,20 +83,22 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 		var oAddLessonButton = new sap.ui.commons.Button({
 			id : 'addLessonButtonId',
 			text : "{i18n>ADD_LESSON}",
-			press : function() {
-
-				oController.addNewLesson(
-						sap.ui.getCore().getControl("lessonTitleFieldId").getValue(), 
-						sap.ui.getCore().getControl("learnedLanguageFieldId").getValue(), 
-						sap.ui.getCore().getControl("KnownLanguageFieldId").getValue()
-						);
-			}
+			press : function() {oController.addNewLesson();}
 		});
+		
+		// Quiz button 
+		var oQuizButton = new sap.ui.commons.Button({
+			id : 'quizButtonId',
+			text : "{i18n>QUIZ}",
+			press : function() {oController.quiz();}
+		});
+		
 		var oHorizonalLayout = new sap.ui.layout.HorizontalLayout("LessonEntryLayout", {
 			content: [oLessonTitleLabel, oLessonTitleField, 
 			          oLearnedLanguageLabel, oLearnedLanguageField,
 			          oKnownLanguageLabel, oKnownLanguageField, 
-			          oAddLessonButton]
+			          oAddLessonButton,
+			          oQuizButton]
 		});
 		oLessonsTable.addExtension(oHorizonalLayout);
 		
@@ -187,11 +189,7 @@ sap.ui.jsview("vocab-web.lessonsWithVocables", {
 			id : "addVocableButtonId",
 			text : "{i18n>ADD_VOCABLE}",
 			press : function() {
-
-				oController.addNewVocable(
-						sap.ui.getCore().getControl("learnedFieldId").getValue(), 
-						sap.ui.getCore().getControl("knownFieldId").getValue(), 
-						oVocablesTable);
+				oController.addNewVocable();
 			}
 		});
 		
