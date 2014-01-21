@@ -35,6 +35,7 @@ sap.ui.controller("vocab-web.quiz", {
 //
 //	}
   back: function() {
-	  oLessonsVocablesView.placeAt("content", "only");
+	  oLessonsView.placeAt("content", 1);
+	  oVocablesView.placeAt("content", 2);
   }
 });
