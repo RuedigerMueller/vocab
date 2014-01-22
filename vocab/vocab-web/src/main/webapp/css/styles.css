@@ -1,6 +1,16 @@
+.QuizSection {
+    font-size: 48px;
+	font-weight: bold;
+	height: 150px;
+	width: 500px;
+	text-align: center;
+	vertical-align: inherit;
+   }
+ 
 .Quiz {
     font-size: 48px;
 	font-weight: bold;
-	height: 100px;
-	width: 500px;
+	height: 600px;
+	width: 100%;
+	text-align: center;
    }

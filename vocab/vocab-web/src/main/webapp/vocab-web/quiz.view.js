@@ -14,16 +14,25 @@ sap.ui.jsview("vocab-web.quiz", {
 	*/ 
 	createContent : function(oController) {
 		// Text element for "known Language"
-		var oLabel = new sap.ui.commons.Label({
+		var oKnownTextArea = new sap.ui.commons.TextArea({
 			id: "knownQuizID",
-			text: "Testing",
+			wrapping: sap.ui.core.Wrapping.Soft,
+			value: "12345678901234567890123456789012345678901234567890",
+			maxLength: 50,
+			rows:3,
+			editable: false,
 		});
-		oLabel.addStyleClass("Quiz");
+		oKnownTextArea.addStyleClass("QuizSection");
 		
-		var oTextField =  new sap.ui.commons.TextField({
+		var oLearnedTextArea =  new sap.ui.commons.TextArea({
 			id: "learnedQuizID",
+			wrapping: sap.ui.core.Wrapping.Soft,
 			value: "",
+			maxLength: 50,
+			rows:3,
+			editable: true,
 		});
+		oLearnedTextArea.addStyleClass("QuizSection");
 		
 		// button Display
 		var oDisplayButton = new sap.ui.commons.Button({
@@ -53,15 +62,27 @@ sap.ui.jsview("vocab-web.quiz", {
 			press : function() {oController.back();}
 		});
 		
-		var oHorizontalLayout =  new sap.ui.layout.HorizontalLayout({
-			id : 'quizHorizontalLayoutID',
-			content: [oDisplayButton, oCorrectButton, oWrongButton, oFinishButton ],
+		var oToolbar = new sap.ui.commons.Toolbar({
+			id : 'quizToolbarID',
+			items: [oDisplayButton, oCorrectButton, oWrongButton, oFinishButton ],
 		});
+		oToolbar.addStyleClass("QuizSection");
+		
+		var oSolutionTextArea = new sap.ui.commons.TextArea({
+			id: "solutionQuizID",
+			wrapping: sap.ui.core.Wrapping.Soft,
+			value: "12345678901234567890123456789012345678901234567890",
+			maxLength: 50,
+			rows:3,
+			editable: false,
+		});
+		oSolutionTextArea.addStyleClass("QuizSection");
 		
 		var oVerticalLayout =  new sap.ui.layout.VerticalLayout({
 			id : 'quizVerticalLayoutID',
-			content: [oLabel, oTextField, oHorizontalLayout],
+			content: [oKnownTextArea, oLearnedTextArea, oSolutionTextArea, oToolbar],
 		});
+		oVerticalLayout.addStyleClass("Quiz");
 		return oVerticalLayout;
 	}
 
