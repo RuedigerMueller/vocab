@@ -18,6 +18,7 @@ sap.ui.jsview("vocab-web.quiz", {
 			id: "knownQuizID",
 			text: "Testing",
 		});
+		oLabel.addStyleClass("Quiz");
 		
 		var oTextField =  new sap.ui.commons.TextField({
 			id: "learnedQuizID",
