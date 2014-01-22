@@ -64,6 +64,18 @@ sap.ui.controller("vocab-web.vocables", {
 	errorMsg : function() {
 		sap.ui.commons.MessageBox.alert("Error occured when creating entity");
 	},
+	
+	quiz : function() {
+		oQuizView.placeAt("content", "only");
+	},
+	
+	deleteVocable : function() {
+		
+	},
+	
+	doneEditing : function() {
+		oLessonsView.placeAt("content", "only");
+	},
 
 /**
  * Similar to onAfterRendering, but this hook is invoked before the controller's

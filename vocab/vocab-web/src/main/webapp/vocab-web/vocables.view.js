@@ -68,7 +68,37 @@ sap.ui.jsview("vocab-web.vocables", {
 		});
 		oVocablesTable.addExtension(oHorizonalLayout);
 
-
+		// Quiz button 
+		var oQuizButton = new sap.ui.commons.Button({
+			id : 'vocableQuizButtonId',
+			text : "{i18n>QUIZ}",
+			press : function() {oController.quiz();},
+		});
+		
+		// Delete lesson button 
+		var oDeleteButton = new sap.ui.commons.Button({
+			id : 'deleteVocableButtonId',
+			text : "{i18n>DELETE}",
+			press : function() {oController.deleteVocable();},
+			enabled: false,
+		});
+		
+		
+		//  Done editing button 
+		var oDoneEditingButton = new sap.ui.commons.Button({
+			id : 'doneEditingButtonId',
+			text : "{i18n>DONE_EDITING}",
+			press : function() {oController.doneEditing();}
+		});
+		
+		var oToolbar = new sap.ui.commons.Toolbar({
+			id: 'VocablesTableToolbarId',
+			items: [oQuizButton, oDeleteButton, oDoneEditingButton],
+			design: sap.ui.commons.ToolbarDesign.Transparent,
+		});
+		oVocablesTable.setToolbar(oToolbar);
+		
+		
 		// define the columns and the control templates to be used 
 		oVocablesTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({

@@ -68,13 +68,6 @@ sap.ui.jsview("vocab-web.lessons", {
 			press : function() {oController.addNewLesson();}
 		});
 		
-		// Quiz button 
-		var oQuizButton = new sap.ui.commons.Button({
-			id : 'quizButtonId',
-			text : "{i18n>QUIZ}",
-			press : function() {oController.quiz();}
-		});
-		
 		var oHorizonalLayout = new sap.ui.layout.HorizontalLayout("LessonEntryLayout", {
 			content: [oLessonTitleLabel, oLessonTitleField, 
 			          oLearnedLanguageLabel, oLearnedLanguageField,
@@ -83,6 +76,37 @@ sap.ui.jsview("vocab-web.lessons", {
 			          oQuizButton]
 		});
 		oLessonsTable.addExtension(oHorizonalLayout);
+	
+		// Quiz button 
+		var oQuizButton = new sap.ui.commons.Button({
+			id : 'lessonQuizButtonId',
+			text : "{i18n>QUIZ}",
+			press : function() {oController.quiz();},
+			enabled: false,
+		});
+		
+		// Delete lesson button 
+		var oDeleteButton = new sap.ui.commons.Button({
+			id : 'deleteLessonButtonId',
+			text : "{i18n>DELETE}",
+			press : function() {oController.deleteLesson();},
+			enabled: false,
+		});
+		
+		// Edit lesson button 
+		var oEditVocablesButton = new sap.ui.commons.Button({
+			id : 'editVocablesButtonId',
+			text : "{i18n>EDIT_VOCABLES}",
+			press : function() {oController.editVocables();},
+			enabled: false,
+		});
+		
+		var oToolbar = new sap.ui.commons.Toolbar({
+			id: 'LessonsTableToolbarId',
+			items: [oQuizButton, oDeleteButton, oEditVocablesButton],
+			design: sap.ui.commons.ToolbarDesign.Flat,
+		});
+		oLessonsTable.setToolbar(oToolbar);
 		
 		
 		// define the columns and the control templates to be used 

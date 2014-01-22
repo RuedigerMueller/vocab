@@ -13,13 +13,55 @@ sap.ui.jsview("vocab-web.quiz", {
 	* @memberOf vocab-web.quiz
 	*/ 
 	createContent : function(oController) {
-		// button 
-		var oButton = new sap.ui.commons.Button({
-			id : 'ButtonId',
+		// Text element for "known Language"
+		var oLabel = new sap.ui.commons.Label({
+			id: "knownQuizID",
+			text: "Testing",
+		});
+		
+		var oTextField =  new sap.ui.commons.TextField({
+			id: "learnedQuizID",
+			value: "",
+		});
+		
+		// button Display
+		var oDisplayButton = new sap.ui.commons.Button({
+			id : 'displayButtonId',
+			text : "{i18n>DISPLAY}",
+			press : function() {oController.display();}
+		});
+		
+		// button Correct
+		var oCorrectButton = new sap.ui.commons.Button({
+			id : 'correctButtonId',
+			text : "{i18n>CORRECT}",
+			press : function() {oController.correct();}
+		});
+		
+		// button Wrong
+		var oWrongButton = new sap.ui.commons.Button({
+			id : 'wrongButtonId',
+			text : "{i18n>WRONG}",
+			press : function() {oController.wrong();}
+		});
+		
+		// button Finish
+		var oFinishButton = new sap.ui.commons.Button({
+			id : 'finishButtonId',
 			text : "{i18n>FINISH}",
 			press : function() {oController.back();}
 		});
-		return oButton;
+		
+		var oHorizontalLayout =  new sap.ui.layout.HorizontalLayout({
+			id : 'quizHorizontalLayoutID',
+			content: [oDisplayButton, oCorrectButton, oWrongButton, oFinishButton ],
+		});
+		
+		var oVerticalLayout =  new sap.ui.layout.VerticalLayout({
+			id : 'quizVerticalLayoutID',
+			content: [oLabel, oTextField, oHorizontalLayout],
+		});
+		return oVerticalLayout;
 	}
 
 });

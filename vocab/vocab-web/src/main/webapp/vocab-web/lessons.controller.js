@@ -56,6 +56,8 @@ sap.ui.controller("vocab-web.lessons", {
 		
 		//set focus on title field
 		sap.ui.getCore().getControl('lessonTitleFieldId').focus();
+		
+		//http://localhost:8080/vocab-web/vocab.svc/Lessons/$count?$filter=UserName%20eq%20%27smueller%27
 	},
 
 	errorMsg : function() {
@@ -64,6 +66,18 @@ sap.ui.controller("vocab-web.lessons", {
 	
 	quiz : function() {
 		oQuizView.placeAt("content", "only");
+	},
+	
+	deleteLesson : function() {
+		
+	},
+	
+	editVocables : function() {
+		if (oLessonContext==null) {
+			sap.ui.commons.MessageBox.alert("Select a lesson before editing vocables.");
+			return;
+		}
+		oVocablesView.placeAt("content", "only");
 	},
 
 	lessonSelectionChange: function(oEvent) {
@@ -82,6 +96,11 @@ sap.ui.controller("vocab-web.lessons", {
 		var sLessonContext = oLessonContext + "/KnownLanguage";
 		sap.ui.getCore().getControl('knownLabelID').bindProperty("text", sLessonContext);
 		sap.ui.getCore().getControl('VocableKnownColumnID').bindProperty("text", sLessonContext);
+		
+		//enable buttons
+		sap.ui.getCore().getControl('lessonQuizButtonId').setEnabled(true);
+		sap.ui.getCore().getControl('deleteLessonButtonId').setEnabled(true);
+		sap.ui.getCore().getControl('editVocablesButtonId').setEnabled(true);
 	},
 
 /**

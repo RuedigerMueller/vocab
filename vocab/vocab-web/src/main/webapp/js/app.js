@@ -36,7 +36,7 @@ var oLessonsView = sap.ui.view({
 	viewName:"vocab-web.lessons", 
 	type:sap.ui.core.mvc.ViewType.JS
 });
-oLessonsView.placeAt("content", 1);
+oLessonsView.placeAt("content");
 
 // Create a vocables list view and place in the lower part of the content area
 var oVocablesView = sap.ui.view({
@@ -44,7 +44,7 @@ var oVocablesView = sap.ui.view({
 	viewName:"vocab-web.vocables", 
 	type:sap.ui.core.mvc.ViewType.JS
 });
-oVocablesView.placeAt("content", 2);
+//oVocablesView.placeAt("content", 2);
 
 // Create the quiz view (and do not display it yet)
 var oQuizView = new sap.ui.view({
