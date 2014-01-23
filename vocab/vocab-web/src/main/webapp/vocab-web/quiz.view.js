@@ -17,7 +17,7 @@ sap.ui.jsview("vocab-web.quiz", {
 		var oKnownTextArea = new sap.ui.commons.TextArea({
 			id: "knownQuizID",
 			wrapping: sap.ui.core.Wrapping.Soft,
-			value: "12345678901234567890123456789012345678901234567890",
+			value: "",
 			maxLength: 50,
 			rows:3,
 			editable: false,
@@ -33,6 +33,19 @@ sap.ui.jsview("vocab-web.quiz", {
 			editable: true,
 		});
 		oLearnedTextArea.addStyleClass("QuizSection");
+		oLearnedTextArea.attachChange(function() {
+			oController.learnedChanged();
+		});
+		
+		var oSolutionTextArea = new sap.ui.commons.TextArea({
+			id: "solutionQuizID",
+			wrapping: sap.ui.core.Wrapping.Soft,
+			value: "",
+			maxLength: 50,
+			rows:3,
+			editable: false,
+		});
+		oSolutionTextArea.addStyleClass("QuizSection");
 		
 		// button Display
 		var oDisplayButton = new sap.ui.commons.Button({
@@ -67,16 +80,6 @@ sap.ui.jsview("vocab-web.quiz", {
 			items: [oDisplayButton, oCorrectButton, oWrongButton, oFinishButton ],
 		});
 		oToolbar.addStyleClass("QuizSection");
-		
-		var oSolutionTextArea = new sap.ui.commons.TextArea({
-			id: "solutionQuizID",
-			wrapping: sap.ui.core.Wrapping.Soft,
-			value: "12345678901234567890123456789012345678901234567890",
-			maxLength: 50,
-			rows:3,
-			editable: false,
-		});
-		oSolutionTextArea.addStyleClass("QuizSection");
 		
 		var oVerticalLayout =  new sap.ui.layout.VerticalLayout({
 			id : 'quizVerticalLayoutID',
