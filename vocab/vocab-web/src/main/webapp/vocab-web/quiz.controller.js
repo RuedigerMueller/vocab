@@ -28,11 +28,12 @@ sap.ui.controller("vocab-web.quiz", {
 					async: false
 				}).responseText
 		);
-		this.numberVocables = this.quizVocables["d"]["results"].length;
-		var firstVocable= Math.floor((Math.random()*this.numberVocables));
+		this.shuffleArray(this.quizVocables["d"]["results"]);
 		
-		sap.ui.getCore().getControl('knownQuizID').setValue(this.quizVocables["d"]["results"][firstVocable]["Known"]);
-		sap.ui.getCore().getControl('solutionQuizID').setValue(this.quizVocables["d"]["results"][firstVocable]["Learned"]);
+		this.numberVocables = this.quizVocables["d"]["results"].length;
+				
+		sap.ui.getCore().getControl('knownQuizID').setValue(this.quizVocables["d"]["results"][0]["Known"]);
+		sap.ui.getCore().getControl('solutionQuizID').setValue(this.quizVocables["d"]["results"][0]["Learned"]);
 	},
 
 /**
@@ -66,5 +67,15 @@ sap.ui.controller("vocab-web.quiz", {
   wrong: function() {
 	  
   },
+  
+  shuffleArray: function(array) {
+	    for (var i = array.length - 1; i > 0; i--) {
+	        var j = Math.floor(Math.random() * (i + 1));
+	        var temp = array[i];
+	        array[i] = array[j];
+	        array[j] = temp;
+	    }
+	    return array;
+	}
 
 });
