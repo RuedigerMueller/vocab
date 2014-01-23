@@ -6,7 +6,7 @@ sap.ui.controller("vocab-web.quiz", {
 * @memberOf vocab-web.quiz
 */
 //	onInit: function() {
-//
+//		alert("onInit");
 //	},
 
 /**
@@ -14,9 +14,26 @@ sap.ui.controller("vocab-web.quiz", {
 * (NOT before the first rendering! onInit() is used for that one!).
 * @memberOf vocab-web.quiz
 */
-//	onBeforeRendering: function() {
-//
-//	},
+	onBeforeRendering: function() {
+		var quizVocablesURL = getODataServiceURL() + oLessonContext + '/VocableDetails?$format=json';
+		this.quizVocables = {};
+		
+		this.quizVocables= jQuery.parseJSON(
+				jQuery.ajax({
+					type: 'GET',
+					url: quizVocablesURL,
+					dataType : 'json',
+					success: function() {},
+					data: {},
+					async: false
+				}).responseText
+		);
+		this.numberVocables = this.quizVocables["d"]["results"].length;
+		var firstVocable= Math.floor((Math.random()*this.numberVocables));
+		
+		sap.ui.getCore().getControl('knownQuizID').setValue(this.quizVocables["d"]["results"][firstVocable]["Known"]);
+		sap.ui.getCore().getControl('solutionQuizID').setValue(this.quizVocables["d"]["results"][firstVocable]["Learned"]);
+	},
 
 /**
 * Called when the View has been rendered (so its HTML is part of the document). Post-rendering manipulations of the HTML could be done here.
