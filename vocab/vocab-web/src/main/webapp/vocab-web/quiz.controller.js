@@ -115,8 +115,4 @@ sap.ui.controller("vocab-web.quiz", {
 				this.quizVocables["d"]["results"][this.index]["Learned"]);
 	},
 	
-	checkForEnter: function() {
-		alert("Live Change");
-	}
-
 });

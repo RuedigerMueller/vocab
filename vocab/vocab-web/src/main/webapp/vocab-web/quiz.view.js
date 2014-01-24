@@ -36,9 +36,6 @@ sap.ui.jsview("vocab-web.quiz", {
 		oLearnedTextArea.attachChange(function() {
 			oController.learnedChanged();
 		});
-		oLearnedTextArea.attachLiveChange(function() {
-			oController.checkForEnter();
-		});
 		
 		var oSolutionTextArea = new sap.ui.commons.TextArea({
 			id: "solutionQuizID",
