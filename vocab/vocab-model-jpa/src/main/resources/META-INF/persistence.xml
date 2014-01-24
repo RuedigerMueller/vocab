@@ -6,6 +6,7 @@
 		<class>com.mueller.ruediger.vocab.Lesson</class>
 		<properties>
 			<property name="eclipselink.jpql.parser" value="org.eclipse.persistence.queries.ANTLRQueryBuilder"/>
+			<property name="eclipselink.ddl-generation" value="create-tables"/>
 		</properties>
 	</persistence-unit>
 </persistence>

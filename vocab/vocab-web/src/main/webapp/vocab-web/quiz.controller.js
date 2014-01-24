@@ -5,9 +5,9 @@ sap.ui.controller("vocab-web.quiz", {
 	 * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
 	 * @memberOf vocab-web.quiz
 	 */
-	//	onInit: function() {
-	//		alert("onInit");
-	//	},
+	onInit : function() {
+		this.getView().setModel(odataModel);
+	},
 	/**
 	 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
 	 * (NOT before the first rendering! onInit() is used for that one!).
@@ -21,7 +21,7 @@ sap.ui.controller("vocab-web.quiz", {
 		//URL to get vocables of selected lesson in JSON format
 		var quizVocablesURL = getODataServiceURL() + oLessonContext
 				+ '/VocableDetails?$format=json';
-		
+
 		// Get vocables of selected lesson
 		this.quizVocables = jQuery.parseJSON(jQuery.ajax({
 			type : 'GET',
@@ -32,7 +32,7 @@ sap.ui.controller("vocab-web.quiz", {
 			data : {},
 			async : false
 		}).responseText);
-		
+
 		// shuffle vocables
 		this.shuffleArray(this.quizVocables["d"]["results"]);
 
@@ -72,14 +72,25 @@ sap.ui.controller("vocab-web.quiz", {
 	correct : function() {
 		// update due date and level
 		//Todo
-		
+
 		this.nextVocable();
 	},
 
 	wrong : function() {
 		// update due date and level
-		//Todo
-	
+		var vocables = {};
+		vocables.Learned = sap.ui.getCore().getControl('knownQuizID').setValue(
+				this.quizVocables["d"]["results"][this.index]["Learned"]);
+		vocables.Known = sap.ui.getCore().getControl('knownQuizID').setValue(
+				this.quizVocables["d"]["results"][this.index]["Known"]);
+		vocables.Level = 1;
+		vocables.DueDate = new Date();
+		vocables.DueDate.setDate(vocables.DueDate.getDate() + 1);
+		vocables.DueDate.toISOString().replace("Z", "0000");
+
+		this.getView().getModel().update("/Vocables(2L)", vocables, null,
+				null, null);
+
 		this.nextVocable();
 	},
 
@@ -105,14 +116,14 @@ sap.ui.controller("vocab-web.quiz", {
 		} else {
 			oLessonsView.placeAt("content", "only");
 		}
-		
+
 	},
-	
+
 	learnedChanged : function() {
 		sap.ui.getCore().getControl('correctButtonId').setEnabled(true);
 		sap.ui.getCore().getControl('wrongButtonId').setEnabled(true);
 		sap.ui.getCore().getControl('solutionQuizID').setValue(
 				this.quizVocables["d"]["results"][this.index]["Learned"]);
 	},
-	
+
 });
