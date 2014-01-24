@@ -71,7 +71,38 @@ sap.ui.controller("vocab-web.quiz", {
 
 	correct : function() {
 		// update due date and level
-		//Todo
+		// update due date and level
+		var vocables = {};
+		vocables.Learned = this.quizVocables["d"]["results"][this.index]["Learned"];
+		vocables.Known = this.quizVocables["d"]["results"][this.index]["Known"];
+		vocables.Level = this.quizVocables["d"]["results"][this.index]["Level"]+ 1;
+		nextDueDate = new Date();
+		switch (vocables.Level) {
+			case 2:
+				waitForDays = 1;
+				break;
+			case 3:
+				waitForDays = 3;
+				break;
+			case 4:
+				waitForDays = 9;
+				break;
+			case 5:
+				waitForDays = 27;
+				break;
+			case 6:
+				waitForDays = 80;
+				break;
+			case 7:
+				waitForDays = 365;
+				break;
+		}
+				
+		nextDueDate.setDate(nextDueDate.getDate() + waitForDays);
+		vocables.DueDate = nextDueDate.toISOString().replace("Z", "0000");
+		
+		var id = "/Vocables(" + this.quizVocables["d"]["results"][this.index]["Id"] + "L)";
+		this.getView().getModel().update(id, vocables, null, null, null);
 
 		this.nextVocable();
 	},
@@ -79,18 +110,16 @@ sap.ui.controller("vocab-web.quiz", {
 	wrong : function() {
 		// update due date and level
 		var vocables = {};
-		vocables.Learned = sap.ui.getCore().getControl('knownQuizID').setValue(
-				this.quizVocables["d"]["results"][this.index]["Learned"]);
-		vocables.Known = sap.ui.getCore().getControl('knownQuizID').setValue(
-				this.quizVocables["d"]["results"][this.index]["Known"]);
+		vocables.Learned = this.quizVocables["d"]["results"][this.index]["Learned"];
+		vocables.Known = this.quizVocables["d"]["results"][this.index]["Known"];
 		vocables.Level = 1;
-		vocables.DueDate = new Date();
-		vocables.DueDate.setDate(vocables.DueDate.getDate() + 1);
-		vocables.DueDate.toISOString().replace("Z", "0000");
-
-		this.getView().getModel().update("/Vocables(2L)", vocables, null,
-				null, null);
-
+		nextDueDate = new Date();
+		nextDueDate.setDate(nextDueDate.getDate() + 1);
+		vocables.DueDate = nextDueDate.toISOString().replace("Z", "0000");
+		
+		var id = "/Vocables(" + this.quizVocables["d"]["results"][this.index]["Id"] + "L)";
+		this.getView().getModel().update(id, vocables, null, null, null);
+		
 		this.nextVocable();
 	},
 
@@ -125,5 +154,13 @@ sap.ui.controller("vocab-web.quiz", {
 		sap.ui.getCore().getControl('solutionQuizID').setValue(
 				this.quizVocables["d"]["results"][this.index]["Learned"]);
 	},
+	
+	success: function() {
+		alert("success");
+	},
+	
+	error: function() {
+		alert("error");
+	}
 
 });
