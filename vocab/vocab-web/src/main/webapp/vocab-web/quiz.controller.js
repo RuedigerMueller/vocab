@@ -14,11 +14,15 @@ sap.ui.controller("vocab-web.quiz", {
 	 * @memberOf vocab-web.quiz
 	 */
 	onBeforeRendering : function() {
-		var quizVocablesURL = getODataServiceURL() + oLessonContext
-				+ '/VocableDetails?$format=json';
+		// Reset quiz
 		this.quizVocables = {};
 		this.index = -1;
 
+		//URL to get vocables of selected lesson in JSON format
+		var quizVocablesURL = getODataServiceURL() + oLessonContext
+				+ '/VocableDetails?$format=json';
+		
+		// Get vocables of selected lesson
 		this.quizVocables = jQuery.parseJSON(jQuery.ajax({
 			type : 'GET',
 			url : quizVocablesURL,
@@ -28,13 +32,14 @@ sap.ui.controller("vocab-web.quiz", {
 			data : {},
 			async : false
 		}).responseText);
+		
+		// shuffle vocables
 		this.shuffleArray(this.quizVocables["d"]["results"]);
 
+		// need to know how many vocables are part of the quiz
 		this.numberVocables = this.quizVocables["d"]["results"].length;
-		
-		sap.ui.getCore().getControl('correctButtonId').setEnabled(false);
-		sap.ui.getCore().getControl('wrongButtonId').setEnabled(false);
 
+		// start quiz
 		this.nextVocable();
 	},
 
@@ -58,14 +63,23 @@ sap.ui.controller("vocab-web.quiz", {
 	},
 
 	display : function() {
-
+		sap.ui.getCore().getControl('correctButtonId').setEnabled(true);
+		sap.ui.getCore().getControl('wrongButtonId').setEnabled(true);
+		sap.ui.getCore().getControl('solutionQuizID').setValue(
+				this.quizVocables["d"]["results"][this.index]["Learned"]);
 	},
 
 	correct : function() {
+		// update due date and level
+		//Todo
+		
 		this.nextVocable();
 	},
 
 	wrong : function() {
+		// update due date and level
+		//Todo
+	
 		this.nextVocable();
 	},
 
@@ -99,6 +113,10 @@ sap.ui.controller("vocab-web.quiz", {
 		sap.ui.getCore().getControl('wrongButtonId').setEnabled(true);
 		sap.ui.getCore().getControl('solutionQuizID').setValue(
 				this.quizVocables["d"]["results"][this.index]["Learned"]);
+	},
+	
+	checkForEnter: function() {
+		alert("Live Change");
 	}
 
 });
