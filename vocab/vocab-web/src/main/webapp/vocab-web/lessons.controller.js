@@ -69,7 +69,13 @@ sap.ui.controller("vocab-web.lessons", {
 	},
 	
 	deleteLesson : function() {
-		
+		var ajaxURL = getODataServiceURL() + oLessonContext;
+		jQuery.ajax({
+			url : ajaxURL,
+			type : 'DELETE',
+			async : false
+		});
+		this.getView().getModel().refresh();
 	},
 	
 	editVocables : function() {

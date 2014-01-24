@@ -46,7 +46,7 @@ public class Vocable implements Serializable {
 	@Column(name = "DUE_DATE")
 	private Calendar dueDate;
 
-	@ManyToOne(cascade = ALL, fetch = EAGER, optional = false, targetEntity = com.mueller.ruediger.vocab.Lesson.class)
+	@ManyToOne(fetch = EAGER, optional = false, targetEntity = com.mueller.ruediger.vocab.Lesson.class)
 	private Lesson owner;
 
 	public Vocable() {

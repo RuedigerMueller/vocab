@@ -76,7 +76,10 @@ sap.ui.controller("vocab-web.quiz", {
 		vocables.Learned = this.quizVocables["d"]["results"][this.index]["Learned"];
 		vocables.Known = this.quizVocables["d"]["results"][this.index]["Known"];
 		vocables.Level = this.quizVocables["d"]["results"][this.index]["Level"]+ 1;
-		nextDueDate = new Date();
+		
+		// calculate next due date based on level
+		var nextDueDate = new Date();
+		var waitForDays = 0;
 		switch (vocables.Level) {
 			case 2:
 				waitForDays = 1;
@@ -113,7 +116,8 @@ sap.ui.controller("vocab-web.quiz", {
 		vocables.Learned = this.quizVocables["d"]["results"][this.index]["Learned"];
 		vocables.Known = this.quizVocables["d"]["results"][this.index]["Known"];
 		vocables.Level = 1;
-		nextDueDate = new Date();
+		
+		var nextDueDate = new Date();
 		nextDueDate.setDate(nextDueDate.getDate() + 1);
 		vocables.DueDate = nextDueDate.toISOString().replace("Z", "0000");
 		
@@ -154,13 +158,5 @@ sap.ui.controller("vocab-web.quiz", {
 		sap.ui.getCore().getControl('solutionQuizID').setValue(
 				this.quizVocables["d"]["results"][this.index]["Learned"]);
 	},
-	
-	success: function() {
-		alert("success");
-	},
-	
-	error: function() {
-		alert("error");
-	}
 
 });

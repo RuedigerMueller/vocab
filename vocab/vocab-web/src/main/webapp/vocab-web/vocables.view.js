@@ -154,6 +154,11 @@ sap.ui.jsview("vocab-web.vocables", {
 			filterProperty : "DueDate",
 			maxLength: 10
 		}));
+		
+		//establish master detail relation
+		oVocablesTable.attachRowSelectionChange(function(oEvent) {
+			oController.vocableSelectionChange(oEvent);
+		});
 
 		return oVocablesTable;
 	},

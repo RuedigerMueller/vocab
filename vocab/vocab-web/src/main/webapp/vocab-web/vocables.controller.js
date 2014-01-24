@@ -10,6 +10,16 @@ sap.ui.controller("vocab-web.vocables", {
 	onInit : function() {		
 		this.getView().setModel(odataModel);
 	},
+	/**
+	 * Similar to onAfterRendering, but this hook is invoked before the controller's
+	 * View is re-rendered (NOT before the first rendering! onInit() is used for
+	 * that one!).
+	 * 
+	 * @memberOf vocab-web.vocables
+	 */
+	 onBeforeRendering: function() {
+		 this.oVocablesContext = null;
+	 },
 	
 	addNewVocable : function() {
 		if (oLessonContext==null) {
@@ -70,23 +80,25 @@ sap.ui.controller("vocab-web.vocables", {
 	},
 	
 	deleteVocable : function() {
-		
+		var ajaxURL = getODataServiceURL() + this.oVocablesContext;
+		jQuery.ajax({
+			url : ajaxURL,
+			type : 'DELETE',
+			async : false
+		});
+		this.getView().getModel().refresh();
 	},
 	
 	doneEditing : function() {
 		oLessonsView.placeAt("content", "only");
 	},
-
-/**
- * Similar to onAfterRendering, but this hook is invoked before the controller's
- * View is re-rendered (NOT before the first rendering! onInit() is used for
- * that one!).
- * 
- * @memberOf vocab-web.vocables
- */
-// onBeforeRendering: function() {
-//
-// },
+	
+	vocableSelectionChange: function(oEvent) {
+		this.oVocablesContext = oEvent.getParameter("rowContext");
+	
+		//enable buttons
+		sap.ui.getCore().getControl('deleteVocableButtonId').setEnabled(true);
+	},
 /**
  * Called when the View has been rendered (so its HTML is part of the document).
  * Post-rendering manipulations of the HTML could be done here. This hook is the
