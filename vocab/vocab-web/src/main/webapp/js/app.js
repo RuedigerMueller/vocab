@@ -8,6 +8,11 @@ var getODataServiceURL = function() {
 
 // Create one OData model to be used by the views
 var odataModel = new sap.ui.model.odata.ODataModel(getODataServiceURL());
+odataModel.setDefaultBindingMode(sap.ui.model.BindingMode.TwoWay);
+odataModel.attachRejectChange(this,function(oEvent){
+    alert("Change rejected");
+});
+
 
 // Need know in which lesson we are currently working
 var oLessonContext = null;

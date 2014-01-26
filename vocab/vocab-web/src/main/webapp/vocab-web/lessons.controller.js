@@ -9,66 +9,76 @@ sap.ui.controller("vocab-web.lessons", {
 	 */
 	onInit : function() {
 		this.getView().setModel(odataModel);
-		
+
 		// Get User Info and store it for later use
 		var UserInfoURL = window.location.protocol + "//"
-			+ window.location.hostname
-			+ (window.location.port ? ":" + window.location.port : "")
-			+ "/vocab-web/UserInfo";
-		
+				+ window.location.hostname
+				+ (window.location.port ? ":" + window.location.port : "")
+				+ "/vocab-web/UserInfo";
+
 		var fnSuccess = $.proxy(this.successGetUserInfo, this);
 		jQuery.getJSON(UserInfoURL, fnSuccess);
-		
-		//set focus on title field
+
+		// set focus on title field
 		sap.ui.getCore().getControl('lessonTitleFieldId').focus();
 	},
-	
-	successGetUserInfo :  function(data) {
+
+	successGetUserInfo : function(data) {
 		this.userName = data.user;
-		
-		// bind table rows to /Persons based on the model defined in the init method of the controller 
-		sap.ui.getCore().getControl('LessonsTableID').bindRows({
-			path: '/Lessons',
-			filters: [new sap.ui.model.Filter("UserName", sap.ui.model.FilterOperator.EQ, this.userName)]
-		});
+
+		// bind table rows to /Persons based on the model defined in the init
+		// method of the controller
+		sap.ui.getCore().getControl('LessonsTableID').bindRows(
+				{
+					path : '/Lessons',
+					filters : [ new sap.ui.model.Filter("UserName",
+							sap.ui.model.FilterOperator.EQ, this.userName) ]
+				});
 	},
-	
+
 	addNewLesson : function() {
 		var fnSuccess = $.proxy(this.successLesson, this);
 		var fnError = $.proxy(this.errorMsg, this);
-		
-		var lessons = {};
-		
-		lessons.UserName = this.userName;
-		lessons.Title = sap.ui.getCore().getControl("lessonTitleFieldId").getValue();
-		lessons.LearnedLanguage = sap.ui.getCore().getControl("learnedLanguageFieldId").getValue();
-		lessons.KnownLanguage = sap.ui.getCore().getControl("KnownLanguageFieldId").getValue();
 
-		this.getView().getModel().create("/Lessons", lessons, null,
-				fnSuccess, fnError);
+		var lessons = {};
+
+		lessons.UserName = this.userName;
+		lessons.Title = sap.ui.getCore().getControl("lessonTitleFieldId")
+				.getValue();
+		lessons.LearnedLanguage = sap.ui.getCore().getControl(
+				"learnedLanguageFieldId").getValue();
+		lessons.KnownLanguage = sap.ui.getCore().getControl(
+				"KnownLanguageFieldId").getValue();
+
+		this.getView().getModel().create("/Lessons", lessons, null, fnSuccess,
+				fnError);
 	},
-		
+
 	successLesson : function(oData, oResponse) {
-		//clear fields after successful entry
+		// clear fields after successful entry
 		sap.ui.getCore().getControl('lessonTitleFieldId').setValue('');
 		sap.ui.getCore().getControl('learnedLanguageFieldId').setValue('');
 		sap.ui.getCore().getControl('KnownLanguageFieldId').setValue('');
-		
-		//set focus on title field
+
+		// set focus on title field
 		sap.ui.getCore().getControl('lessonTitleFieldId').focus();
-		
-		//http://localhost:8080/vocab-web/vocab.svc/Lessons/$count?$filter=UserName%20eq%20%27smueller%27
+
+		// http://localhost:8080/vocab-web/vocab.svc/Lessons/$count?$filter=UserName%20eq%20%27smueller%27
 	},
 
 	errorMsg : function() {
 		sap.ui.commons.MessageBox.alert("Error occured when creating entity");
 	},
-	
+
 	quiz : function() {
 		oQuizView.placeAt("content", "only");
 	},
-	
+
 	deleteLesson : function() {
+		/*
+		 * Not working: raises exception: Object [object Object] has no method
+		 * 'replace' this.getView().getModel().remove(oLessonContext);
+		 */
 		var ajaxURL = getODataServiceURL() + oLessonContext;
 		jQuery.ajax({
 			url : ajaxURL,
@@ -77,33 +87,39 @@ sap.ui.controller("vocab-web.lessons", {
 		});
 		this.getView().getModel().refresh();
 	},
-	
+
 	editVocables : function() {
-		if (oLessonContext==null) {
-			sap.ui.commons.MessageBox.alert("Select a lesson before editing vocables.");
+		if (oLessonContext == null) {
+			sap.ui.commons.MessageBox
+					.alert("Select a lesson before editing vocables.");
 			return;
 		}
 		oVocablesView.placeAt("content", "only");
 	},
 
-	lessonSelectionChange: function(oEvent) {
+	lessonSelectionChange : function(oEvent) {
 		oLessonContext = oEvent.getParameter("rowContext");
-		
+
 		// Bind Vocables table to selected row
 		var selectedLessonIDVocables = oLessonContext + "/VocableDetails";
-		sap.ui.getCore().getControl('VocablesTableID').bindRows(selectedLessonIDVocables);
-		
+		sap.ui.getCore().getControl('VocablesTableID').bindRows(
+				selectedLessonIDVocables);
+
 		// Bind Learned Language label to language of selected lesson
 		var sLessonContext = oLessonContext + "/LearnedLanguage";
-		sap.ui.getCore().getControl('learnedLabelID').bindProperty("text", sLessonContext);
-		sap.ui.getCore().getControl('VocableLearnedColumnID').bindProperty("text", sLessonContext);
-		
+		sap.ui.getCore().getControl('learnedLabelID').bindProperty("text",
+				sLessonContext);
+		sap.ui.getCore().getControl('VocableLearnedColumnID').bindProperty(
+				"text", sLessonContext);
+
 		// Bind Known Language label to language of selected lesson
 		var sLessonContext = oLessonContext + "/KnownLanguage";
-		sap.ui.getCore().getControl('knownLabelID').bindProperty("text", sLessonContext);
-		sap.ui.getCore().getControl('VocableKnownColumnID').bindProperty("text", sLessonContext);
-		
-		//enable buttons
+		sap.ui.getCore().getControl('knownLabelID').bindProperty("text",
+				sLessonContext);
+		sap.ui.getCore().getControl('VocableKnownColumnID').bindProperty(
+				"text", sLessonContext);
+
+		// enable buttons
 		sap.ui.getCore().getControl('lessonQuizButtonId').setEnabled(true);
 		sap.ui.getCore().getControl('deleteLessonButtonId').setEnabled(true);
 		sap.ui.getCore().getControl('editVocablesButtonId').setEnabled(true);
