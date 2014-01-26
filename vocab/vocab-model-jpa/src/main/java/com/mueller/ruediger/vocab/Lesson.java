@@ -9,15 +9,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-//import java.util.Collection;
 import com.mueller.ruediger.vocab.Vocable;
 import java.util.Collection;
 import javax.persistence.OneToMany;
 import javax.persistence.Access;
 import static javax.persistence.AccessType.FIELD;
-import static javax.persistence.AccessType.PROPERTY;
+//import static javax.persistence.AccessType.PROPERTY;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
+import javax.persistence.Transient;
 
 @Entity
 @NamedQuery(name = "AllLessons", query = "select l from Lesson l")
@@ -41,7 +41,7 @@ public class Lesson implements Serializable {
 	@Column(length = 20, name = "KNOWN_LANGUAGE")
 	private String knownLanguage;
 	
-	@Column(length = 3, name = "NO_DUE")
+	//@Column(length = 3, name = "NO_DUE")
 	private Integer numberDueVocables;
 
 	@OneToMany(cascade = ALL, fetch = LAZY, orphanRemoval = true, mappedBy = "owner", targetEntity = com.mueller.ruediger.vocab.Vocable.class)
@@ -92,19 +92,18 @@ public class Lesson implements Serializable {
 		this.knownLanguage = param;
 	}
 	
-	@Access(PROPERTY)
-	@Column(name = "NO_DUE_VOCABLES")
+	@Transient
 	public Integer getNumberDueVocables() {
 		this.numberDueVocables = 0;
 		Calendar dueDate;
 		Calendar today = Calendar.getInstance();
-		today.set(Calendar.HOUR_OF_DAY, 0);
 		int dateComparison = 0;
 		for (Vocable v: this.vocables) {
 			dueDate = v.getDueDate();
-			dueDate.set(Calendar.HOUR_OF_DAY, 0);
 			dateComparison = today.compareTo(dueDate);
-			if (dateComparison >= 0 ) this.numberDueVocables++;
+			if (dateComparison >= 0 ) {
+				this.numberDueVocables++;
+			}
 	    }
 		return this.numberDueVocables;
 	}

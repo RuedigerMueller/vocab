@@ -132,6 +132,7 @@ sap.ui.jsview("vocab-web.lessons", {
 			filterProperty : "Title",
 			maxLength : 50
 		}));
+		
 		oLessonsTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
 				text : "{i18n>LEARNED_LANGUAGE}"
@@ -144,6 +145,7 @@ sap.ui.jsview("vocab-web.lessons", {
 			filterProperty : "LearnedLanguage",
 			maxLength : 20
 		}));
+		
 		oLessonsTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
 				text : "{i18n>KNOWN_LANGUAGE}"
@@ -156,6 +158,18 @@ sap.ui.jsview("vocab-web.lessons", {
 			filterProperty : "KnownLanguage",
 			maxLength : 20
 		}));
+		
+		oLessonsTable.addColumn(new sap.ui.table.Column({
+			label : new sap.ui.commons.Label({
+				text : "{i18n>NUMBER_DUE_VOCABLES}"
+			}),
+			template : new sap.ui.commons.TextField()
+					.bindValue("NumberDueVocables").setEditable(false),
+			sortProperty : "NumberDueVocables",
+			filterProperty : "NumberDueVocables",
+			maxLength : 10
+		}));
+		
 
 		// bind table rows to /Persons based on the model defined in the init
 		// method of the controller

@@ -2,7 +2,7 @@
 	<entity>
 		<entity-name>com.mueller.ruediger.vocab.Lesson</entity-name>
 		<entity-width>120</entity-width>
-		<entity-height>226</entity-height>
+		<entity-height>246</entity-height>
 		<entity-X-Coordinate>330</entity-X-Coordinate>
 		<entity-Y-Coordinate>70</entity-Y-Coordinate>
 		<primary-collapsed>false</primary-collapsed>
