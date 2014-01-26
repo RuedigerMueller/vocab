@@ -16,7 +16,6 @@ import com.mueller.ruediger.vocab.Lesson;
 import javax.persistence.ManyToOne;
 import javax.persistence.Access;
 import static javax.persistence.AccessType.FIELD;
-import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
 
 @Entity
