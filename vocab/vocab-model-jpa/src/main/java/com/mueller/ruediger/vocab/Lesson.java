@@ -41,8 +41,8 @@ public class Lesson implements Serializable {
 	@Column(length = 20, name = "KNOWN_LANGUAGE")
 	private String knownLanguage;
 	
-	//@Column(length = 3, name = "NO_DUE")
 	private Integer numberDueVocables;
+	private Integer numberVocables;
 
 	@OneToMany(cascade = ALL, fetch = LAZY, orphanRemoval = true, mappedBy = "owner", targetEntity = com.mueller.ruediger.vocab.Vocable.class)
 	private Collection<Vocable> vocables;
@@ -110,6 +110,16 @@ public class Lesson implements Serializable {
 
 	public void setNumberDueVocables(Integer param) {
 		//this.numberDueVocables = param;
+	}
+	
+	@Transient
+	public Integer getNumberVocables() {
+		this.numberVocables = this.vocables.size();
+		return this.numberVocables;
+	}
+	
+	public void setNumberVocables(Integer param) {
+		//this.numberVocables = param;
 	}
 	
 	public void addVocable(Vocable vocable) {

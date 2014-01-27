@@ -22,6 +22,7 @@
 					<JPAAttribute name="learnedLanguage">LearnedLanguage</JPAAttribute>
 					<JPAAttribute name="knownLanguage">KnownLanguage</JPAAttribute>
 					<JPAAttribute name="numberDueVocables">NumberDueVocables</JPAAttribute>
+					<JPAAttribute name="numberVocables">NumberVocables</JPAAttribute>
 				</JPAAttributes>
 				<JPARelationships>
 					<JPARelationship name="vocables">Vocables</JPARelationship>

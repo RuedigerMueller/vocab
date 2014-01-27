@@ -161,6 +161,17 @@ sap.ui.jsview("vocab-web.lessons", {
 		
 		oLessonsTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
+				text : "{i18n>NUMBER_VOCABLES}"
+			}),
+			template : new sap.ui.commons.TextField()
+					.bindValue("NumberVocables").setEditable(false),
+			sortProperty : "NumberVocables",
+			filterProperty : "NumberVocables",
+			maxLength : 10
+		}));
+		
+		oLessonsTable.addColumn(new sap.ui.table.Column({
+			label : new sap.ui.commons.Label({
 				text : "{i18n>NUMBER_DUE_VOCABLES}"
 			}),
 			template : new sap.ui.commons.TextField()

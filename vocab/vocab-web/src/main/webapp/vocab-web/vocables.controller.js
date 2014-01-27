@@ -20,6 +20,18 @@ sap.ui.controller("vocab-web.vocables", {
 	 onBeforeRendering: function() {
 		 this.oVocablesContext = null;
 	 },
+	 
+	 /**
+	 * Called when the View has been rendered (so its HTML is part of the document).
+	 * Post-rendering manipulations of the HTML could be done here. This hook is the
+	 * same one that SAPUI5 controls get after being rendered.
+	 * 
+	 * @memberOf vocab-web.vocables
+	 */
+	 onAfterRendering: function() {
+		// set focus on learned field
+		sap.ui.getCore().getControl('learnedFieldId').focus();
+	 },
 	
 	addNewVocable : function() {
 		if (oLessonContext==null) {

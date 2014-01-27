@@ -22,6 +22,28 @@ sap.ui.controller("vocab-web.lessons", {
 		// set focus on title field
 		sap.ui.getCore().getControl('lessonTitleFieldId').focus();
 	},
+	/**
+	 * Similar to onAfterRendering, but this hook is invoked before the controller's
+	 * View is re-rendered (NOT before the first rendering! onInit() is used for
+	 * that one!).
+	 * 
+	 * @memberOf vocab-web.lessons
+	 */	
+	//onBeforeRendering : function() {
+	//	
+	//},
+	
+	/**
+	 * Called when the View has been rendered (so its HTML is part of the document).
+	 * Post-rendering manipulations of the HTML could be done here. This hook is the
+	 * same one that SAPUI5 controls get after being rendered.
+	 * 
+	 * @memberOf vocab-web.lessons
+	 */
+	 onAfterRendering: function() {
+		// set focus on title field
+		sap.ui.getCore().getControl('lessonTitleFieldId').focus();
+	 },
 
 	successGetUserInfo : function(data) {
 		this.userName = data.user;
@@ -62,8 +84,6 @@ sap.ui.controller("vocab-web.lessons", {
 
 		// set focus on title field
 		sap.ui.getCore().getControl('lessonTitleFieldId').focus();
-
-		// http://localhost:8080/vocab-web/vocab.svc/Lessons/$count?$filter=UserName%20eq%20%27smueller%27
 	},
 
 	errorMsg : function() {
@@ -125,26 +145,7 @@ sap.ui.controller("vocab-web.lessons", {
 		sap.ui.getCore().getControl('editVocablesButtonId').setEnabled(true);
 	},
 
-/**
- * Similar to onAfterRendering, but this hook is invoked before the controller's
- * View is re-rendered (NOT before the first rendering! onInit() is used for
- * that one!).
- * 
- * @memberOf vocab-web.lessons
- */
-// onBeforeRendering: function() {
-//
-// },
-/**
- * Called when the View has been rendered (so its HTML is part of the document).
- * Post-rendering manipulations of the HTML could be done here. This hook is the
- * same one that SAPUI5 controls get after being rendered.
- * 
- * @memberOf vocab-web.lessons
- */
-// onAfterRendering: function() {
-//
-// },
+
 /**
  * Called when the Controller is destroyed. Use this one to free resources and
  * finalize activities.

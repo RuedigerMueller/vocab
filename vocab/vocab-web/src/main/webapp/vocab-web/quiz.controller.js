@@ -48,9 +48,10 @@ sap.ui.controller("vocab-web.quiz", {
 	 * This hook is the same one that SAPUI5 controls get after being rendered.
 	 * @memberOf vocab-web.quiz
 	 */
-	//	onAfterRendering: function() {
-	//
-	//	},
+	onAfterRendering: function() {
+		// set focus on learned field
+		sap.ui.getCore().getControl('learnedQuizID').focus();
+	},
 	/**
 	 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
 	 * @memberOf vocab-web.quiz
