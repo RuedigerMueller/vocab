@@ -23,8 +23,6 @@ sap.ui.jsview("vocab-web.lessons", {
 		var oLessonsTable = new sap.ui.table.Table({
 			id : "LessonsTableID",
 			title : "{i18n>LESSON_LIST}",
-			visibleRowCount : 10,
-			firstVisibleRow : 1,
 			editable : true,
 			selectionMode : sap.ui.table.SelectionMode.Single
 		});
@@ -116,7 +114,6 @@ sap.ui.jsview("vocab-web.lessons", {
 		var oToolbar = new sap.ui.commons.Toolbar({
 			id : 'LessonsTableToolbarId',
 			items : [ oQuizButton, oDeleteButton, oEditVocablesButton ],
-			design : sap.ui.commons.ToolbarDesign.Flat,
 		});
 		oLessonsTable.setToolbar(oToolbar);
 

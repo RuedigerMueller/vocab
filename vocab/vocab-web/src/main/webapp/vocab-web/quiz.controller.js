@@ -154,7 +154,7 @@ sap.ui.controller("vocab-web.quiz", {
 	},
 
 	learnedChanged : function() {
-		sap.ui.getCore().getControl('correctButtonId').setEnabled(true);
+		sap.ui.getCore().getControl('correctButtonId').setEnabled(true).focus();
 		sap.ui.getCore().getControl('wrongButtonId').setEnabled(true);
 		sap.ui.getCore().getControl('solutionQuizID').setValue(
 				this.quizVocables["d"]["results"][this.index]["Learned"]);

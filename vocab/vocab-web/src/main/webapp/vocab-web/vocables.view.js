@@ -23,8 +23,6 @@ sap.ui.jsview("vocab-web.vocables", {
 		var oVocablesTable = new sap.ui.table.Table({
 			id : "VocablesTableID",
 			title : "{i18n>VOCABLE_LIST}",
-			visibleRowCount : 10,
-			firstVisibleRow : 1,
 			editable : true,
 			selectionMode : sap.ui.table.SelectionMode.Single,
 		});
@@ -103,7 +101,6 @@ sap.ui.jsview("vocab-web.vocables", {
 		var oToolbar = new sap.ui.commons.Toolbar({
 			id : 'VocablesTableToolbarId',
 			items : [ oQuizButton, oDeleteButton, oDoneEditingButton ],
-			design : sap.ui.commons.ToolbarDesign.Transparent,
 		});
 		oVocablesTable.setToolbar(oToolbar);
 
