@@ -17,9 +17,15 @@ sap.ui.controller("vocab-web.quiz", {
 		// Reset quiz
 		this.quizVocables = {};
 		this.index = -1;
+		
+		// get index of selected lesson
+		var selectIndex = sap.ui.getCore().getControl('LessonsTableID').getSelectedIndex();
+		
+		// get row context for selected row
+		var oLessonContext = sap.ui.getCore().getControl('LessonsTableID').getContextByIndex(selectIndex);
 
 		//URL to get vocables of selected lesson in JSON format
-		var quizVocablesURL = getODataServiceURL() + oLessonContext
+		var quizVocablesURL = getODataServiceURL() + oLessonContext.sPath
 				+ '/VocableDetails?$format=json';
 
 		// Get vocables of selected lesson

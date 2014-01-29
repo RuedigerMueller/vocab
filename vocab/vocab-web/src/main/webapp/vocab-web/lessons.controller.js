@@ -59,7 +59,7 @@ sap.ui.controller("vocab-web.lessons", {
 	},
 
 	addNewLesson : function() {
-		var fnSuccess = $.proxy(this.successLesson, this);
+		var fnSuccess = $.proxy(this.successCreateLesson, this);
 		var fnError = $.proxy(this.errorMsg, this);
 
 		var lessons = {};
@@ -76,7 +76,7 @@ sap.ui.controller("vocab-web.lessons", {
 				fnError);
 	},
 
-	successLesson : function(oData, oResponse) {
+	successCreateLesson : function(oData, oResponse) {
 		// clear fields after successful entry
 		sap.ui.getCore().getControl('lessonTitleFieldId').setValue('');
 		sap.ui.getCore().getControl('learnedLanguageFieldId').setValue('');
@@ -95,45 +95,54 @@ sap.ui.controller("vocab-web.lessons", {
 	},
 
 	deleteLesson : function() {
-		/*
-		 * Not working: raises exception: Object [object Object] has no method
-		 * 'replace' this.getView().getModel().remove(oLessonContext);
-		 */
-		var ajaxURL = getODataServiceURL() + oLessonContext;
-		jQuery.ajax({
-			url : ajaxURL,
-			type : 'DELETE',
-			async : false
-		});
-		this.getView().getModel().refresh();
+		var oParam = {};
+		oParam.fnSuccess = $.proxy(this.successDeleteLesson, this);
+		oParam.fnError = $.proxy(this.errorMsg, this);
+		
+		// get index of selected row
+		var selectIndex = sap.ui.getCore().getControl('LessonsTableID').getSelectedIndex();
+		
+		// get row context for selected row
+		var oLessonContext = sap.ui.getCore().getControl('LessonsTableID').getContextByIndex(selectIndex);
+		
+		this.getView().getModel().remove(oLessonContext.sPath, oParam);
+	},
+	
+	successDeleteLesson: function() {
+		//Update vocable binding
+		this.updateVocablesBinding();
 	},
 
 	editVocables : function() {
-		if (oLessonContext == null) {
-			sap.ui.commons.MessageBox
-					.alert("Select a lesson before editing vocables.");
-			return;
-		}
 		oVocablesView.placeAt("content", "only");
 	},
 
 	lessonSelectionChange : function(oEvent) {
-		oLessonContext = oEvent.getParameter("rowContext");
-
+		//Update vocable binding
+		this.updateVocablesBinding();
+	},
+	
+	updateVocablesBinding : function() {
+		// get index of selected row
+		var selectIndex = sap.ui.getCore().getControl('LessonsTableID').getSelectedIndex();
+		
+		// get row context for selected row
+		var oLessonContext = sap.ui.getCore().getControl('LessonsTableID').getContextByIndex(selectIndex);
+		
 		// Bind Vocables table to selected row
-		var selectedLessonIDVocables = oLessonContext + "/VocableDetails";
+		var selectedLessonIDVocables = oLessonContext.sPath + "/VocableDetails";
 		sap.ui.getCore().getControl('VocablesTableID').bindRows(
 				selectedLessonIDVocables);
 
 		// Bind Learned Language label to language of selected lesson
-		var sLessonContext = oLessonContext + "/LearnedLanguage";
+		var sLessonContext = oLessonContext.sPath + "/LearnedLanguage";
 		sap.ui.getCore().getControl('learnedLabelID').bindProperty("text",
 				sLessonContext);
 		sap.ui.getCore().getControl('VocableLearnedColumnID').bindProperty(
 				"text", sLessonContext);
 
 		// Bind Known Language label to language of selected lesson
-		var sLessonContext = oLessonContext + "/KnownLanguage";
+		var sLessonContext = oLessonContext.sPath+ "/KnownLanguage";
 		sap.ui.getCore().getControl('knownLabelID').bindProperty("text",
 				sLessonContext);
 		sap.ui.getCore().getControl('VocableKnownColumnID').bindProperty(

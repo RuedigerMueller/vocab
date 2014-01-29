@@ -34,12 +34,7 @@ sap.ui.controller("vocab-web.vocables", {
 	 },
 	
 	addNewVocable : function() {
-		if (oLessonContext==null) {
-			sap.ui.commons.MessageBox.alert("Select a lesson before adding vocables.");
-			return;
-		}
-		
-		var fnSuccess = $.proxy(this.successVocable, this);
+		var fnSuccess = $.proxy(this.successCreateVocable, this);
 		var fnError = $.proxy(this.errorMsg, this);
 		
 		var vocables = {};
@@ -57,7 +52,13 @@ sap.ui.controller("vocab-web.vocables", {
 				fnSuccess, fnError);
 	},
 	
-	successVocable : function(oData, oResponse) {
+	successCreateVocable : function(oData, oResponse) {
+		// get index of selected lesson
+		var selectIndex = sap.ui.getCore().getControl('LessonsTableID').getSelectedIndex();
+		
+		// get row context for selected row
+		var oLessonContext = sap.ui.getCore().getControl('LessonsTableID').getContextByIndex(selectIndex);
+		
 //      Establish link with lesson
 		var ajaxData = '<uri xmlns="http://schemas.microsoft.com/ado/2007/08/dataservices">' 
 			+ getODataServiceURL()
@@ -92,13 +93,18 @@ sap.ui.controller("vocab-web.vocables", {
 	},
 	
 	deleteVocable : function() {
-		var ajaxURL = getODataServiceURL() + this.oVocablesContext;
-		jQuery.ajax({
-			url : ajaxURL,
-			type : 'DELETE',
-			async : false
-		});
-		this.getView().getModel().refresh();
+		var oParam = {};
+		oParam.fnSuccess = $.proxy(this.successDeleteVocable, this);
+		oParam.fnError = $.proxy(this.errorMsg, this);
+		this.getView().getModel().remove(this.oVocablesContext.sPath, oParam);
+	},
+	
+	successDeleteVocable : function() {
+		// get index of selected row
+		var selectIndex = sap.ui.getCore().getControl('VocablesTableID').getSelectedIndex();
+		
+		// get row context for selected row
+		this.oVocablesContext = sap.ui.getCore().getControl('VocablesTableID').getContextByIndex(selectIndex);
 	},
 	
 	doneEditing : function() {
