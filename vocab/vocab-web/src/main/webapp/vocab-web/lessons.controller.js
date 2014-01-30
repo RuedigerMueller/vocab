@@ -20,37 +20,36 @@ sap.ui.controller("vocab-web.lessons", {
 		jQuery.getJSON(UserInfoURL, fnSuccess);
 
 		// set focus on title field
-		sap.ui.getCore().getControl('lessonTitleFieldId').focus();
+		sap.ui.getCore().byId('lessonTitleFieldId').focus();
 	},
 	/**
-	 * Similar to onAfterRendering, but this hook is invoked before the controller's
-	 * View is re-rendered (NOT before the first rendering! onInit() is used for
-	 * that one!).
-	 * 
-	 * @memberOf vocab-web.lessons
-	 */	
-	//onBeforeRendering : function() {
-	//	
-	//},
-	
-	/**
-	 * Called when the View has been rendered (so its HTML is part of the document).
-	 * Post-rendering manipulations of the HTML could be done here. This hook is the
-	 * same one that SAPUI5 controls get after being rendered.
+	 * Similar to onAfterRendering, but this hook is invoked before the
+	 * controller's View is re-rendered (NOT before the first rendering!
+	 * onInit() is used for that one!).
 	 * 
 	 * @memberOf vocab-web.lessons
 	 */
-	 onAfterRendering: function() {
+	// onBeforeRendering : function() {
+	//	
+	// },
+	/**
+	 * Called when the View has been rendered (so its HTML is part of the
+	 * document). Post-rendering manipulations of the HTML could be done here.
+	 * This hook is the same one that SAPUI5 controls get after being rendered.
+	 * 
+	 * @memberOf vocab-web.lessons
+	 */
+	onAfterRendering : function() {
 		// set focus on title field
-		sap.ui.getCore().getControl('lessonTitleFieldId').focus();
-	 },
+		sap.ui.getCore().byId('lessonTitleFieldId').focus();
+	},
 
 	successGetUserInfo : function(data) {
 		this.userName = data.user;
 
 		// bind table rows to /Persons based on the model defined in the init
 		// method of the controller
-		sap.ui.getCore().getControl('LessonsTableID').bindRows(
+		sap.ui.getCore().byId('LessonsTableID').bindRows(
 				{
 					path : '/Lessons',
 					filters : [ new sap.ui.model.Filter("UserName",
@@ -65,12 +64,11 @@ sap.ui.controller("vocab-web.lessons", {
 		var lessons = {};
 
 		lessons.UserName = this.userName;
-		lessons.Title = sap.ui.getCore().getControl("lessonTitleFieldId")
-				.getValue();
-		lessons.LearnedLanguage = sap.ui.getCore().getControl(
+		lessons.Title = sap.ui.getCore().byId("lessonTitleFieldId").getValue();
+		lessons.LearnedLanguage = sap.ui.getCore().byId(
 				"learnedLanguageFieldId").getValue();
-		lessons.KnownLanguage = sap.ui.getCore().getControl(
-				"KnownLanguageFieldId").getValue();
+		lessons.KnownLanguage = sap.ui.getCore().byId("KnownLanguageFieldId")
+				.getValue();
 
 		this.getView().getModel().create("/Lessons", lessons, null, fnSuccess,
 				fnError);
@@ -78,12 +76,12 @@ sap.ui.controller("vocab-web.lessons", {
 
 	successCreateLesson : function(oData, oResponse) {
 		// clear fields after successful entry
-		sap.ui.getCore().getControl('lessonTitleFieldId').setValue('');
-		sap.ui.getCore().getControl('learnedLanguageFieldId').setValue('');
-		sap.ui.getCore().getControl('KnownLanguageFieldId').setValue('');
+		sap.ui.getCore().byId('lessonTitleFieldId').setValue('');
+		sap.ui.getCore().byId('learnedLanguageFieldId').setValue('');
+		sap.ui.getCore().byId('KnownLanguageFieldId').setValue('');
 
 		// set focus on title field
-		sap.ui.getCore().getControl('lessonTitleFieldId').focus();
+		sap.ui.getCore().byId('lessonTitleFieldId').focus();
 	},
 
 	errorMsg : function() {
@@ -91,69 +89,79 @@ sap.ui.controller("vocab-web.lessons", {
 	},
 
 	quiz : function() {
+		this.updateVocablesBinding();
 		oQuizView.placeAt("content", "only");
 	},
 
 	deleteLesson : function() {
-		var oParam = {};
-		oParam.fnSuccess = $.proxy(this.successDeleteLesson, this);
-		oParam.fnError = $.proxy(this.errorMsg, this);
-		
-		// get index of selected row
-		var selectIndex = sap.ui.getCore().getControl('LessonsTableID').getSelectedIndex();
-		
-		// get row context for selected row
-		var oLessonContext = sap.ui.getCore().getControl('LessonsTableID').getContextByIndex(selectIndex);
-		
-		this.getView().getModel().remove(oLessonContext.sPath, oParam);
-	},
-	
-	successDeleteLesson: function() {
-		//Update vocable binding
 		this.updateVocablesBinding();
+
+		var oParam = {};
+		oParam.fnError = $.proxy(this.errorMsg, this);
+
+		this.getView().getModel().remove(oLessonContext.sPath, oParam);
+		sap.ui.getCore().byId('LessonsTableID').setSelectedIndex(-1);
+		
+		sap.ui.getCore().byId('lessonTitleFieldId').focus();
 	},
 
 	editVocables : function() {
+		this.updateVocablesBinding();
 		oVocablesView.placeAt("content", "only");
 	},
 
 	lessonSelectionChange : function(oEvent) {
-		//Update vocable binding
-		this.updateVocablesBinding();
-	},
-	
-	updateVocablesBinding : function() {
-		// get index of selected row
-		var selectIndex = sap.ui.getCore().getControl('LessonsTableID').getSelectedIndex();
-		
-		// get row context for selected row
-		var oLessonContext = sap.ui.getCore().getControl('LessonsTableID').getContextByIndex(selectIndex);
-		
-		// Bind Vocables table to selected row
-		var selectedLessonIDVocables = oLessonContext.sPath + "/VocableDetails";
-		sap.ui.getCore().getControl('VocablesTableID').bindRows(
-				selectedLessonIDVocables);
-
-		// Bind Learned Language label to language of selected lesson
-		var sLessonContext = oLessonContext.sPath + "/LearnedLanguage";
-		sap.ui.getCore().getControl('learnedLabelID').bindProperty("text",
-				sLessonContext);
-		sap.ui.getCore().getControl('VocableLearnedColumnID').bindProperty(
-				"text", sLessonContext);
-
-		// Bind Known Language label to language of selected lesson
-		var sLessonContext = oLessonContext.sPath+ "/KnownLanguage";
-		sap.ui.getCore().getControl('knownLabelID').bindProperty("text",
-				sLessonContext);
-		sap.ui.getCore().getControl('VocableKnownColumnID').bindProperty(
-				"text", sLessonContext);
-
 		// enable buttons
-		sap.ui.getCore().getControl('lessonQuizButtonId').setEnabled(true);
-		sap.ui.getCore().getControl('deleteLessonButtonId').setEnabled(true);
-		sap.ui.getCore().getControl('editVocablesButtonId').setEnabled(true);
+		this.updateVocablesBinding();
+		if (oLessonContext != null) {
+			sap.ui.getCore().byId('lessonQuizButtonId').setEnabled(true);
+			sap.ui.getCore().byId('deleteLessonButtonId').setEnabled(true);
+			sap.ui.getCore().byId('editVocablesButtonId').setEnabled(true);
+		} else {
+			sap.ui.getCore().byId('lessonQuizButtonId').setEnabled(false);
+			sap.ui.getCore().byId('deleteLessonButtonId').setEnabled(false);
+			sap.ui.getCore().byId('editVocablesButtonId').setEnabled(false);
+		}
 	},
 
+	updateVocablesBinding : function() {
+		// get row context for selected row
+		oLessonContext = this.getLessonContextFromTable();
+
+		if (oLessonContext != null) {
+			
+			// Bind Vocables table to selected row
+			var selectedLessonIDVocables = oLessonContext.sPath
+					+ "/VocableDetails";
+			sap.ui.getCore().byId('VocablesTableID').bindRows(
+					selectedLessonIDVocables);
+
+			// Bind Learned Language label to language of selected lesson
+			var sLessonContext = oLessonContext.sPath + "/LearnedLanguage";
+			sap.ui.getCore().byId('learnedLabelID').bindProperty("text",
+					sLessonContext);
+			sap.ui.getCore().byId('VocableLearnedColumnID').bindProperty(
+					"text", sLessonContext);
+
+			// Bind Known Language label to language of selected lesson
+			var sLessonContext = oLessonContext.sPath + "/KnownLanguage";
+			sap.ui.getCore().byId('knownLabelID').bindProperty("text",
+					sLessonContext);
+			sap.ui.getCore().byId('VocableKnownColumnID').bindProperty("text",
+					sLessonContext);
+		}
+	},
+
+	getLessonContextFromTable : function() {
+		// get index of selected row
+		var selectIndex = sap.ui.getCore().byId('LessonsTableID')
+				.getSelectedIndex();
+
+		// get row context for selected row
+		oLessonContext = sap.ui.getCore().byId('LessonsTableID')
+				.getContextByIndex(selectIndex);
+		return oLessonContext;
+	}
 
 /**
  * Called when the Controller is destroyed. Use this one to free resources and

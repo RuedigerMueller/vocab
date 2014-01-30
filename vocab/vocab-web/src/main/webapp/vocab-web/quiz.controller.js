@@ -1,5 +1,4 @@
 sap.ui.controller("vocab-web.quiz", {
-
 	/**
 	 * Called when a controller is instantiated and its View controls (if available) are already created.
 	 * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
@@ -17,12 +16,6 @@ sap.ui.controller("vocab-web.quiz", {
 		// Reset quiz
 		this.quizVocables = {};
 		this.index = -1;
-		
-		// get index of selected lesson
-		var selectIndex = sap.ui.getCore().getControl('LessonsTableID').getSelectedIndex();
-		
-		// get row context for selected row
-		var oLessonContext = sap.ui.getCore().getControl('LessonsTableID').getContextByIndex(selectIndex);
 
 		//URL to get vocables of selected lesson in JSON format
 		var quizVocablesURL = getODataServiceURL() + oLessonContext.sPath
@@ -56,7 +49,7 @@ sap.ui.controller("vocab-web.quiz", {
 	 */
 	onAfterRendering: function() {
 		// set focus on learned field
-		sap.ui.getCore().getControl('learnedQuizID').focus();
+		sap.ui.getCore().byId('learnedQuizID').focus();
 	},
 	/**
 	 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
@@ -70,9 +63,9 @@ sap.ui.controller("vocab-web.quiz", {
 	},
 
 	display : function() {
-		sap.ui.getCore().getControl('correctButtonId').setEnabled(true);
-		sap.ui.getCore().getControl('wrongButtonId').setEnabled(true);
-		sap.ui.getCore().getControl('solutionQuizID').setValue(
+		sap.ui.getCore().byId('correctButtonId').setEnabled(true);
+		sap.ui.getCore().byId('wrongButtonId').setEnabled(true);
+		sap.ui.getCore().byId('solutionQuizID').setValue(
 				this.quizVocables["d"]["results"][this.index]["Learned"]);
 	},
 
@@ -145,13 +138,13 @@ sap.ui.controller("vocab-web.quiz", {
 	},
 
 	nextVocable : function() {
-		sap.ui.getCore().getControl('correctButtonId').setEnabled(false);
-		sap.ui.getCore().getControl('wrongButtonId').setEnabled(false);
-		sap.ui.getCore().getControl('learnedQuizID').setValue("");
-		sap.ui.getCore().getControl('solutionQuizID').setValue("");
+		sap.ui.getCore().byId('correctButtonId').setEnabled(false);
+		sap.ui.getCore().byId('wrongButtonId').setEnabled(false);
+		sap.ui.getCore().byId('learnedQuizID').setValue("");
+		sap.ui.getCore().byId('solutionQuizID').setValue("");
 		if (this.index < this.numberVocables - 1) {
 			this.index++;
-			sap.ui.getCore().getControl('knownQuizID').setValue(
+			sap.ui.getCore().byId('knownQuizID').setValue(
 					this.quizVocables["d"]["results"][this.index]["Known"]);
 		} else {
 			oLessonsView.placeAt("content", "only");
@@ -160,9 +153,9 @@ sap.ui.controller("vocab-web.quiz", {
 	},
 
 	learnedChanged : function() {
-		sap.ui.getCore().getControl('correctButtonId').setEnabled(true).focus();
-		sap.ui.getCore().getControl('wrongButtonId').setEnabled(true);
-		sap.ui.getCore().getControl('solutionQuizID').setValue(
+		sap.ui.getCore().byId('correctButtonId').setEnabled(true).focus();
+		sap.ui.getCore().byId('wrongButtonId').setEnabled(true);
+		sap.ui.getCore().byId('solutionQuizID').setValue(
 				this.quizVocables["d"]["results"][this.index]["Learned"]);
 	},
 

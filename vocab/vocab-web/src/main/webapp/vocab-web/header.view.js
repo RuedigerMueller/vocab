@@ -20,7 +20,7 @@ sap.ui.jsview("vocab-web.header", {
         	logoSrc: "",
         	displayWelcome: true,
         	displayLogoff: true,
-        }); 
+        });
 
         oAppHeader.bindProperty("userName","/firstName");
        

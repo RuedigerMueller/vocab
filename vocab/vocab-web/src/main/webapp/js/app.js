@@ -13,9 +13,8 @@ odataModel.attachRejectChange(this,function(oEvent){
     alert("Change rejected");
 });
 
-
 // Need know in which lesson we are currently working
-//var oLessonContext = null;
+var oLessonContext = null;
 
 // Internationalization:
 // create global i18n resource bundle for texts in application UI

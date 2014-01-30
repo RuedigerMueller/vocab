@@ -17,9 +17,9 @@ sap.ui.controller("vocab-web.vocables", {
 	 * 
 	 * @memberOf vocab-web.vocables
 	 */
-	 onBeforeRendering: function() {
-		 this.oVocablesContext = null;
-	 },
+	 //onBeforeRendering: function() {
+	 //
+	 //},
 	 
 	 /**
 	 * Called when the View has been rendered (so its HTML is part of the document).
@@ -30,7 +30,7 @@ sap.ui.controller("vocab-web.vocables", {
 	 */
 	 onAfterRendering: function() {
 		// set focus on learned field
-		sap.ui.getCore().getControl('learnedFieldId').focus();
+		sap.ui.getCore().byId('learnedFieldId').focus();
 	 },
 	
 	addNewVocable : function() {
@@ -38,8 +38,8 @@ sap.ui.controller("vocab-web.vocables", {
 		var fnError = $.proxy(this.errorMsg, this);
 		
 		var vocables = {};
-		vocables.Learned = sap.ui.getCore().getControl("learnedFieldId").getValue();
-		vocables.Known = sap.ui.getCore().getControl("knownFieldId").getValue();
+		vocables.Learned = sap.ui.getCore().byId("learnedFieldId").getValue();
+		vocables.Known = sap.ui.getCore().byId("knownFieldId").getValue();
 		vocables.Level = 1;
 		vocables.DueDate = new Date().toISOString().replace("Z", "0000");
  /*
@@ -53,16 +53,10 @@ sap.ui.controller("vocab-web.vocables", {
 	},
 	
 	successCreateVocable : function(oData, oResponse) {
-		// get index of selected lesson
-		var selectIndex = sap.ui.getCore().getControl('LessonsTableID').getSelectedIndex();
-		
-		// get row context for selected row
-		var oLessonContext = sap.ui.getCore().getControl('LessonsTableID').getContextByIndex(selectIndex);
-		
-//      Establish link with lesson
+		// Establish link with lesson
 		var ajaxData = '<uri xmlns="http://schemas.microsoft.com/ado/2007/08/dataservices">' 
 			+ getODataServiceURL()
-			+ oLessonContext
+			+ oLessonContext.sPath
 			+ '</uri>';
 		var ajaxURL = getODataServiceURL() + '/Vocables(' + oData["Id"] +')' +'/$links/LessonDetails';
 		jQuery.ajax({
@@ -73,11 +67,11 @@ sap.ui.controller("vocab-web.vocables", {
 		});
 		
 		//clear fields after successful entry
-		sap.ui.getCore().getControl('learnedFieldId').setValue('');
-		sap.ui.getCore().getControl('knownFieldId').setValue('');
+		sap.ui.getCore().byId('learnedFieldId').setValue('');
+		sap.ui.getCore().byId('knownFieldId').setValue('');
 		
 		//set focus on "learned" field
-		sap.ui.getCore().getControl('learnedFieldId').focus();
+		sap.ui.getCore().byId('learnedFieldId').focus();
 	
 		// refresh does not always work automatically... trigger manually
 		this.getView().getModel().refresh();
@@ -93,18 +87,15 @@ sap.ui.controller("vocab-web.vocables", {
 	},
 	
 	deleteVocable : function() {
-		var oParam = {};
-		oParam.fnSuccess = $.proxy(this.successDeleteVocable, this);
-		oParam.fnError = $.proxy(this.errorMsg, this);
-		this.getView().getModel().remove(this.oVocablesContext.sPath, oParam);
-	},
-	
-	successDeleteVocable : function() {
-		// get index of selected row
-		var selectIndex = sap.ui.getCore().getControl('VocablesTableID').getSelectedIndex();
+		var oVocablesContext = this.getVocablesContextFromTable();
 		
-		// get row context for selected row
-		this.oVocablesContext = sap.ui.getCore().getControl('VocablesTableID').getContextByIndex(selectIndex);
+		var oParam = {};
+		oParam.fnError = $.proxy(this.errorMsg, this);
+		this.getView().getModel().remove(oVocablesContext.sPath, oParam);
+		
+		sap.ui.getCore().byId('VocablesTableID').setSelectedIndex(-1);
+		
+		sap.ui.getCore().byId('learnedFieldId').focus();
 	},
 	
 	doneEditing : function() {
@@ -112,11 +103,22 @@ sap.ui.controller("vocab-web.vocables", {
 	},
 	
 	vocableSelectionChange: function(oEvent) {
-		this.oVocablesContext = oEvent.getParameter("rowContext");
-	
-		//enable buttons
-		sap.ui.getCore().getControl('deleteVocableButtonId').setEnabled(true);
+		var oVocablesContext = this.getVocablesContextFromTable();
+		
+		if (oVocablesContext != null) {
+			sap.ui.getCore().byId('deleteVocableButtonId').setEnabled(true);
+		} else {
+			sap.ui.getCore().byId('deleteVocableButtonId').setEnabled(false);
+		}
 	},
+	
+	getVocablesContextFromTable : function() {
+		// get index of selected row
+		var selectIndex = sap.ui.getCore().byId('VocablesTableID').getSelectedIndex();
+		
+		// get row context for selected row
+		return sap.ui.getCore().byId('VocablesTableID').getContextByIndex(selectIndex);
+	}
 /**
  * Called when the View has been rendered (so its HTML is part of the document).
  * Post-rendering manipulations of the HTML could be done here. This hook is the
