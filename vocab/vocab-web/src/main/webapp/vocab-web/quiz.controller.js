@@ -15,19 +15,29 @@ sap.ui.controller("vocab-web.quiz", {
 	onBeforeRendering : function() {
 		// Reset quiz
 		this.quizVocables = {};
+		this.numberVocables = 0;
 		this.index = -1;
+		
+		// build filter for Due Date; start with getting tomorrows date
+		var dateTimeGTM = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+		dateTimeGTM.setHours(0,0,0,0);	
+	
+		var formattedDate = dateTimeGTM.toISOString().replace("Z", "0000");
+		
+		var dueDateFilter = "$filter=DueDate+le+datetime%27" + formattedDate + "%27";
 
 		//URL to get vocables of selected lesson in JSON format
-		var quizVocablesURL = getODataServiceURL() + oLessonContext.sPath
-				+ '/VocableDetails?$format=json';
+		var quizVocablesURL = getODataServiceURL() 
+				+ oLessonContext.sPath
+				+ '/VocableDetails?$format=json&'
+				+ dueDateFilter;
 
 		// Get vocables of selected lesson
 		this.quizVocables = jQuery.parseJSON(jQuery.ajax({
 			type : 'GET',
 			url : quizVocablesURL,
 			dataType : 'json',
-			success : function() {
-			},
+			success : function() {},
 			data : {},
 			async : false
 		}).responseText);
@@ -39,7 +49,10 @@ sap.ui.controller("vocab-web.quiz", {
 		this.numberVocables = this.quizVocables["d"]["results"].length;
 
 		// start quiz
-		this.nextVocable();
+		if (this.numberVocables > 0) {
+			this.nextVocable();
+		}
+		
 	},
 
 	/**
@@ -50,6 +63,12 @@ sap.ui.controller("vocab-web.quiz", {
 	onAfterRendering: function() {
 		// set focus on learned field
 		sap.ui.getCore().byId('learnedQuizID').focus();
+		
+		if (this.numberVocables <= 0) {
+			alert("no vocables due");
+			
+			this.back();
+		};
 	},
 	/**
 	 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
@@ -59,6 +78,9 @@ sap.ui.controller("vocab-web.quiz", {
 	//
 	//	}
 	back : function() {
+		sap.ui.getCore().byId('learnedQuizID').setValue("");
+		sap.ui.getCore().byId('solutionQuizID').setValue("");
+		sap.ui.getCore().byId('knownQuizID').setValue("");
 		oLessonsView.placeAt("content", "only");
 	},
 
@@ -147,7 +169,7 @@ sap.ui.controller("vocab-web.quiz", {
 			sap.ui.getCore().byId('knownQuizID').setValue(
 					this.quizVocables["d"]["results"][this.index]["Known"]);
 		} else {
-			oLessonsView.placeAt("content", "only");
+			this.back();
 		}
 
 	},
