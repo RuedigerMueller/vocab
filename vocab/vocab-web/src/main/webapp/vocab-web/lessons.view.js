@@ -177,15 +177,6 @@ sap.ui.jsview("vocab-web.lessons", {
 			filterProperty : "NumberDueVocables",
 			maxLength : 10
 		}));
-		
-
-		// bind table rows to /Persons based on the model defined in the init
-		// method of the controller
-		oLessonsTable.bindRows({
-			path : '/Lessons',
-			filters : [ new sap.ui.model.Filter("UserName",
-					sap.ui.model.FilterOperator.EQ, "rmueller") ]
-		});
 
 		// establish master detail relation
 		oLessonsTable.attachRowSelectionChange(function(oEvent) {

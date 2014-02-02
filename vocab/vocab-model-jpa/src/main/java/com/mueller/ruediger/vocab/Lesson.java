@@ -110,6 +110,7 @@ public class Lesson implements Serializable {
 
 	public void setNumberDueVocables(Integer param) {
 		//this.numberDueVocables = param;
+		//this.numberDueVocables = this.getNumberDueVocables();
 	}
 	
 	@Transient

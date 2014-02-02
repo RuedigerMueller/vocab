@@ -29,9 +29,9 @@ sap.ui.controller("vocab-web.lessons", {
 	 * 
 	 * @memberOf vocab-web.lessons
 	 */
-	// onBeforeRendering : function() {
-	//	
-	// },
+	//onBeforeRendering : function() {
+	//	this.getView().getModel().refresh();
+	//},
 	/**
 	 * Called when the View has been rendered (so its HTML is part of the
 	 * document). Post-rendering manipulations of the HTML could be done here.
@@ -42,6 +42,7 @@ sap.ui.controller("vocab-web.lessons", {
 	onAfterRendering : function() {
 		// set focus on title field
 		sap.ui.getCore().byId('lessonTitleFieldId').focus();
+		sap.ui.getCore().byId('LessonsTableID').setSelectedIndex();
 	},
 
 	successGetUserInfo : function(data) {
@@ -114,7 +115,15 @@ sap.ui.controller("vocab-web.lessons", {
 		// enable buttons
 		this.updateVocablesBinding();
 		if (oLessonContext != null) {
-			sap.ui.getCore().byId('lessonQuizButtonId').setEnabled(true);
+			// Test if selected lesson has due vocables
+			var numberDue = this.getView().getModel().getProperty("NumberDueVocables", oLessonContext, false);
+			
+			if (numberDue > 0) {
+				sap.ui.getCore().byId('lessonQuizButtonId').setEnabled(true);
+			} else {
+				sap.ui.getCore().byId('lessonQuizButtonId').setEnabled(false);
+			}
+			
 			sap.ui.getCore().byId('deleteLessonButtonId').setEnabled(true);
 			sap.ui.getCore().byId('editVocablesButtonId').setEnabled(true);
 		} else {

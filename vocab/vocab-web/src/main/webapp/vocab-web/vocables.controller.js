@@ -17,9 +17,9 @@ sap.ui.controller("vocab-web.vocables", {
 	 * 
 	 * @memberOf vocab-web.vocables
 	 */
-	 //onBeforeRendering: function() {
-	 //
-	 //},
+	 onBeforeRendering: function() {
+		 this.checkQuizPossible();
+	 },
 	 
 	 /**
 	 * Called when the View has been rendered (so its HTML is part of the document).
@@ -31,6 +31,7 @@ sap.ui.controller("vocab-web.vocables", {
 	 onAfterRendering: function() {
 		// set focus on learned field
 		sap.ui.getCore().byId('learnedFieldId').focus();
+		sap.ui.getCore().byId('vocableQuizButtonId').setEnabled(this.quizPossible);
 	 },
 	
 	addNewVocable : function() {
@@ -66,13 +67,17 @@ sap.ui.controller("vocab-web.vocables", {
 			data : ajaxData
 		});
 		
+		// enable quiz as we now have at least one new vocable 
+		this.quizPossible = true;
+		sap.ui.getCore().byId('vocableQuizButtonId').setEnabled(this.quizPossible);
+		
 		//clear fields after successful entry
 		sap.ui.getCore().byId('learnedFieldId').setValue('');
 		sap.ui.getCore().byId('knownFieldId').setValue('');
 		
 		//set focus on "learned" field
 		sap.ui.getCore().byId('learnedFieldId').focus();
-	
+		
 		// refresh does not always work automatically... trigger manually
 		this.getView().getModel().refresh();
 	
@@ -96,6 +101,10 @@ sap.ui.controller("vocab-web.vocables", {
 		sap.ui.getCore().byId('VocablesTableID').setSelectedIndex(-1);
 		
 		sap.ui.getCore().byId('learnedFieldId').focus();
+		
+		this.checkQuizPossible();
+		sap.ui.getCore().byId('vocableQuizButtonId').setEnabled(this.quizPossible);
+		
 	},
 	
 	doneEditing : function() {
@@ -118,6 +127,32 @@ sap.ui.controller("vocab-web.vocables", {
 		
 		// get row context for selected row
 		return sap.ui.getCore().byId('VocablesTableID').getContextByIndex(selectIndex);
+	},
+	
+	checkQuizPossible : function() {
+		this.quizPossible = false;
+		 //http://localhost:8080/vocab-web/vocab.svc/Lessons(1L)/VocableDetails/$count
+		 //?$filter=DueDate+le+datetime%272014-02-02T23:00:00.0000000%27
+		
+		 // build filter for Due Date; start with getting tomorrows date
+		var dateTimeGTM = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+		dateTimeGTM.setHours(0,0,0,0);	
+		
+		var formattedDate = dateTimeGTM.toISOString().replace("Z", "0000");
+			
+		var dueDateFilter = "$filter=DueDate+le+datetime%27" + formattedDate + "%27";
+		 
+		 var ajaxURL = getODataServiceURL() + 
+		 			   oLessonContext.sPath + 
+		 			   "/VocableDetails/$count?" +
+		 			   dueDateFilter;
+		 var numberVocables = jQuery.ajax({
+				url : ajaxURL,
+				type : 'GET',
+				contentType : 'text/plain',
+				async : false
+			}).responseText;
+		if (numberVocables > 0) this.quizPossible = true;
 	}
 /**
  * Called when the View has been rendered (so its HTML is part of the document).
