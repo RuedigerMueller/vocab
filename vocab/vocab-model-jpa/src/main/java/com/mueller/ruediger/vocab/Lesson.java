@@ -18,11 +18,16 @@ import static javax.persistence.AccessType.FIELD;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
 import javax.persistence.Transient;
+import org.eclipse.persistence.annotations.Cache;
+import static org.eclipse.persistence.annotations.CacheType.NONE;
+import javax.persistence.Cacheable;
 
 @Entity
 @NamedQuery(name = "AllLessons", query = "select l from Lesson l")
 @Table(name = "T_LESSON")
 @Access(FIELD)
+@Cache(type = NONE)
+@Cacheable
 public class Lesson implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -40,7 +45,7 @@ public class Lesson implements Serializable {
 	private String learnedLanguage;
 	@Column(length = 20, name = "KNOWN_LANGUAGE")
 	private String knownLanguage;
-	
+
 	private Integer numberDueVocables;
 	private Integer numberVocables;
 
@@ -110,7 +115,7 @@ public class Lesson implements Serializable {
 
 	public void setNumberDueVocables(Integer param) {
 		//this.numberDueVocables = param;
-		//this.numberDueVocables = this.getNumberDueVocables();
+		this.numberDueVocables = this.getNumberDueVocables();
 	}
 	
 	@Transient
@@ -120,7 +125,7 @@ public class Lesson implements Serializable {
 	}
 	
 	public void setNumberVocables(Integer param) {
-		//this.numberVocables = param;
+		this.numberVocables = this.vocables.size();
 	}
 	
 	public void addVocable(Vocable vocable) {
