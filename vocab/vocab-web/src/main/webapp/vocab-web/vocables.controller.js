@@ -1,4 +1,7 @@
 sap.ui.controller("vocab-web.vocables", {
+	quizPossible : false,
+	examPrepPossible : false,
+	
 	/**
 	 * Called when a controller is instantiated and its View controls (if
 	 * available) are already created. Can be used to modify the View before it
@@ -32,6 +35,7 @@ sap.ui.controller("vocab-web.vocables", {
 		// set focus on learned field
 		sap.ui.getCore().byId('learnedFieldId').focus();
 		sap.ui.getCore().byId('vocableQuizButtonId').setEnabled(this.quizPossible);
+		sap.ui.getCore().byId('vocableExamPrepButtonId').setEnabled(this.examPrepPossible);
 	 },
 	
 	addNewVocable : function() {
@@ -69,7 +73,9 @@ sap.ui.controller("vocab-web.vocables", {
 		
 		// enable quiz as we now have at least one new vocable 
 		this.quizPossible = true;
+		this.examPrepPossible = true;
 		sap.ui.getCore().byId('vocableQuizButtonId').setEnabled(this.quizPossible);
+		sap.ui.getCore().byId('vocableExamPrepButtonId').setEnabled(this.examPrepPossible);
 		
 		//clear fields after successful entry
 		sap.ui.getCore().byId('learnedFieldId').setValue('');
@@ -88,9 +94,15 @@ sap.ui.controller("vocab-web.vocables", {
 	},
 	
 	quiz : function() {
+		oQuizView.getController().setMode("quiz");
 		oQuizView.placeAt("content", "only");
 	},
 	
+	examPrep : function() {
+		oQuizView.getController().setMode("examPrep");
+		oQuizView.placeAt("content", "only");
+	},
+		
 	deleteVocable : function() {
 		var oVocablesContext = this.getVocablesContextFromTable();
 		
@@ -104,7 +116,7 @@ sap.ui.controller("vocab-web.vocables", {
 		
 		this.checkQuizPossible();
 		sap.ui.getCore().byId('vocableQuizButtonId').setEnabled(this.quizPossible);
-		
+		sap.ui.getCore().byId('vocableExamPrepButtonId').setEnabled(this.examPrepPossible);
 	},
 	
 	doneEditing : function() {
@@ -131,10 +143,12 @@ sap.ui.controller("vocab-web.vocables", {
 	
 	checkQuizPossible : function() {
 		this.quizPossible = false;
-		 //http://localhost:8080/vocab-web/vocab.svc/Lessons(1L)/VocableDetails/$count
-		 //?$filter=DueDate+le+datetime%272014-02-02T23:00:00.0000000%27
+		this.examPrepPossible = false;	
 		
-		 // build filter for Due Date; start with getting tomorrows date
+		//Check if quiz is possible
+		//http://localhost:8080/vocab-web/vocab.svc/Lessons(1L)/VocableDetails/$count
+		 //?$filter=DueDate+le+datetime%272014-02-02T23:00:00.0000000%27
+		// build filter for Due Date; start with getting tomorrows date
 		var dateTimeGTM = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
 		dateTimeGTM.setHours(0,0,0,0);	
 		
@@ -142,7 +156,7 @@ sap.ui.controller("vocab-web.vocables", {
 			
 		var dueDateFilter = "$filter=DueDate+le+datetime%27" + formattedDate + "%27";
 		 
-		 var ajaxURL = getODataServiceURL() + 
+		var ajaxURL = getODataServiceURL() + 
 		 			   oLessonContext.sPath + 
 		 			   "/VocableDetails/$count?" +
 		 			   dueDateFilter;
@@ -153,6 +167,19 @@ sap.ui.controller("vocab-web.vocables", {
 				async : false
 			}).responseText;
 		if (numberVocables > 0) this.quizPossible = true;
+		
+		//check if exam prep is possible
+		ajaxURL = getODataServiceURL() + 
+		   		  oLessonContext.sPath + 
+		          "/VocableDetails/$count";
+		numberVocables = 0;
+		numberVocables = jQuery.ajax({
+			url : ajaxURL,
+			type : 'GET',
+			contentType : 'text/plain',
+			async : false
+		}).responseText;
+		if (numberVocables > 0) this.examPrepPossible = true;
 	}
 /**
  * Called when the View has been rendered (so its HTML is part of the document).

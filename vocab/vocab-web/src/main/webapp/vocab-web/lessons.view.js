@@ -90,6 +90,16 @@ sap.ui.jsview("vocab-web.lessons", {
 			},
 			enabled : false,
 		});
+		
+		// Quiz button
+		var oExamPrepButton = new sap.ui.commons.Button({
+			id : 'lessonExamPrepButtonId',
+			text : "{i18n>EXAM_PREP}",
+			press : function() {
+				oController.examPrep();
+			},
+			enabled : false,
+		});
 
 		// Delete lesson button
 		var oDeleteButton = new sap.ui.commons.Button({
@@ -113,7 +123,7 @@ sap.ui.jsview("vocab-web.lessons", {
 
 		var oToolbar = new sap.ui.commons.Toolbar({
 			id : 'LessonsTableToolbarId',
-			items : [ oQuizButton, oDeleteButton, oEditVocablesButton ],
+			items : [ oQuizButton, oExamPrepButton, oDeleteButton, oEditVocablesButton ],
 		});
 		oLessonsTable.setToolbar(oToolbar);
 

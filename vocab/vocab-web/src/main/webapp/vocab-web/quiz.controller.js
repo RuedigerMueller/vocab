@@ -1,4 +1,6 @@
 sap.ui.controller("vocab-web.quiz", {
+	mode : "quiz",
+	
 	/**
 	 * Called when a controller is instantiated and its View controls (if available) are already created.
 	 * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
@@ -17,7 +19,7 @@ sap.ui.controller("vocab-web.quiz", {
 		this.quizVocables = {};
 		this.numberVocables = 0;
 		this.index = -1;
-		
+			
 		// build filter for Due Date; start with getting tomorrows date
 		var dateTimeGTM = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
 		dateTimeGTM.setHours(0,0,0,0);	
@@ -27,10 +29,17 @@ sap.ui.controller("vocab-web.quiz", {
 		var dueDateFilter = "$filter=DueDate+le+datetime%27" + formattedDate + "%27";
 
 		//URL to get vocables of selected lesson in JSON format
-		var quizVocablesURL = getODataServiceURL() 
+		var quizVocablesURL = "";
+		if (this.mode == "quiz") {
+			quizVocablesURL = getODataServiceURL() 
 				+ oLessonContext.sPath
 				+ '/VocableDetails?$format=json&'
 				+ dueDateFilter;
+		} else {
+			quizVocablesURL = getODataServiceURL() 
+				+ oLessonContext.sPath
+				+ '/VocableDetails?$format=json';
+		}
 
 		// Get vocables of selected lesson
 		this.quizVocables = jQuery.parseJSON(jQuery.ajax({
@@ -52,7 +61,6 @@ sap.ui.controller("vocab-web.quiz", {
 		if (this.numberVocables > 0) {
 			this.nextVocable();
 		}
-		
 	},
 
 	/**
@@ -64,9 +72,8 @@ sap.ui.controller("vocab-web.quiz", {
 		// set focus on learned field
 		sap.ui.getCore().byId('learnedQuizID').focus();
 		
-		if (this.numberVocables <= 0) {
+		if (this.mode == "quiz" && this.numberVocables <= 0) {
 			alert("no vocables due");
-			
 			this.back();
 		};
 	},
@@ -77,6 +84,11 @@ sap.ui.controller("vocab-web.quiz", {
 	//	onExit: function() {
 	//
 	//	}
+	
+	setMode : function(mode) {
+		this.mode = mode;
+	},
+	
 	back : function() {
 		sap.ui.getCore().byId('learnedQuizID').setValue("");
 		sap.ui.getCore().byId('solutionQuizID').setValue("");
@@ -92,7 +104,12 @@ sap.ui.controller("vocab-web.quiz", {
 	},
 
 	correct : function() {
-		// update due date and level
+		// no need to update statistic in case of exam prep
+		if (this.mode == "examPrep") {
+			this.nextVocable();
+			return;
+		}
+		
 		// update due date and level
 		var vocables = {};
 		vocables.Learned = this.quizVocables["d"]["results"][this.index]["Learned"];
@@ -133,6 +150,11 @@ sap.ui.controller("vocab-web.quiz", {
 	},
 
 	wrong : function() {
+		// no need to update statistic in case of exam prep
+		if (this.mode == "examPrep") {
+			this.nextVocable();
+			return;
+		}
 		// update due date and level
 		var vocables = {};
 		vocables.Learned = this.quizVocables["d"]["results"][this.index]["Learned"];

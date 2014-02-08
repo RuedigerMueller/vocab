@@ -29,9 +29,9 @@ sap.ui.controller("vocab-web.lessons", {
 	 * 
 	 * @memberOf vocab-web.lessons
 	 */
-	//onBeforeRendering : function() {
-	//	this.getView().getModel().refresh();
-	//},
+	onBeforeRendering : function() {
+		this.getView().getModel().refresh();
+	},
 	/**
 	 * Called when the View has been rendered (so its HTML is part of the
 	 * document). Post-rendering manipulations of the HTML could be done here.
@@ -91,6 +91,13 @@ sap.ui.controller("vocab-web.lessons", {
 
 	quiz : function() {
 		this.updateVocablesBinding();
+		oQuizView.getController().setMode("quiz");
+		oQuizView.placeAt("content", "only");
+	},
+	
+	examPrep : function() {
+		this.updateVocablesBinding();
+		oQuizView.getController().setMode("examPrep");
 		oQuizView.placeAt("content", "only");
 	},
 
@@ -115,18 +122,26 @@ sap.ui.controller("vocab-web.lessons", {
 		// enable buttons
 		this.updateVocablesBinding();
 		if (oLessonContext != null) {
+			// Test if selected lesson has vocables
+			var numberVocables = this.getView().getModel().getProperty("NumberVocables", oLessonContext, false);
+			if (numberVocables > 0) {
+				sap.ui.getCore().byId('lessonExamPrepButtonId').setEnabled(true);
+			} else {
+				sap.ui.getCore().byId('lessonExamPrepButtonId').setEnabled(false);
+			}	
+			
 			// Test if selected lesson has due vocables
 			var numberDue = this.getView().getModel().getProperty("NumberDueVocables", oLessonContext, false);
-			
 			if (numberDue > 0) {
 				sap.ui.getCore().byId('lessonQuizButtonId').setEnabled(true);
 			} else {
 				sap.ui.getCore().byId('lessonQuizButtonId').setEnabled(false);
 			}
-			
+						
 			sap.ui.getCore().byId('deleteLessonButtonId').setEnabled(true);
 			sap.ui.getCore().byId('editVocablesButtonId').setEnabled(true);
 		} else {
+			sap.ui.getCore().byId('lessonExamPrepButtonId').setEnabled(false);
 			sap.ui.getCore().byId('lessonQuizButtonId').setEnabled(false);
 			sap.ui.getCore().byId('deleteLessonButtonId').setEnabled(false);
 			sap.ui.getCore().byId('editVocablesButtonId').setEnabled(false);
