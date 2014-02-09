@@ -1,5 +1,12 @@
 sap.ui.controller("vocab-web.quiz", {
 	mode : "quiz",
+	quizVocables : {},
+	numberVocables : 0,
+	index : -1,
+	numberCorrect : 0,
+	numberWrong : 0,
+	statusMessage: "",
+	lessonTitle : "",
 	
 	/**
 	 * Called when a controller is instantiated and its View controls (if available) are already created.
@@ -19,7 +26,12 @@ sap.ui.controller("vocab-web.quiz", {
 		this.quizVocables = {};
 		this.numberVocables = 0;
 		this.index = -1;
-			
+		this.numberCorrect = 0;
+		this.numberWrong = 0;
+		
+		var sLessonTitlePath= oLessonContext.sPath + "/Title";
+		this.lessonTitle = this.getView().getModel().getProperty(sLessonTitlePath);
+					
 		// build filter for Due Date; start with getting tomorrows date
 		var dateTimeGTM = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
 		dateTimeGTM.setHours(0,0,0,0);	
@@ -69,13 +81,13 @@ sap.ui.controller("vocab-web.quiz", {
 	 * @memberOf vocab-web.quiz
 	 */
 	onAfterRendering: function() {
-		// set focus on learned field
-		sap.ui.getCore().byId('learnedQuizID').focus();
-		
 		if (this.mode == "quiz" && this.numberVocables <= 0) {
 			alert("no vocables due");
 			this.back();
 		};
+		
+		// set focus on learned field
+		sap.ui.getCore().byId('learnedQuizID').focus();
 	},
 	/**
 	 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
@@ -89,7 +101,28 @@ sap.ui.controller("vocab-web.quiz", {
 		this.mode = mode;
 	},
 	
+	updateStatusMessage : function() {
+		var percentCorrect;
+		if (this.index==0) {
+			percentCorrect = 100;
+		} else {
+			percentCorrect = (this.numberCorrect/(this.index))*100;
+			percentCorrect = percentCorrect.toFixed(0);
+		}
+		
+		// status message is slightly different at end of test
+		if (this.numberVocables == this.index) {
+			this.statusMessage = this.lessonTitle + ": (" + (this.numberVocables) + "/" + this.numberVocables + ") - " + 
+								 percentCorrect + "% " + oi18nModel.getProperty("CORRECT").toLowerCase() + ".";
+		} else {
+			this.statusMessage = this.lessonTitle + ": (" + (this.index+1) + "/" + this.numberVocables + ") - " + 
+								 percentCorrect + "% " + oi18nModel.getProperty("CORRECT").toLowerCase() + ".";
+		}
+		sap.ui.getCore().byId('quizStatusMessageID').setText(this.statusMessage);
+	},
+	
 	back : function() {
+		sap.ui.commons.MessageBox.alert(this.statusMessage, null, oi18nModel.getProperty("QUIZ_RESULT"));
 		sap.ui.getCore().byId('learnedQuizID').setValue("");
 		sap.ui.getCore().byId('solutionQuizID').setValue("");
 		sap.ui.getCore().byId('knownQuizID').setValue("");
@@ -105,6 +138,7 @@ sap.ui.controller("vocab-web.quiz", {
 
 	correct : function() {
 		// no need to update statistic in case of exam prep
+		this.numberCorrect++;
 		if (this.mode == "examPrep") {
 			this.nextVocable();
 			return;
@@ -150,6 +184,8 @@ sap.ui.controller("vocab-web.quiz", {
 	},
 
 	wrong : function() {
+		this.numberWrong++;
+		
 		// no need to update statistic in case of exam prep
 		if (this.mode == "examPrep") {
 			this.nextVocable();
@@ -190,7 +226,10 @@ sap.ui.controller("vocab-web.quiz", {
 			this.index++;
 			sap.ui.getCore().byId('knownQuizID').setValue(
 					this.quizVocables["d"]["results"][this.index]["Known"]);
+			this.updateStatusMessage();
 		} else {
+			this.index++;
+			this.updateStatusMessage();
 			this.back();
 		}
 

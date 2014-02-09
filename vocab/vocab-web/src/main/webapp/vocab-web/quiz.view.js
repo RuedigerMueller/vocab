@@ -13,6 +13,12 @@ sap.ui.jsview("vocab-web.quiz", {
 	* @memberOf vocab-web.quiz
 	*/ 
 	createContent : function(oController) {
+		// Status Message
+		var oQuizStatusMessage = new sap.ui.commons.Label({
+			id :"quizStatusMessageID",
+			text :"Initial"
+		});
+		
 		// Text element for "known Language"
 		var oKnownTextArea = new sap.ui.commons.TextArea({
 			id: "knownQuizID",
@@ -83,7 +89,7 @@ sap.ui.jsview("vocab-web.quiz", {
 		
 		var oVerticalLayout =  new sap.ui.layout.VerticalLayout({
 			id : 'quizVerticalLayoutID',
-			content: [oKnownTextArea, oLearnedTextArea, oSolutionTextArea, oToolbar],
+			content: [oQuizStatusMessage, oKnownTextArea, oLearnedTextArea, oSolutionTextArea, oToolbar],
 		});
 		oVerticalLayout.addStyleClass("Quiz");
 		return oVerticalLayout;

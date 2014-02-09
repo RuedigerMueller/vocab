@@ -1,3 +1,6 @@
+// Make sure we can display message boxes...
+jQuery.sap.require("sap.ui.commons.MessageBox");
+
 // Function returning URL to OData root
 var getODataServiceURL = function() {
 	var sOrigin = window.location.protocol + "//"
