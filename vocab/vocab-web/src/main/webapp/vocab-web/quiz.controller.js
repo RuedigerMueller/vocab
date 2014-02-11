@@ -227,6 +227,7 @@ sap.ui.controller("vocab-web.quiz", {
 			sap.ui.getCore().byId('knownQuizID').setValue(
 					this.quizVocables["d"]["results"][this.index]["Known"]);
 			this.updateStatusMessage();
+			sap.ui.getCore().byId('learnedQuizID').focus();
 		} else {
 			this.index++;
 			this.updateStatusMessage();
@@ -236,10 +237,10 @@ sap.ui.controller("vocab-web.quiz", {
 	},
 
 	learnedChanged : function() {
-		sap.ui.getCore().byId('correctButtonId').setEnabled(true).focus();
 		sap.ui.getCore().byId('wrongButtonId').setEnabled(true);
 		sap.ui.getCore().byId('solutionQuizID').setValue(
 				this.quizVocables["d"]["results"][this.index]["Learned"]);
+		sap.ui.getCore().byId('correctButtonId').setEnabled(true).focus();
 	},
 
 });

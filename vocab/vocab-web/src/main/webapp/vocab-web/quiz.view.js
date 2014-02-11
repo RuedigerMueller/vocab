@@ -87,9 +87,13 @@ sap.ui.jsview("vocab-web.quiz", {
 		});
 		oToolbar.addStyleClass("QuizSection");
 		
+		var oButtonsLayout = new sap.ui.layout.HorizontalLayout("quizButtonsLayout", {
+	        content: [oDisplayButton, oCorrectButton, oWrongButton, oFinishButton]
+		});
+		
 		var oVerticalLayout =  new sap.ui.layout.VerticalLayout({
 			id : 'quizVerticalLayoutID',
-			content: [oQuizStatusMessage, oKnownTextArea, oLearnedTextArea, oSolutionTextArea, oToolbar],
+			content: [oQuizStatusMessage, oKnownTextArea, oLearnedTextArea, oSolutionTextArea, oButtonsLayout],
 		});
 		oVerticalLayout.addStyleClass("Quiz");
 		return oVerticalLayout;
