@@ -1,10 +1,15 @@
 package com.mueller.ruediger.odata.service;
 
 import javax.persistence.EntityManagerFactory;
-
+/*
 import org.apache.olingo.odata2.processor.api.jpa.ODataJPAContext;
 import org.apache.olingo.odata2.processor.api.jpa.ODataJPAServiceFactory;
 import org.apache.olingo.odata2.processor.api.jpa.exception.ODataJPARuntimeException;
+*/
+import org.apache.olingo.odata2.jpa.processor.api.ODataJPAContext;
+import org.apache.olingo.odata2.jpa.processor.api.ODataJPAServiceFactory;
+import org.apache.olingo.odata2.jpa.processor.api.exception.ODataJPARuntimeException;
+	
 
 /**
  * Odata JPA Processor implementation class

@@ -77,7 +77,7 @@ sap.ui.jsview("vocab-web.lessons", {
 					content : [ oLessonTitleLabel, oLessonTitleField,
 							oLearnedLanguageLabel, oLearnedLanguageField,
 							oKnownLanguageLabel, oKnownLanguageField,
-							oAddLessonButton, oQuizButton ]
+							oAddLessonButton, oQuizButton]
 				});
 		oLessonsTable.addExtension(oHorizonalLayout);
 
