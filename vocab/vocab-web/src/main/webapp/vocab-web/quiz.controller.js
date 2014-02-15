@@ -131,11 +131,12 @@ sap.ui.controller("vocab-web.quiz", {
 			this.index--;
 			this.updateStatusMessage();
 		}
-			
+		
+		// display quiz result
 		sap.ui.commons.MessageBox.alert(this.statusMessage, null, oi18nModel.getProperty("QUIZ_RESULT"));
-		sap.ui.getCore().byId('learnedQuizID').setValue("");
-		sap.ui.getCore().byId('solutionQuizID').setValue("");
-		sap.ui.getCore().byId('knownQuizID').setValue("");
+		
+		// back to lessons view (and make sure that no lesson is selected)
+		sap.ui.getCore().byId('LessonsTableID').setSelectedIndex(-1);
 		oLessonsView.placeAt("content", "only");
 	},
 

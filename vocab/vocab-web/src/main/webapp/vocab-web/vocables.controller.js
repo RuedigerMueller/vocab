@@ -120,6 +120,7 @@ sap.ui.controller("vocab-web.vocables", {
 	},
 	
 	doneEditing : function() {
+		sap.ui.getCore().byId('LessonsTableID').setSelectedIndex(-1);
 		oLessonsView.placeAt("content", "only");
 	},
 	
