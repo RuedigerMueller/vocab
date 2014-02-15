@@ -47,11 +47,11 @@ sap.ui.controller("vocab-web.vocables", {
 		vocables.Known = sap.ui.getCore().byId("knownFieldId").getValue();
 		vocables.Level = 1;
 		vocables.DueDate = new Date().toISOString().replace("Z", "0000");
- /*
+/*
 		// should create a vocable and link it to the lesson; 
 		// however, it does only  create the vocable without the link
 		this.getView().getModel().create("/Lessons(1L)/VocableDetails", vocables, null,
-				this.successMsg, this.errorMsg);
+				null, fnError);
 */		
 		this.getView().getModel().create("/Vocables", vocables, null,
 				fnSuccess, fnError);

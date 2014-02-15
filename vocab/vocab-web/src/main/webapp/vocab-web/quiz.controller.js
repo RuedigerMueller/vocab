@@ -104,11 +104,15 @@ sap.ui.controller("vocab-web.quiz", {
 	updateStatusMessage : function() {
 		var percentCorrect;
 		if (this.index==0) {
-			percentCorrect = 100;
+			if (this.numberCorrect==0) {
+				percentCorrect = 0;
+			} else {
+				percentCorrect = 100;
+			}
 		} else {
 			percentCorrect = (this.numberCorrect/(this.index))*100;
 			percentCorrect = percentCorrect.toFixed(0);
-		}
+		};
 		
 		// status message is slightly different at end of test
 		if (this.numberVocables == this.index) {
@@ -122,6 +126,12 @@ sap.ui.controller("vocab-web.quiz", {
 	},
 	
 	back : function() {
+		// user hit back before reaching the end => don't count the last vocable
+		if (this.index != this.numberVocables) {
+			this.index--;
+			this.updateStatusMessage();
+		}
+			
 		sap.ui.commons.MessageBox.alert(this.statusMessage, null, oi18nModel.getProperty("QUIZ_RESULT"));
 		sap.ui.getCore().byId('learnedQuizID').setValue("");
 		sap.ui.getCore().byId('solutionQuizID').setValue("");
