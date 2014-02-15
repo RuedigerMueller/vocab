@@ -86,6 +86,10 @@ sap.ui.controller("vocab-web.quiz", {
 			this.back();
 		};
 		
+		// Use jquery to check if the user hit enter or tab
+		var fnCheckForEnter = $.proxy(this.checkForEnter, this);
+		$("#learnedQuizID").keyup(fnCheckForEnter);
+				
 		// set focus on learned field
 		sap.ui.getCore().byId('learnedQuizID').focus();
 	},
@@ -238,7 +242,12 @@ sap.ui.controller("vocab-web.quiz", {
 			sap.ui.getCore().byId('knownQuizID').setValue(
 					this.quizVocables["d"]["results"][this.index]["Known"]);
 			this.updateStatusMessage();
-			sap.ui.getCore().byId('learnedQuizID').focus();
+			
+			// wait some milliseconds; otherwise it can happen that an Enter is propagated to this field
+			setTimeout(function () {
+				sap.ui.getCore().byId('learnedQuizID').setEnabled(true).focus();
+			}, 200);
+			
 		} else {
 			this.index++;
 			this.updateStatusMessage();
@@ -248,10 +257,22 @@ sap.ui.controller("vocab-web.quiz", {
 	},
 
 	learnedChanged : function() {
+		sap.ui.getCore().byId('learnedQuizID').setEnabled(false);
 		sap.ui.getCore().byId('wrongButtonId').setEnabled(true);
 		sap.ui.getCore().byId('solutionQuizID').setValue(
 				this.quizVocables["d"]["results"][this.index]["Learned"]);
-		sap.ui.getCore().byId('correctButtonId').setEnabled(true).focus();
+		sap.ui.getCore().byId('correctButtonId').setEnabled(true);
+		
+		//  need to wait some millisecond; otherwise the button does not focus :-(
+		setTimeout(function () {
+			sap.ui.getCore().byId('correctButtonId').focus();
+		}, 100);
 	},
+	
+	checkForEnter : function(event) {
+		if(event.keyCode == jQuery.sap.KeyCodes.ENTER || event.keyCode == jQuery.sap.KeyCodes.TAB ){
+	    	this.learnedChanged();
+	    }
+	}
 
 });

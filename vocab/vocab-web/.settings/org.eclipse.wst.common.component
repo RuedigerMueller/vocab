@@ -6,21 +6,6 @@
         <dependent-module archiveName="vocab-model-jpa-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/vocab-model-jpa/vocab-model-jpa">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="olingo-odata2-api-incubating-1.1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/olingo-odata2-api-incubating/olingo-odata2-api-incubating">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="olingo-odata2-core-incubating-1.1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/olingo-odata2-core-incubating/olingo-odata2-core-incubating">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="olingo-odata2-jpa-processor-api-incubating-1.1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/olingo-odata2-jpa-processor-api-incubating/olingo-odata2-jpa-processor-api-incubating">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="olingo-odata2-api-annotation-incubating-1.1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/olingo-odata2-api-annotation-incubating/olingo-odata2-api-annotation-incubating">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="olingo-odata2-jpa-processor-core-incubating-1.1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/olingo-odata2-jpa-processor-core-incubating/olingo-odata2-jpa-processor-core-incubating">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <property name="context-root" value="vocab-web"/>
         <property name="java-output-path" value="/vocab-web/target/classes"/>
     </wb-module>

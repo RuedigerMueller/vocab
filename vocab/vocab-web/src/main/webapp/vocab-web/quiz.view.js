@@ -43,6 +43,7 @@ sap.ui.jsview("vocab-web.quiz", {
 			oController.learnedChanged();
 		});
 		
+		
 		var oSolutionTextArea = new sap.ui.commons.TextArea({
 			id: "solutionQuizID",
 			wrapping: sap.ui.core.Wrapping.Off,
