@@ -263,16 +263,25 @@ sap.ui.controller("vocab-web.quiz", {
 				this.quizVocables["d"]["results"][this.index]["Learned"]);
 		sap.ui.getCore().byId('correctButtonId').setEnabled(true);
 		
-		//  need to wait some millisecond; otherwise the button does not focus :-(
-		setTimeout(function () {
-			sap.ui.getCore().byId('correctButtonId').focus();
-		}, 100);
+		// Set focus on "Correct" or "Wrong" depending on answer
+		// Getting value of learnedQuizID via jquery, because using sap.ui.getCore... 
+		// returns an empty value if the textarea was left using "ENTER"...
+	    // Need to wait some millisecond; otherwise the button does not focus :-(
+		if ($("#learnedQuizID").val().trim() == 
+			sap.ui.getCore().byId('solutionQuizID').getValue()) {
+			setTimeout(function () {
+				sap.ui.getCore().byId('correctButtonId').focus();
+			}, 100);
+		} else {
+			setTimeout(function () {
+				sap.ui.getCore().byId('wrongButtonId').focus();
+			}, 100);
+		}	
 	},
 	
 	checkForEnter : function(event) {
 		if(event.keyCode == jQuery.sap.KeyCodes.ENTER || event.keyCode == jQuery.sap.KeyCodes.TAB ){
-	    	this.learnedChanged();
+			this.learnedChanged();
 	    }
-	}
-
+	},
 });
