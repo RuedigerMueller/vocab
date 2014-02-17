@@ -5,14 +5,19 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import com.mueller.ruediger.vocab.web.pageobjects.LessonsPage;
+import com.mueller.ruediger.vocab.web.pageobjects.LoginPage;
 
 public class LessonsIT extends UiTestBase {
 
 	@Test
 	public void testCreateReview() {
 		driver.get(serverUrl + applicationPath);
+		LoginPage loginPage = LoginPage.create(driver);
+		loginPage.setUserName("rmueller");
+		loginPage.setPassword("welcome");
+		loginPage.login();
+		
 		LessonsPage lessonsPage = LessonsPage.create(driver);
-
 		lessonsPage.setLessonTitle("Lesson 1");
 		lessonsPage.setLearnedLanguage("English");
 		lessonsPage.setKnownLanguage("Deutsch");

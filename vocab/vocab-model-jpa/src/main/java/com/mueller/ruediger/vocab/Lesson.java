@@ -101,11 +101,20 @@ public class Lesson implements Serializable {
 	public Integer getNumberDueVocables() {
 		this.numberDueVocables = 0;
 		Calendar dueDate;
-		Calendar today = Calendar.getInstance();
+		
+		// get todays date, set to midnight and add one DAY_OF_YEAR to get tomorrows date
+		Calendar tomorrow = Calendar.getInstance();
+		tomorrow.set(Calendar.HOUR_OF_DAY, 0);
+		tomorrow.set(Calendar.MINUTE, 0);
+		tomorrow.set(Calendar.SECOND, 0);
+		tomorrow.set(Calendar.MILLISECOND, 0);
+		tomorrow.add(Calendar.DAY_OF_YEAR, 1); 
+		
 		int dateComparison = 0;
+		
 		for (Vocable v: this.vocables) {
 			dueDate = v.getDueDate();
-			dateComparison = today.compareTo(dueDate);
+			dateComparison = tomorrow.compareTo(dueDate);
 			if (dateComparison >= 0 ) {
 				this.numberDueVocables++;
 			}

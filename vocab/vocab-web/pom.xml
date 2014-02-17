@@ -256,7 +256,7 @@
 			</activation>
 			<build>
 				<plugins>
-					<!-- Find free random ports for the local test server -->
+					<!-- Find free random ports for the local test server --> 
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>build-helper-maven-plugin</artifactId>
@@ -306,6 +306,8 @@ ${local.server.http.port} --httpsPort ${local.server.https.port} --ajpPort ${loc
 												line="${sap.cloud.console.script} start-local --location ${local.server.root} --consolePort ${local.server.console.port} --waitUrl 
 http://${local.server.host}:${local.server.http.port}/${project.artifactId}/ --waitUrlTimeout 120" />
 										</exec>
+										 <copy file="/Users/Ruediger/Documents/workspace/Servers/SAP HANA Cloud Platform local runtime-config/config_master/com.sap.security.um.provider.neo.local/neousers.json"
+											todir="${local.server.root}/config_master/com.sap.security.um.provider.neo.local" />
 									</target>
 								</configuration>
 							</execution>
