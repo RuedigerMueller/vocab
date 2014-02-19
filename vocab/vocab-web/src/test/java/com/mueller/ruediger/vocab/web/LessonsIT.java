@@ -13,7 +13,7 @@ public class LessonsIT extends UiTestBase {
 	public void testCreateReview() {
 		driver.get(serverUrl + applicationPath);
 		LoginPage loginPage = LoginPage.create(driver);
-		loginPage.setUserName("rmueller");
+		loginPage.setUserName("tmueller");
 		loginPage.setPassword("welcome");
 		loginPage.login();
 		

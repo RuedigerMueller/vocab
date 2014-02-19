@@ -1,0 +1,42 @@
+{
+  "Users": [
+    {
+      "UID": "rmueller",
+      "Password": "{SSHA}ujhbJrE0HW7b6/pYuMVzK3VQNQeZlTzt/SE\u003d",
+      "Roles": [],
+      "Attributes": [
+        {
+          "attributeName": "firstname",
+          "attributeValue": ""
+        },
+        {
+          "attributeName": "lastname",
+          "attributeValue": ""
+        },
+        {
+          "attributeName": "email",
+          "attributeValue": ""
+        }
+      ]
+    },
+    {
+      "UID": "tmueller",
+      "Password": "{SSHA}LYNw61Iy2Z6oLSXVwhmkr/ne3rjYnHBZeDw\u003d",
+      "Roles": [],
+      "Attributes": [
+        {
+          "attributeName": "firstname",
+          "attributeValue": ""
+        },
+        {
+          "attributeName": "lastname",
+          "attributeValue": ""
+        },
+        {
+          "attributeName": "email",
+          "attributeValue": ""
+        }
+      ]
+    }
+  ]
+}
