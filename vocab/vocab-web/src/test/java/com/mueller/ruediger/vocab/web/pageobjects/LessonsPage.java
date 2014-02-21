@@ -8,6 +8,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.concurrent.TimeUnit;
+
 //import com.google.common.base.Function;
 
 /**
@@ -33,7 +35,7 @@ public class LessonsPage extends PageObject {
 	@FindBy(id = "__field1-col1-row0")
 	private WebElement learnedLanguageInFirstRowOfList;
 	
-	@FindBy(id = "__field1-col2-row0")
+	@FindBy(id = "__field2-col2-row0")
 	private WebElement knownLanguageInFirstRowOfList;
 /*
 	@FindBy(id = "__alert0--btn-OK")
@@ -96,6 +98,7 @@ public class LessonsPage extends PageObject {
 
 	public LessonsPage addLesson() {
 		addLessonButton.click();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		//waitUntil(submitConfirmationIsShown());
 		//submitConfirmOkButton.get(0).click();
 		return LessonsPage.create(driver);
