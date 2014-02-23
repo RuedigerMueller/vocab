@@ -11,14 +11,22 @@ sap.ui.controller("vocab-web.lessons", {
 		this.getView().setModel(odataModel);
 
 		// Get User Info and store it for later use
-		var UserInfoURL = window.location.protocol + "//"
+		var userInfoURL = window.location.protocol + "//"
 				+ window.location.hostname
 				+ (window.location.port ? ":" + window.location.port : "")
 				+ "/vocab-web/UserInfo";
 
 		var fnSuccess = $.proxy(this.successGetUserInfo, this);
-		jQuery.getJSON(UserInfoURL, fnSuccess);
+		jQuery.getJSON(userInfoURL, fnSuccess);
 
+		// Get User Info and store it for later use
+		var fileUploadURL = window.location.protocol + "//"
+				+ window.location.hostname
+				+ (window.location.port ? ":" + window.location.port : "")
+				+ "/vocab-web/FileUpload";
+		
+		sap.ui.getCore().byId('simpleFileUploaderId').setUploadUrl(fileUploadURL);
+		
 		// set focus on title field
 		sap.ui.getCore().byId('lessonTitleFieldId').focus();
 	},

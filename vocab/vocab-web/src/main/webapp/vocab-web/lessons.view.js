@@ -120,10 +120,30 @@ sap.ui.jsview("vocab-web.lessons", {
 			},
 			enabled : false,
 		});
+		
+		// create the FileUploader control
+		var oSimpleFileUploader = new sap.ui.commons.FileUploader({
+			id: 'simpleFileUploaderId',
+			name: "simpleUploader",          // name of the input type=file element within the form 
+			uploadOnChange: false             // do not immediately upload the file after selection
+		});
+		
+		oSimpleFileUploader.attachUploadComplete(function(oEvent) {
+			oController.getView().getModel().refresh();
+		});
+		
+		// create a second button to trigger the upload
+		var oTriggerButton = new sap.ui.commons.Button({
+			text:"{i18n>IMPORT}",
+			press:function() {
+				// call the upload method
+				oSimpleFileUploader.upload();
+			}
+		});
 
 		var oToolbar = new sap.ui.commons.Toolbar({
 			id : 'LessonsTableToolbarId',
-			items : [ oQuizButton, oExamPrepButton, oDeleteButton, oEditVocablesButton ],
+			items : [ oQuizButton, oExamPrepButton, oDeleteButton, oEditVocablesButton, oSimpleFileUploader, oTriggerButton ],
 		});
 		oLessonsTable.setToolbar(oToolbar);
 

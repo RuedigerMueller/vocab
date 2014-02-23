@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,7 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.FileCleanerCleanup;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FileCleaningTracker;
 
 import com.mueller.ruediger.vocab.Lesson;
 import com.mueller.ruediger.vocab.Vocable;
@@ -42,9 +47,11 @@ public class FileUpload extends HttpServlet {
 	private ServletFileUpload uploader = null;
 	@Override
 	public void init() throws ServletException{
+		FileCleaningTracker fileCleaningTracker = FileCleanerCleanup.getFileCleaningTracker(getServletContext());
 		DiskFileItemFactory fileFactory = new DiskFileItemFactory();
 		File filesDir = (File) getServletContext().getAttribute("FILES_DIR_FILE");
 		fileFactory.setRepository(filesDir);
+		fileFactory.setFileCleaningTracker(fileCleaningTracker);
 		this.uploader = new ServletFileUpload(fileFactory);
 	}
 
@@ -63,10 +70,10 @@ public class FileUpload extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			throw new ServletException("Content type is not multipart/form-data");
 		}
-		
+
 		response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        out.write("<html><head></head><body>");
+		PrintWriter out = response.getWriter();
+		out.write("<html><head></head><body>");
 		try {
 			List<FileItem> fileItemsList = uploader.parseRequest(request);
 			Iterator<FileItem> fileItemsIterator = fileItemsList.iterator();
@@ -80,6 +87,8 @@ public class FileUpload extends HttpServlet {
 			while(fileItemsIterator.hasNext()){
 				FileItem fileItem = fileItemsIterator.next();
 
+				if (fileItem.isFormField()) continue;
+
 				File file = new File(request.getServletContext().getAttribute("FILES_DIR")+File.separator+fileItem.getName());
 				//System.out.println("Absolute Path at server="+file.getAbsolutePath());
 				fileItem.write(file);
@@ -89,11 +98,11 @@ public class FileUpload extends HttpServlet {
 
 				// File contains comma separated entries, individual entries not embedded in any "" or ''
 				CSVReader reader = new CSVReader(new FileReader(file));
-				
+
 				String [] nextLine;
 				boolean firstLine = true;
 				Lesson lesson = null;
-				
+
 				// Loop over all lines
 				while ((nextLine = reader.readNext()) != null) {
 					// nextLine[] is an array of values from the line
@@ -107,13 +116,33 @@ public class FileUpload extends HttpServlet {
 						lesson.setKnownLanguage(nextLine[0]);
 						lesson.setLearnedLanguage(nextLine[1]);
 						lesson.setUserName(request.getUserPrincipal().getName());
-					// all other lines contain vocables
+						// all other lines contain vocables
 					} else {
 						Vocable vocable = new Vocable();
 						vocable.setKnown(nextLine[0]);
 						vocable.setLearned(nextLine[1]);
 						vocable.setLevel(1);
 						vocable.setDueDate(dueDate);
+
+						if (nextLine.length > 2) {	
+							if (nextLine[2] != null && !nextLine[2].isEmpty()) {
+								vocable.setLevel(Integer.parseInt(nextLine[2]));
+							} else {
+								vocable.setLevel(1);
+							}
+						}
+						if (nextLine.length > 3) {
+							if (nextLine[3] != null && !nextLine[3].isEmpty()) {
+								DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+								Date date = formatter.parse(nextLine[3]);
+								Calendar calendar = Calendar.getInstance();
+								calendar.setTime(date);
+								vocable.setDueDate(calendar);
+							} else {
+								vocable.setDueDate(dueDate);
+							}
+						}
+
 						vocable.setOwner(lesson);
 						lesson.addVocable(vocable);
 						em.persist(vocable);
@@ -121,15 +150,18 @@ public class FileUpload extends HttpServlet {
 				}
 				// close reader 
 				reader.close();
-				
+
 				// persist lesson and commit transaction
 				em.persist(lesson);
 				em.getTransaction().commit();
+
+				// delete temporary file
+				fileItem.delete();
 			}
 			em.close();
 			out.write("Successful file upload");
 			response.setStatus(HttpServletResponse.SC_OK);
-			
+
 		} catch (FileUploadException e) {
 			out.write("Exception in uploading file.");
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
