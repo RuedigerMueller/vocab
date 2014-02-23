@@ -12,9 +12,12 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import com.mueller.ruediger.vocab.Lesson;
+
 import javax.persistence.ManyToOne;
 import javax.persistence.Access;
+
 import static javax.persistence.AccessType.FIELD;
 import static javax.persistence.FetchType.EAGER;
 
@@ -30,16 +33,16 @@ public class Vocable implements Serializable {
 	@GeneratedValue
 	@Column(name = "ID")
 	private long id;
-	
+
 	@Column(length = 50, name = "LEARNED")
 	private String learned;
-	
+
 	@Column(length = 50, name = "KNOWN")
 	private String known;
-	
+
 	@Column(name = "LEVEL", length = 1)
 	private Integer level;
-	
+
 	@Basic
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "DUE_DATE")
@@ -93,14 +96,13 @@ public class Vocable implements Serializable {
 	}
 
 	public Lesson getOwner() {
-	    return owner;
+		return owner;
 	}
 
 	public void setOwner(Lesson lesson) {
-	    this.owner = lesson;
-	    if (!lesson.getVocables().contains(this)) {
-	    	lesson.getVocables().add(this); }
+		this.owner = lesson;
+		if (!lesson.getVocables().contains(this)) {
+			lesson.getVocables().add(this);
+		}
 	}
-
-
 }

@@ -1,6 +1,7 @@
 package com.mueller.ruediger.vocab;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.persistence.Column;
@@ -9,17 +10,25 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+
 import com.mueller.ruediger.vocab.Vocable;
+
 import java.util.Collection;
+
 import javax.persistence.OneToMany;
 import javax.persistence.Access;
+
 import static javax.persistence.AccessType.FIELD;
 //import static javax.persistence.AccessType.PROPERTY;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
+
 import javax.persistence.Transient;
+
 import org.eclipse.persistence.annotations.Cache;
+
 import static org.eclipse.persistence.annotations.CacheType.NONE;
+
 import javax.persistence.Cacheable;
 
 @Entity
@@ -54,7 +63,7 @@ public class Lesson implements Serializable {
 
 	
 	public Lesson() {
-
+		vocables = new ArrayList<Vocable>();
 	}
 
 	public long getId() {
