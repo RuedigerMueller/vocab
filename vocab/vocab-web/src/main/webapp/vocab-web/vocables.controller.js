@@ -52,7 +52,7 @@ sap.ui.controller("vocab-web.vocables", {
 		// however, it does only  create the vocable without the link
 		this.getView().getModel().create("/Lessons(1L)/VocableDetails", vocables, null,
 				null, fnError);
-*/		
+*/
 		this.getView().getModel().create("/Vocables", vocables, null,
 				fnSuccess, fnError);
 	},

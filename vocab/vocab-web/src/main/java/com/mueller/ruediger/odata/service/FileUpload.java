@@ -124,25 +124,24 @@ public class FileUpload extends HttpServlet {
 						vocable.setLevel(1);
 						vocable.setDueDate(dueDate);
 
-						if (nextLine.length > 2) {	
-							if (nextLine[2] != null && !nextLine[2].isEmpty()) {
-								vocable.setLevel(Integer.parseInt(nextLine[2]));
-							} else {
-								vocable.setLevel(1);
-							}
+						try {
+							vocable.setLevel(Integer.parseInt(nextLine[2]));
 						}
-						if (nextLine.length > 3) {
-							if (nextLine[3] != null && !nextLine[3].isEmpty()) {
-								DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-								Date date = formatter.parse(nextLine[3]);
-								Calendar calendar = Calendar.getInstance();
-								calendar.setTime(date);
-								vocable.setDueDate(calendar);
-							} else {
-								vocable.setDueDate(dueDate);
-							}
+						catch (Exception e) {
+							vocable.setLevel(1);
 						}
-
+						
+						try {
+							DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+							Date date = formatter.parse(nextLine[3]);
+							Calendar calendar = Calendar.getInstance();
+							calendar.setTime(date);
+							vocable.setDueDate(calendar);
+						}
+						catch (Exception e) {
+							vocable.setDueDate(dueDate);
+						}
+						
 						vocable.setOwner(lesson);
 						lesson.addVocable(vocable);
 						em.persist(vocable);
