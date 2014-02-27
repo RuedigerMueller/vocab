@@ -1,8 +1,10 @@
 package com.mueller.ruediger.odata.service;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -29,6 +31,7 @@ import com.mueller.ruediger.vocab.Lesson;
 import com.mueller.ruediger.vocab.Vocable;
 
 import au.com.bytecode.opencsv.CSVReader;
+
 
 /**
  * Servlet implementation class FileUpload
@@ -97,8 +100,8 @@ public class FileUpload extends HttpServlet {
 				em.getTransaction().begin();
 
 				// File contains comma separated entries, individual entries not embedded in any "" or ''
-				CSVReader reader = new CSVReader(new FileReader(file));
-
+				CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+				
 				String [] nextLine;
 				boolean firstLine = true;
 				Lesson lesson = null;
