@@ -158,14 +158,14 @@ public class FileUpload extends HttpServlet {
 				fileItem.delete();
 			}
 			em.close();
-			out.write("Successful file upload");
+			out.write("OK");
 			response.setStatus(HttpServletResponse.SC_OK);
 
 		} catch (FileUploadException e) {
-			out.write("Exception in uploading file.");
+			out.write("Error");
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		} catch (Exception e) {
-			out.write("Exception in uploading file.");
+			out.write("Error");
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 		out.write("</body></html>");

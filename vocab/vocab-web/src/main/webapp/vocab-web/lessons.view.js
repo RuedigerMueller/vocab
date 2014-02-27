@@ -129,7 +129,12 @@ sap.ui.jsview("vocab-web.lessons", {
 		});
 		
 		oSimpleFileUploader.attachUploadComplete(function(oEvent) {
-			oController.getView().getModel().refresh();
+			if (oEvent["mParameters"]["response"] =="OK") {
+				oController.getView().getModel().refresh();
+			} else {
+				sap.ui.commons.MessageBox.alert(oi18nModel.getProperty("FILE_UPLOAD_ERROR_MSG"), 
+						null, oi18nModel.getProperty("FILE_UPLOAD_ERROR"));
+			}
 		});
 		
 		// create a second button to trigger the upload
