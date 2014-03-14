@@ -137,13 +137,18 @@ sap.ui.jsview("vocab-web.lessons", {
 			}
 		});
 		
+		oSimpleFileUploader.attachChange(function(oEvent) {
+			oTriggerButton.setEnabled(oSimpleFileUploader.getValue() != "");
+		});
+		
 		// create a second button to trigger the upload
 		var oTriggerButton = new sap.ui.commons.Button({
-			text:"{i18n>IMPORT}",
-			press:function() {
+			text : "{i18n>IMPORT}",
+			press : function() {
 				// call the upload method
 				oSimpleFileUploader.upload();
-			}
+			},
+			enabled : false,
 		});
 
 		var oToolbar = new sap.ui.commons.Toolbar({

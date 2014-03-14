@@ -3,6 +3,7 @@ sap.ui.controller("vocab-web.quiz", {
 	quizVocables : {},
 	numberVocables : 0,
 	index : -1,
+	percentCorrect : 0,
 	numberCorrect : 0,
 	numberWrong : 0,
 	statusMessage: "",
@@ -26,6 +27,7 @@ sap.ui.controller("vocab-web.quiz", {
 		this.quizVocables = {};
 		this.numberVocables = 0;
 		this.index = -1;
+		this.percentCorrect = 0;
 		this.numberCorrect = 0;
 		this.numberWrong = 0;
 		
@@ -105,26 +107,14 @@ sap.ui.controller("vocab-web.quiz", {
 		this.mode = mode;
 	},
 	
-	updateStatusMessage : function() {
-		var percentCorrect;
-		if (this.index==0) {
-			if (this.numberCorrect==0) {
-				percentCorrect = 0;
-			} else {
-				percentCorrect = 100;
-			}
-		} else {
-			percentCorrect = (this.numberCorrect/(this.index))*100;
-			percentCorrect = percentCorrect.toFixed(0);
-		};
-		
+	updateStatusMessage : function() {		
 		// status message is slightly different at end of test
 		if (this.numberVocables == this.index) {
 			this.statusMessage = this.lessonTitle + ": (" + (this.numberVocables) + "/" + this.numberVocables + ") - " + 
-								 percentCorrect + "% " + oi18nModel.getProperty("CORRECT").toLowerCase() + ".";
+								 this.percentCorrect + "% " + oi18nModel.getProperty("CORRECT").toLowerCase() + ".";
 		} else {
 			this.statusMessage = this.lessonTitle + ": (" + (this.index+1) + "/" + this.numberVocables + ") - " + 
-								 percentCorrect + "% " + oi18nModel.getProperty("CORRECT").toLowerCase() + ".";
+								 this.percentCorrect + "% " + oi18nModel.getProperty("CORRECT").toLowerCase() + ".";
 		}
 		sap.ui.getCore().byId('quizStatusMessageID').setText(this.statusMessage);
 	},
@@ -132,6 +122,7 @@ sap.ui.controller("vocab-web.quiz", {
 	back : function() {
 		// user hit back before reaching the end => don't count the last vocable
 		if (this.index != this.numberVocables) {
+			this.updatePercentCorrect();
 			this.index--;
 			this.updateStatusMessage();
 		}
@@ -241,6 +232,7 @@ sap.ui.controller("vocab-web.quiz", {
 			this.index++;
 			sap.ui.getCore().byId('knownQuizID').setValue(
 					this.quizVocables["d"]["results"][this.index]["Known"]);
+			this.updatePercentCorrect();
 			this.updateStatusMessage();
 			
 			// wait some milliseconds; otherwise it can happen that an Enter is propagated to this field
@@ -250,6 +242,7 @@ sap.ui.controller("vocab-web.quiz", {
 			
 		} else {
 			this.index++;
+			this.updatePercentCorrect();
 			this.updateStatusMessage();
 			this.back();
 		}
@@ -283,5 +276,18 @@ sap.ui.controller("vocab-web.quiz", {
 		if(event.keyCode == jQuery.sap.KeyCodes.ENTER || event.keyCode == jQuery.sap.KeyCodes.TAB ){
 			this.learnedChanged();
 	    }
+	},
+	
+	updatePercentCorrect : function() {
+		if (this.index==0) {
+			if (this.numberCorrect==0) {
+				this.percentCorrect = 0;
+			} else {
+				this.percentCorrect = 100;
+			}
+		} else {
+			this.percentCorrect = (this.numberCorrect/(this.index))*100;
+			this.percentCorrect = this.percentCorrect.toFixed(0);
+		};
 	},
 });

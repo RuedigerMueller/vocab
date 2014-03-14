@@ -22,7 +22,7 @@ sap.ui.jsview("vocab-web.quiz", {
 		// Text element for "known Language"
 		var oKnownTextArea = new sap.ui.commons.TextArea({
 			id: "knownQuizID",
-			wrapping: sap.ui.core.Wrapping.Off,
+			wrapping: sap.ui.core.Wrapping.Soft,
 			value: "",
 			maxLength: 50,
 			rows:3,
@@ -32,7 +32,7 @@ sap.ui.jsview("vocab-web.quiz", {
 		
 		var oLearnedTextArea =  new sap.ui.commons.TextArea({
 			id: "learnedQuizID",
-			wrapping: sap.ui.core.Wrapping.Off,
+			wrapping: sap.ui.core.Wrapping.Soft,
 			value: "",
 			maxLength: 50,
 			rows:3,
@@ -46,7 +46,7 @@ sap.ui.jsview("vocab-web.quiz", {
 		
 		var oSolutionTextArea = new sap.ui.commons.TextArea({
 			id: "solutionQuizID",
-			wrapping: sap.ui.core.Wrapping.Off,
+			wrapping: sap.ui.core.Wrapping.Soft,
 			value: "",
 			maxLength: 50,
 			rows:3,
