@@ -27,60 +27,7 @@ sap.ui.jsview("vocab-web.lessons", {
 			selectionMode : sap.ui.table.SelectionMode.Single
 		});
 
-		// Lesson Title
-		var oLessonTitleLabel = new sap.ui.commons.Label({
-			text : '{i18n>LESSON_TITLE}'
-		});
-		var oLessonTitleField = new sap.ui.commons.TextField({
-			id : 'lessonTitleFieldId',
-			value : '',
-			maxLength : 50,
-			width : 'auto'
-		});
-		oLessonTitleLabel.setLabelFor(oLessonTitleField);
-
-		// Learned Language
-		var oLearnedLanguageLabel = new sap.ui.commons.Label({
-			text : '{i18n>LEARNED_LANGUAGE}'
-		});
-		var oLearnedLanguageField = new sap.ui.commons.TextField({
-			id : 'learnedLanguageFieldId',
-			value : '',
-			maxLength : 20,
-			width : 'auto'
-		});
-		oLearnedLanguageLabel.setLabelFor(oLearnedLanguageField);
-
-		// Known Language
-		var oKnownLanguageLabel = new sap.ui.commons.Label({
-			text : '{i18n>KNOWN_LANGUAGE}'
-		});
-		var oKnownLanguageField = new sap.ui.commons.TextField({
-			id : 'KnownLanguageFieldId',
-			value : '',
-			maxLength : 20,
-			width : 'auto'
-		});
-		oKnownLanguageLabel.setLabelFor(oKnownLanguageField);
-
-		// add button
-		var oAddLessonButton = new sap.ui.commons.Button({
-			id : 'addLessonButtonId',
-			text : "{i18n>ADD_LESSON}",
-			press : function() {
-				oController.addNewLesson();
-			}
-		});
-
-		var oHorizonalLayout = new sap.ui.layout.HorizontalLayout(
-				"LessonEntryLayout", {
-					content : [ oLessonTitleLabel, oLessonTitleField,
-							oLearnedLanguageLabel, oLearnedLanguageField,
-							oKnownLanguageLabel, oKnownLanguageField,
-							oAddLessonButton, oQuizButton]
-				});
-		oLessonsTable.addExtension(oHorizonalLayout);
-
+		// Build toolbar
 		// Quiz button
 		var oQuizButton = new sap.ui.commons.Button({
 			id : 'lessonQuizButtonId',
@@ -120,43 +67,15 @@ sap.ui.jsview("vocab-web.lessons", {
 			},
 			enabled : false,
 		});
-		
-		// create the FileUploader control
-		var oSimpleFileUploader = new sap.ui.commons.FileUploader({
-			id: 'simpleFileUploaderId',
-			name: "simpleUploader",          // name of the input type=file element within the form 
-			uploadOnChange: false             // do not immediately upload the file after selection
-		});
-		
-		oSimpleFileUploader.attachUploadComplete(function(oEvent) {
-			if (oEvent["mParameters"]["response"] =="OK") {
-				oController.getView().getModel().refresh();
-			} else {
-				sap.ui.commons.MessageBox.alert(oi18nModel.getProperty("FILE_UPLOAD_ERROR_MSG"), 
-						null, oi18nModel.getProperty("FILE_UPLOAD_ERROR"));
-			}
-		});
-		
-		oSimpleFileUploader.attachChange(function(oEvent) {
-			oTriggerButton.setEnabled(oSimpleFileUploader.getValue() != "");
-		});
-		
-		// create a second button to trigger the upload
-		var oTriggerButton = new sap.ui.commons.Button({
-			text : "{i18n>IMPORT}",
-			press : function() {
-				// call the upload method
-				oSimpleFileUploader.upload();
-			},
-			enabled : false,
-		});
 
+		// Add all the buttons to the toolbar
 		var oToolbar = new sap.ui.commons.Toolbar({
 			id : 'LessonsTableToolbarId',
-			items : [ oQuizButton, oExamPrepButton, oDeleteButton, oEditVocablesButton, oSimpleFileUploader, oTriggerButton ],
+			items : [ oQuizButton, oExamPrepButton, oDeleteButton, oEditVocablesButton],
 		});
 		oLessonsTable.setToolbar(oToolbar);
 
+		// Define table columns
 		oLessonsTable.addColumn(new sap.ui.table.Column({
 			label : new sap.ui.commons.Label({
 				text : "{i18n>LESSON_TITLE}"
@@ -222,7 +141,119 @@ sap.ui.jsview("vocab-web.lessons", {
 		oLessonsTable.attachRowSelectionChange(function(oEvent) {
 			oController.lessonSelectionChange(oEvent);
 		});
+		
+		// Adding lessons
+		// Lesson Title
+		var oLessonTitleLabel = new sap.ui.commons.Label({
+			text : '{i18n>LESSON_TITLE}'
+		});
+		var oLessonTitleField = new sap.ui.commons.TextField({
+			id : 'lessonTitleFieldId',
+			value : '',
+			maxLength : 50,
+			width : '400px'
+		});
+		oLessonTitleLabel.setLabelFor(oLessonTitleField);
 
-		return oLessonsTable;
+		// Learned Language
+		var oLearnedLanguageLabel = new sap.ui.commons.Label({
+			text : '{i18n>LEARNED_LANGUAGE}'
+		});
+		var oLearnedLanguageField = new sap.ui.commons.TextField({
+			id : 'learnedLanguageFieldId',
+			value : '',
+			maxLength : 20,
+			width : '160px'
+		});
+		oLearnedLanguageLabel.setLabelFor(oLearnedLanguageField);
+
+		// Known Language
+		var oKnownLanguageLabel = new sap.ui.commons.Label({
+			text : '{i18n>KNOWN_LANGUAGE}'
+		});
+		var oKnownLanguageField = new sap.ui.commons.TextField({
+			id : 'KnownLanguageFieldId',
+			value : '',
+			maxLength : 20,
+			width : '160px'
+		});
+		oKnownLanguageLabel.setLabelFor(oKnownLanguageField);
+
+		// add button
+		var oAddLessonButton = new sap.ui.commons.Button({
+			id : 'addLessonButtonId',
+			text : "{i18n>ADD_LESSON}",
+			press : function() {
+				oController.addNewLesson();
+			}
+		});
+		/*
+		var oHorizonalLayout = new sap.ui.layout.HorizontalLayout(
+				"LessonEntryLayout", {
+					content : [ oLessonTitleLabel, oLessonTitleField,
+							oLearnedLanguageLabel, oLearnedLanguageField,
+							oKnownLanguageLabel, oKnownLanguageField,
+							oAddLessonButton]
+				});
+		*/
+		var oAddLessonPanel = new sap.ui.commons.Panel({
+			id: 'addLessonPanelId',
+			showCollapseIcon: false
+		});
+		oAddLessonPanel.setTitle(new sap.ui.core.Title({text: "{i18n>ADD_LESSON}"}));
+		oAddLessonPanel.setLayoutData(new sap.ui.layout.ResponsiveFlowLayoutData({
+			weight : 5
+		}));
+		oAddLessonPanel.addContent(oLessonTitleLabel);
+		oAddLessonPanel.addContent(oLessonTitleField);
+		oAddLessonPanel.addContent(oLearnedLanguageLabel);
+		oAddLessonPanel.addContent(oLearnedLanguageField);
+		oAddLessonPanel.addContent(oKnownLanguageLabel);
+		oAddLessonPanel.addContent(oKnownLanguageField);
+		oAddLessonPanel.addContent(oAddLessonButton);
+		
+		// create the FileUploader control
+		var oSimpleFileUploader = new sap.ui.commons.FileUploader({
+			id: 'simpleFileUploaderId',
+			name: "simpleUploader",          // name of the input type=file element within the form 
+			uploadOnChange: true,             // do  immediately upload the file after selection
+			buttonText: "{i18n>IMPORT}" 
+		});
+		
+		oSimpleFileUploader.attachUploadComplete(function(oEvent) {
+			if (oEvent["mParameters"]["response"] =="OK") {
+				oController.getView().getModel().refresh();
+			} else {
+				sap.ui.commons.MessageBox.alert(oi18nModel.getProperty("FILE_UPLOAD_ERROR_MSG"), 
+						null, oi18nModel.getProperty("FILE_UPLOAD_ERROR"));
+			}
+		});
+		
+		var oImportLessonPanel = new sap.ui.commons.Panel({
+			id: 'importLessonPanelId',
+			showCollapseIcon: false
+		});
+		oImportLessonPanel.setTitle(new sap.ui.core.Title({text: "{i18n>IMPORT_LESSON}"}));
+		oImportLessonPanel.setLayoutData(new sap.ui.layout.ResponsiveFlowLayoutData({
+			weight : 1
+		}));
+		oImportLessonPanel.addContent(oSimpleFileUploader);
+		
+		/*
+		var oNewLessonLayout = new sap.ui.layout.HorizontalLayout(
+				"NewLessonEntryLayout", {
+					content : [ oAddLessonPanel, oImportLessonPanel]
+				});
+		*/
+		
+		var oRFL = new sap.ui.layout.ResponsiveFlowLayout();
+		oRFL.addContent(oAddLessonPanel);
+		oRFL.addContent(oImportLessonPanel);
+		
+		var oLessonLayout = new sap.ui.layout.VerticalLayout("LessonsLayout", {
+			content: [oLessonsTable, oRFL]
+		});
+
+		return oLessonLayout;
 	},
 });

@@ -27,49 +27,6 @@ sap.ui.jsview("vocab-web.vocables", {
 			selectionMode : sap.ui.table.SelectionMode.Single,
 		});
 
-		// Learned Language field
-		var oLearnedLabel = new sap.ui.commons.Label({
-			id : "learnedLabelID",
-			text : "{i18n>LEARNED_LANGUAGE}"
-		});
-
-		var oLearnedField = new sap.ui.commons.TextField({
-			id : 'learnedFieldId',
-			value : '',
-			maxLength : 50,
-			width : 'auto'
-		});
-		oLearnedLabel.setLabelFor(oLearnedField);
-
-		// Known Language field
-		var oKnownLabel = new sap.ui.commons.Label({
-			id : "knownLabelID",
-			text : '{i18n>KNOWN_LANGUAGE}'
-		});
-		var oKnownField = new sap.ui.commons.TextField({
-			id : 'knownFieldId',
-			value : '',
-			maxLength : 50,
-			width : 'auto'
-		});
-		oKnownLabel.setLabelFor(oKnownField);
-
-		// add button
-		var oAddVocableButton = new sap.ui.commons.Button({
-			id : "addVocableButtonId",
-			text : "{i18n>ADD_VOCABLE}",
-			press : function() {
-				oController.addNewVocable();
-			}
-		});
-
-		var oHorizonalLayout = new sap.ui.layout.HorizontalLayout(
-				"VocableEntryLayout", {
-					content : [ oLearnedLabel, oLearnedField, oKnownLabel,
-					            oKnownField, oAddVocableButton ]
-				});
-		oVocablesTable.addExtension(oHorizonalLayout);
-
 		// Quiz button
 		var oQuizButton = new sap.ui.commons.Button({
 			id : 'vocableQuizButtonId',
@@ -173,12 +130,66 @@ sap.ui.jsview("vocab-web.vocables", {
 			filterProperty : "DueDate",
 			maxLength : 10
 		}));
-
+		
 		// establish master detail relation
 		oVocablesTable.attachRowSelectionChange(function(oEvent) {
 			oController.vocableSelectionChange(oEvent);
 		});
+		
+		// Learned Language field
+		var oLearnedLabel = new sap.ui.commons.Label({
+			id : "learnedLabelID",
+			text : "{i18n>LEARNED_LANGUAGE}"
+		});
 
-		return oVocablesTable;
+		var oLearnedField = new sap.ui.commons.TextField({
+			id : 'learnedFieldId',
+			value : '',
+			maxLength : 50,
+			width: '400px'
+		});
+		oLearnedLabel.setLabelFor(oLearnedField);
+
+		// Known Language field
+		var oKnownLabel = new sap.ui.commons.Label({
+			id : "knownLabelID",
+			text : '{i18n>KNOWN_LANGUAGE}'
+		});
+		var oKnownField = new sap.ui.commons.TextField({
+			id : 'knownFieldId',
+			value : '',
+			maxLength : 50,
+			width: '400px'
+		});
+		oKnownLabel.setLabelFor(oKnownField);
+
+		// add button
+		var oAddVocableButton = new sap.ui.commons.Button({
+			id : "addVocableButtonId",
+			text : "{i18n>ADD_VOCABLE}",
+			press : function() {
+				oController.addNewVocable();
+			}
+		});
+		
+		var oAddVocablePanel = new sap.ui.commons.Panel({
+			id: "addVocablePanelId",
+			showCollapseIcon: false
+		});
+		oAddVocablePanel.setTitle(new sap.ui.core.Title({text: "{i18n>ADD_VOCABLE}"}));
+		oAddVocablePanel.addContent(oLearnedLabel);
+		oAddVocablePanel.addContent(oLearnedField);
+		oAddVocablePanel.addContent(oKnownLabel);
+		oAddVocablePanel.addContent(oKnownField);
+		oAddVocablePanel.addContent(oAddVocableButton);
+		
+		var oRFL = new sap.ui.layout.ResponsiveFlowLayout();
+		oRFL.addContent(oAddVocablePanel);
+
+		var oVocableLayout = new sap.ui.layout.VerticalLayout("VocablessLayout", {
+			content: [oVocablesTable, oRFL]
+		});
+
+		return oVocableLayout;
 	},
 });

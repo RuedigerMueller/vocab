@@ -14,3 +14,15 @@
 	width: 100%;
 	text-align: center;
    }
+
+#addLessonPanelId {
+	margin: 5px 5px 0px 0px
+}
+
+#importLessonPanelId {
+	margin: 5px 0px 0px 5px
+}
+
+#addVocablePanelId {
+	margin: 5px 0px 0px 0px
+}
