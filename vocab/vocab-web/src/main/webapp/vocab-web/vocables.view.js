@@ -177,11 +177,22 @@ sap.ui.jsview("vocab-web.vocables", {
 			showCollapseIcon: false
 		});
 		oAddVocablePanel.setTitle(new sap.ui.core.Title({text: "{i18n>ADD_VOCABLE}"}));
-		oAddVocablePanel.addContent(oLearnedLabel);
-		oAddVocablePanel.addContent(oLearnedField);
-		oAddVocablePanel.addContent(oKnownLabel);
-		oAddVocablePanel.addContent(oKnownField);
-		oAddVocablePanel.addContent(oAddVocableButton);
+		
+		var oAddVocableMatrix = new sap.ui.commons.layout.MatrixLayout({
+			id : 'addVocableMatrixId',
+			layoutFixed : true,
+			columns : 2,
+			widths : ['160px', '400px'] 
+			});
+		
+		oAddVocableMatrix.createRow(oLearnedLabel, oLearnedField);
+		oAddVocableMatrix.createRow(oKnownLabel, oKnownField);
+
+		var oAddVocableMatrixCell = new sap.ui.commons.layout.MatrixLayoutCell({
+			colSpan: 2 });
+		oAddVocableMatrixCell.addContent(oAddVocableButton);
+		oAddVocableMatrix.createRow(oAddVocableMatrixCell);
+		oAddVocablePanel.addContent(oAddVocableMatrix	);
 		
 		var oRFL = new sap.ui.layout.ResponsiveFlowLayout();
 		oRFL.addContent(oAddVocablePanel);

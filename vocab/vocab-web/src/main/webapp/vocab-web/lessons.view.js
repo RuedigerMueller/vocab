@@ -153,6 +153,7 @@ sap.ui.jsview("vocab-web.lessons", {
 			maxLength : 50,
 			width : '400px'
 		});
+		
 		oLessonTitleLabel.setLabelFor(oLessonTitleField);
 
 		// Learned Language
@@ -187,30 +188,33 @@ sap.ui.jsview("vocab-web.lessons", {
 				oController.addNewLesson();
 			}
 		});
-		/*
-		var oHorizonalLayout = new sap.ui.layout.HorizontalLayout(
-				"LessonEntryLayout", {
-					content : [ oLessonTitleLabel, oLessonTitleField,
-							oLearnedLanguageLabel, oLearnedLanguageField,
-							oKnownLanguageLabel, oKnownLanguageField,
-							oAddLessonButton]
-				});
-		*/
+		
 		var oAddLessonPanel = new sap.ui.commons.Panel({
 			id: 'addLessonPanelId',
 			showCollapseIcon: false
 		});
 		oAddLessonPanel.setTitle(new sap.ui.core.Title({text: "{i18n>ADD_LESSON}"}));
+
 		oAddLessonPanel.setLayoutData(new sap.ui.layout.ResponsiveFlowLayoutData({
-			weight : 5
+			weight : 3
 		}));
-		oAddLessonPanel.addContent(oLessonTitleLabel);
-		oAddLessonPanel.addContent(oLessonTitleField);
-		oAddLessonPanel.addContent(oLearnedLanguageLabel);
-		oAddLessonPanel.addContent(oLearnedLanguageField);
-		oAddLessonPanel.addContent(oKnownLanguageLabel);
-		oAddLessonPanel.addContent(oKnownLanguageField);
-		oAddLessonPanel.addContent(oAddLessonButton);
+		
+		var oAddLessonMatrix = new sap.ui.commons.layout.MatrixLayout({
+			id : 'addLessonMatrixId',
+			layoutFixed : true,
+			columns : 2,
+			widths : ['160px', '400px'] 
+			});
+		
+		oAddLessonMatrix.createRow(oLessonTitleLabel, oLessonTitleField);
+		oAddLessonMatrix.createRow(oLearnedLanguageLabel, oLearnedLanguageField);
+		oAddLessonMatrix.createRow(oKnownLanguageLabel, oKnownLanguageField);
+
+		var oAddLessonMatrixCell = new sap.ui.commons.layout.MatrixLayoutCell({
+			colSpan: 2 });
+		oAddLessonMatrixCell.addContent(oAddLessonButton);
+		oAddLessonMatrix.createRow(oAddLessonMatrixCell);
+		oAddLessonPanel.addContent(oAddLessonMatrix);
 		
 		// create the FileUploader control
 		var oSimpleFileUploader = new sap.ui.commons.FileUploader({
@@ -239,18 +243,11 @@ sap.ui.jsview("vocab-web.lessons", {
 		}));
 		oImportLessonPanel.addContent(oSimpleFileUploader);
 		
-		/*
-		var oNewLessonLayout = new sap.ui.layout.HorizontalLayout(
-				"NewLessonEntryLayout", {
-					content : [ oAddLessonPanel, oImportLessonPanel]
-				});
-		*/
-		
 		var oRFL = new sap.ui.layout.ResponsiveFlowLayout();
 		oRFL.addContent(oAddLessonPanel);
 		oRFL.addContent(oImportLessonPanel);
 		
-		var oLessonLayout = new sap.ui.layout.VerticalLayout("LessonsLayout", {
+		var oLessonLayout = new sap.ui.layout.VerticalLayout("oAddLessonsForm", {
 			content: [oLessonsTable, oRFL]
 		});
 
