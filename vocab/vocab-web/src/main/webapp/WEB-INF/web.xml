@@ -144,4 +144,14 @@
       org.apache.commons.fileupload.servlet.FileCleanerCleanup
     </listener-class>
   </listener>
+  <servlet>
+    <description></description>
+    <display-name>FileDownload</display-name>
+    <servlet-name>FileDownload</servlet-name>
+    <servlet-class>com.mueller.ruediger.odata.service.FileDownload</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FileDownload</servlet-name>
+    <url-pattern>/FileDownload</url-pattern>
+  </servlet-mapping>
 </web-app>

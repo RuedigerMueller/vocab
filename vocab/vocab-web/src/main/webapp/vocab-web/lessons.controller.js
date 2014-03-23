@@ -125,6 +125,17 @@ sap.ui.controller("vocab-web.lessons", {
 		this.updateVocablesBinding();
 		oVocablesView.placeAt("content", "only");
 	},
+	
+	exportLesson : function() {
+		this.updateVocablesBinding();
+			
+		var exportURL = window.location.protocol + "//"
+					+ window.location.hostname
+					+ (window.location.port ? ":" + window.location.port : "")
+					+ "/vocab-web/FileDownload?LessonID="
+					+ this.getView().getModel().getProperty("Id", oLessonContext, false);;
+		window.location = exportURL;
+	},
 
 	lessonSelectionChange : function(oEvent) {
 		// enable buttons
@@ -148,11 +159,13 @@ sap.ui.controller("vocab-web.lessons", {
 						
 			sap.ui.getCore().byId('deleteLessonButtonId').setEnabled(true);
 			sap.ui.getCore().byId('editVocablesButtonId').setEnabled(true);
+			sap.ui.getCore().byId('exportLessonButtonId').setEnabled(true);
 		} else {
 			sap.ui.getCore().byId('lessonExamPrepButtonId').setEnabled(false);
 			sap.ui.getCore().byId('lessonQuizButtonId').setEnabled(false);
 			sap.ui.getCore().byId('deleteLessonButtonId').setEnabled(false);
 			sap.ui.getCore().byId('editVocablesButtonId').setEnabled(false);
+			sap.ui.getCore().byId('exportLessonButtonId').setEnabled(false);
 		}
 	},
 

@@ -67,11 +67,21 @@ sap.ui.jsview("vocab-web.lessons", {
 			},
 			enabled : false,
 		});
+		
+		// Edit lesson button
+		var oExportLessonButton = new sap.ui.commons.Button({
+			id : 'exportLessonButtonId',
+			text : "{i18n>EXPORT}",
+			press : function() {
+				oController.exportLesson();
+			},
+			enabled : false,
+		});
 
 		// Add all the buttons to the toolbar
 		var oToolbar = new sap.ui.commons.Toolbar({
 			id : 'LessonsTableToolbarId',
-			items : [ oQuizButton, oExamPrepButton, oDeleteButton, oEditVocablesButton],
+			items : [ oQuizButton, oExamPrepButton, oDeleteButton, oEditVocablesButton, oExportLessonButton],
 		});
 		oLessonsTable.setToolbar(oToolbar);
 
