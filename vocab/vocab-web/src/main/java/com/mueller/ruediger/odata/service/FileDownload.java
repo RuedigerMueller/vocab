@@ -57,47 +57,52 @@ public class FileDownload extends HttpServlet {
 			response.setHeader("Content-Disposition", "attachment; filename=\""
 								+ lesson.getTitle() + ".csv" + "\"");
 			
+			// Define separator and quote in one central place
+			String sep = ";";
+			String quote ="\"";
+			
 			// make sure the file can easily be opened in Excel independent of
 			// the locale of the user
-			writer.append("sep=,");
+			writer.append("sep=");
+			writer.append(sep);
 			writer.append('\n');
 			
 			// Column headers
-			writer.append('\"');
+			writer.append(quote);
 			writer.append(lesson.getLearnedLanguage());
-			writer.append('\"');
-			writer.append(',');
-			writer.append('\"');
+			writer.append(quote);
+			writer.append(sep);
+			writer.append(quote);
 			writer.append(lesson.getKnownLanguage());
-			writer.append('\"');
-			writer.append(',');
-			writer.append('\"');
+			writer.append(quote);
+			writer.append(sep);
+			writer.append(quote);
 			writer.append("Level");
-			writer.append('\"');
-			writer.append(',');
-			writer.append('\"');
+			writer.append(quote);
+			writer.append(sep);
+			writer.append(quote);
 			writer.append("Due Date");
-			writer.append('\"');
+			writer.append(quote);
 			writer.append('\n');
 			
 			//Write the individual vocables
 			SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 			for (Vocable vocable : lesson.getVocables()) {
-				writer.append('\"');
+				writer.append(quote);
 				writer.append(vocable.getLearned());
-				writer.append('\"');
-				writer.append(',');
-				writer.append('\"');
+				writer.append(quote);
+				writer.append(sep);
+				writer.append(quote);
 				writer.append(vocable.getKnown());
-				writer.append('\"');
-				writer.append(',');
-				writer.append('\"');
+				writer.append(quote);
+				writer.append(sep);
+				writer.append(quote);
 				writer.append(String.valueOf(vocable.getLevel()));
-				writer.append('\"');
-				writer.append(',');
-				writer.append('\"');
+				writer.append(quote);
+				writer.append(sep);
+				writer.append(quote);
 				writer.append(sdf.format(vocable.getDueDate().getTime()));
-				writer.append('\"');
+				writer.append(quote);
 				writer.append('\n');
 			}
 			
