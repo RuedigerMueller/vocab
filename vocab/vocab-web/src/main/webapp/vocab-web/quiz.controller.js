@@ -185,6 +185,17 @@ sap.ui.controller("vocab-web.quiz", {
 		
 		var id = "/Vocables(" + this.quizVocables["d"]["results"][this.index]["Id"] + "L)";
 		this.getView().getModel().update(id, vocables, null, null, null);
+		
+		var sText = oi18nModel.getProperty('CORRECT') + ' - ' + 
+		            oi18nModel.getProperty('NEXT_QUERY') + ' ' +
+		            waitForDays + ' ' +
+		            oi18nModel.getProperty('DAYS') + '.';
+		noty({
+	        text: sText,
+	        layout: "bottomCenter",
+	        type: 'information',
+	        timeout: 1000
+	      });
 
 		this.nextVocable();
 	},
@@ -209,6 +220,16 @@ sap.ui.controller("vocab-web.quiz", {
 		
 		var id = "/Vocables(" + this.quizVocables["d"]["results"][this.index]["Id"] + "L)";
 		this.getView().getModel().update(id, vocables, null, null, null);
+		
+		var sText = oi18nModel.getProperty('WRONG') + ' - ' + 
+        		    oi18nModel.getProperty('NEXT_QUERY') + ' 1 ' +
+        		    oi18nModel.getProperty('DAYS') + '.';
+		noty({
+	        text: sText,
+	        layout: "bottomCenter",
+	        type: 'information',
+	        timeout: 1000
+	      });
 		
 		this.nextVocable();
 	},
