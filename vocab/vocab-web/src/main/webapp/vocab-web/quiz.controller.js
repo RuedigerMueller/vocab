@@ -176,7 +176,7 @@ sap.ui.controller("vocab-web.quiz", {
 				waitForDays = 80;
 				break;
 			case 7:
-				waitForDays = 365;
+				waitForDays = 9999;
 				break;
 		}
 				
@@ -190,6 +190,10 @@ sap.ui.controller("vocab-web.quiz", {
 		            oi18nModel.getProperty('NEXT_QUERY') + ' ' +
 		            waitForDays + ' ' +
 		            oi18nModel.getProperty('DAYS') + '.';
+		if (waitForDays == 9999) {
+			sText = oi18nModel.getProperty('LONG-TERM_MEMORY');
+		}
+		
 		noty({
 	        text: sText,
 	        layout: "bottomCenter",
@@ -222,8 +226,7 @@ sap.ui.controller("vocab-web.quiz", {
 		this.getView().getModel().update(id, vocables, null, null, null);
 		
 		var sText = oi18nModel.getProperty('WRONG') + ' - ' + 
-        		    oi18nModel.getProperty('NEXT_QUERY') + ' 1 ' +
-        		    oi18nModel.getProperty('DAYS') + '.';
+        		    oi18nModel.getProperty('BACK_TO_LEVEL_ONE');
 		noty({
 	        text: sText,
 	        layout: "bottomCenter",
