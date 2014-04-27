@@ -122,6 +122,7 @@ public class Lesson implements Serializable {
 		int dateComparison = 0;
 		
 		for (Vocable v: this.vocables) {
+			if (v.getLevel() == 7) continue;
 			dueDate = v.getDueDate();
 			dateComparison = tomorrow.compareTo(dueDate);
 			if (dateComparison >= 0 ) {

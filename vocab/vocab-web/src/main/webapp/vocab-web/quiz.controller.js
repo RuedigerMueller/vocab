@@ -40,7 +40,8 @@ sap.ui.controller("vocab-web.quiz", {
 	
 		var formattedDate = dateTimeGTM.toISOString().replace("Z", "0000");
 		
-		var dueDateFilter = "$filter=DueDate+le+datetime%27" + formattedDate + "%27";
+		var dueDateFilter = "$filter=DueDate+le+datetime%27" + formattedDate + "%27" +
+							"+and+Level+lt+7";
 
 		//URL to get vocables of selected lesson in JSON format
 		var quizVocablesURL = "";
