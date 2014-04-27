@@ -158,13 +158,6 @@
 			<systemPath>${eclipse.path}/plugins/com.sap.ui5.themelib_sap_goldreflection_${sap.cloud.ui5.version}.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>com.sap.ui5.themelib_sap_ux</groupId>
-			<artifactId>com.sap.ui5.themelib_sap_ux</artifactId>
-			<version>${sap.cloud.ui5.version}</version>
-			<scope>system</scope>
-			<systemPath>${eclipse.path}/plugins/com.sap.ui5.themelib_sap_ux_${sap.cloud.ui5.version}.jar</systemPath>
-		</dependency>
-		<dependency>
 			<groupId>com.sap.ui5.utils</groupId>
 			<artifactId>com.sap.ui5.utils</artifactId>
 			<version>${sap.cloud.ui5.version}</version>
