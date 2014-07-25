@@ -33,32 +33,31 @@
 		<!-- Olingo OData dependencies -->
 		<dependency>
 			<groupId>org.apache.olingo</groupId>
-			<artifactId>olingo-odata2-api-incubating</artifactId>
-			<version>1.1.0</version>
-			<scope>compile</scope>
+			<artifactId>olingo-odata2-api</artifactId>
+			<version>${olingo.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.olingo</groupId>
-			<artifactId>olingo-odata2-core-incubating</artifactId>
-			<version>1.1.0</version>
+			<artifactId>olingo-odata2-core</artifactId>
+			<version>${olingo.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.olingo</groupId>
-			<artifactId>olingo-odata2-jpa-processor-api-incubating</artifactId>
-			<version>1.1.0</version>
+			<artifactId>olingo-odata2-jpa-processor-api</artifactId>
+			<version>${olingo.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.olingo</groupId>
-			<artifactId>olingo-odata2-api-annotation-incubating</artifactId>
-			<version>1.1.0</version>
+			<artifactId>olingo-odata2-api-annotation</artifactId>
+			<version>${olingo.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.olingo</groupId>
-			<artifactId>olingo-odata2-jpa-processor-core-incubating</artifactId>
-			<version>1.1.0</version>
+			<artifactId>olingo-odata2-jpa-processor-core</artifactId>
+			<version>${olingo.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
