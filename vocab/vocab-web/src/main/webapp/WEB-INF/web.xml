@@ -51,14 +51,6 @@
     <filter-name>CacheControlFilter</filter-name>
     <url-pattern>*.css</url-pattern>
   </filter-mapping>
-  <servlet>
-    <servlet-name>SimpleProxyServlet</servlet-name>
-    <servlet-class>com.sap.ui5.proxy.SimpleProxyServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>SimpleProxyServlet</servlet-name>
-    <url-pattern>/proxy/*</url-pattern>
-  </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
@@ -154,4 +146,14 @@
     <servlet-name>FileDownload</servlet-name>
     <url-pattern>/FileDownload</url-pattern>
   </servlet-mapping>
+<!--
+   <servlet>
+     <servlet-name>SimpleProxyServlet</servlet-name>
+     <servlet-class>com.sap.ui5.proxy.SimpleProxyServlet</servlet-class>
+   </servlet>
+   <servlet-mapping>
+     <servlet-name>SimpleProxyServlet</servlet-name>
+     <url-pattern>/proxy/*</url-pattern>
+   </servlet-mapping>
+-->
 </web-app>
